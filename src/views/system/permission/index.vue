@@ -1,19 +1,80 @@
 <template>
   <page>
-    <yw-table v-bind="table" ref="table">
-      <div slot="superQuery">
-        AAA
-      </div>
-    </yw-table>
+    <split-pane split="horizontal">
+      <template slot="paneL">
+        <yw-table v-bind="table" ref="table1">
+          <div slot="superQuery">AAA</div>
+        </yw-table>
+      </template>
+      <template slot="paneR">
+        <yw-table v-bind="table" ref="table2">
+          <div slot="superQuery">AAA</div>
+        </yw-table>
+      </template>
+    </split-pane>
   </page>
 </template>
 
 <script>
+import splitPane from 'vue-splitpane'
+
 export default {
+  components:{
+    splitPane
+  },
   data() {
     return {
       table: {
-        data: [{ name: "A" }, { name: "B" }],
+        data: [
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+          { name: "A" },
+          { name: "B" },
+        ],
         columns: [
           {
             label: "NAME",
@@ -23,9 +84,10 @@ export default {
         query: {
           key: "",
         },
-
-        options:{
-        }
+        options: {
+          height: "100%",
+          // pagination: false,
+        },
       },
     };
   },
