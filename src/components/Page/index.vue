@@ -1,15 +1,28 @@
 <script>
 export default {
-    name:'Page',
+  name: "Page",
 
-    render(){
-        return <div class="page">{this.$slots.default}</div>
-    }
-}
+  props: {
+    fixed: {
+      type: Boolean,
+      default: true,
+    },
+  },
+
+  render() {
+    return (
+      <div class={["page", this.fixed ? "is--fixed" : ""]}>
+        {this.$slots.default}
+      </div>
+    );
+  },
+};
 </script>
 
 <style lang="scss">
-    .page{
-        height:calc( 100vh - 84px );
-    }
+.page {
+  &.is--fixed {
+    height: calc(100vh - 84px);
+  }
+}
 </style>

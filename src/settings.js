@@ -9,7 +9,7 @@ module.exports = {
    * @type {boolean} true | false
    * @description 是否显示右侧设置栏
    */
-  showSettings: true,
+  showSettings: false,
 
   /**
    * @type {boolean} true | false
@@ -21,7 +21,7 @@ module.exports = {
    * @type {boolean} true | false
    * @description 是否默认固定头部
    */
-  fixedHeader: false,
+  fixedHeader: true,
 
   /**
    * @type {boolean} true | false

@@ -1,27 +1,45 @@
 <template>
-  <page>
-    <split-pane split="horizontal">
-      <template slot="paneL">
-        <yw-table v-bind="table" ref="table1">
-          <div slot="superQuery">AAA</div>
-        </yw-table>
+  <page :fixed="false">
+    <split-panel style="height:500px;" split="vertical" :default-percent="40">
+      <template #paneL>
+        <split-panel split="horizontal">
+          <yw-table slot="paneL" v-bind="table" ref="table1"> </yw-table>
+          <yw-table slot="paneR" v-bind="table" ref="table2"> </yw-table>
+        </split-panel>
       </template>
-      <template slot="paneR">
-        <yw-table v-bind="table" ref="table2">
-          <div slot="superQuery">AAA</div>
-        </yw-table>
+      <template #paneR>
+        <split-panel split="horizontal">
+          <yw-table slot="paneL" v-bind="table" ref="table3"> </yw-table>
+          <yw-table slot="paneR" v-bind="table" ref="table4"> </yw-table>
+        </split-panel>
       </template>
-    </split-pane>
+    </split-panel>
+
+    <p>AAA</p>
+    <p>AAA</p>
+    <p>AAA</p>
+    <p>AAA</p>
+
+
+    <split-panel style="height:500px;" split="vertical" :default-percent="40">
+      <template #paneL>
+        <split-panel split="horizontal">
+          <yw-table slot="paneL" v-bind="table" ref="table1"> </yw-table>
+          <yw-table slot="paneR" v-bind="table" ref="table2"> </yw-table>
+        </split-panel>
+      </template>
+      <template #paneR>
+        <split-panel split="horizontal">
+          <yw-table slot="paneL" v-bind="table" ref="table3"> </yw-table>
+          <yw-table slot="paneR" v-bind="table" ref="table4"> </yw-table>
+        </split-panel>
+      </template>
+    </split-panel>
   </page>
 </template>
 
 <script>
-import splitPane from 'vue-splitpane'
-
 export default {
-  components:{
-    splitPane
-  },
   data() {
     return {
       table: {

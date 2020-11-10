@@ -1,6 +1,6 @@
 <template>
   <el-dropdown class="handler-item columns" trigger="click" :hide-on-click="false">
-    <el-button size="small" icon="el-icon-s-grid">
+    <el-button icon="el-icon-s-grid">
       <i class="el-icon-arrow-down el-icon--right"></i>
     </el-button>
     <el-dropdown-menu slot="dropdown">
