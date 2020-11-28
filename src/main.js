@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import App from './App';
+import App2 from './App2';
 import store from './store';
 import router from './router';
 
@@ -10,6 +11,8 @@ import 'normalize.css/normalize.css';
 import '@/plugins/element-ui';
 import '@/plugins/yw-global';
 import '@/plugins/yw-table';
+import YwModal from '@/plugins/yw-modal';
+Vue.use(YwModal, { store });
 
 //全局样式
 import '@/styles/index.scss';
@@ -38,9 +41,20 @@ Vue.config.productionTip = false;
 //   mockXHR()
 // }
 
+// mock
+const { mockXHR } = require('../mock');
+mockXHR();
+
 new Vue({
   el: '#app',
   router,
   store,
   render: h => h(App)
 })
+
+// new Vue({
+//   el: '#app2',
+//   router,
+//   store,
+//   render: h => h(App2)
+// })

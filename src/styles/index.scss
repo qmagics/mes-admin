@@ -3,7 +3,9 @@
 @import './transition.scss';
 @import './element-ui.scss';
 @import './sidebar.scss';
+@import './topbar.scss';
 @import './btn.scss';
+@import './help.scss';
 
 body {
   height: 100%;
@@ -20,9 +22,11 @@ label {
 html {
   height: 100%;
   box-sizing: border-box;
+  color:$textColor;
+  @include scrollBar;
 }
 
-#app {
+.app {
   height: 100%;
 }
 
@@ -120,9 +124,9 @@ aside {
 }
 
 //main-container全局样式
-.app-container {
-  padding: 20px;
-}
+// .app-container {
+//   padding: 20px;
+// }
 
 .components-container {
   margin: 30px 50px;

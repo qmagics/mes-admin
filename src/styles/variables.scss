@@ -1,28 +1,59 @@
-// base color
-$blue:#324157;
-$light-blue:#3A71A8;
-$red:#C03639;
-$pink: #E65D6E;
-$green: #30B08F;
-$tiffany: #4AB7BD;
-$yellow:#FEC171;
-$panGreen: #30B08F;
+// 主题色
+$colorPrimary: #3a86cc;
+$colorPrimaryActive: #0f60a8;
 
-// sidebar
-$menuText:#bfcbd9;
-$menuActiveText:#409EFF;
-$subMenuActiveText:#f4f4f5; // https://github.com/ElemeFE/element/issues/12951
+$colorSecondary: #89b7dc;
+$colorSecondaryActive: #63a5d3;
 
-$menuBg:#304156;
-$menuHover:#263445;
+$bgColorLight: #d9dfe2;
+$bgColorPrimary: #262e38;
+$bgColorSecondary: #424d55;
 
-$subMenuBg:#1f2d3d;
-$subMenuHover:#001528;
+$textColor: #71787c;
+$textColorLight: #93a0aa;
 
+$colorWarning: #ffaa00;
+
+// 基础色
+$blue: #324157;
+$light-blue: #3a71a8;
+$red: #c03639;
+$pink: #e65d6e;
+$green: #30b08f;
+$tiffany: #4ab7bd;
+$yellow: #fec171;
+$panGreen: #30b08f;
+
+// 顶部
+$topBarHeight: 60px;
+
+// 侧边栏
+$menuText: rgb(144, 163, 175);
+$menuActiveText: #fff;
+$subMenuActiveText: #f4f4f5;
+$menuBg: rgb(45, 56, 64);
+$menuHover: #263445;
+$subMenuBg: rgb(42, 42, 42);
+$subMenuHover: rgba($colorPrimary, 0.2);
 $sideBarWidth: 210px;
+$sideBarMinWidth: 54px;
+
+// navbox
+$navbarHeight: 44px;
+$tagsViewHeight: 38px;
+$navboxHeight: $navbarHeight + $tagsViewHeight;
+
+// app-main
+
+// 全局栅栏布局间隔
+$gutter: 12px;
+
+// 全局圆角弧度
+$radius: 4px;
+
+
 
 // the :export directive is the magic sauce for webpack
-// https://www.bluematador.com/blog/how-to-share-variables-between-js-and-sass
 :export {
   menuText: $menuText;
   menuActiveText: $menuActiveText;
@@ -32,4 +63,6 @@ $sideBarWidth: 210px;
   subMenuBg: $subMenuBg;
   subMenuHover: $subMenuHover;
   sideBarWidth: $sideBarWidth;
+  gutter: $gutter;
+  radius: $radius;
 }

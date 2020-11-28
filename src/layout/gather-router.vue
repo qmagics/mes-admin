@@ -35,33 +35,42 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 
 export default {
+  name: "GatherRouter",
+
   data() {
-    return {}
+    return {};
   },
 
   computed: {
     activeMenu() {
-      const route = this.$route
-      const { meta, path } = route
+      const route = this.$route;
+      const { meta, path } = route;
       if (meta.activeMenu) {
-        return meta.activeMenu
+        return meta.activeMenu;
       }
-      return path
+      return path;
     },
-    ...mapGetters(['permission_routes']),
+    ...mapGetters(["permission_routes"]),
     menuRoutes() {
-      return this.$store.getters.getParentRouteByFullPath(this.$route.path)
-        .children
-    }
+      const parentRoute = this.$store.getters.getParentRouteByFullPath(
+        this.$route.path
+      );
+
+      if (parentRoute) {
+        return parentRoute.children;
+      } else {
+        return [];
+      }
+    },
   },
 
-  async mounted() {},
+  mounted() {},
 
-  methods: {}
-}
+  methods: {},
+};
 </script>
 
 <style lang="scss">

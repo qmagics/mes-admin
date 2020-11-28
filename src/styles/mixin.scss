@@ -1,3 +1,5 @@
+@import "~@/styles/variables.scss";
+
 @mixin clearfix {
   &:after {
     content: "";
@@ -6,18 +8,37 @@
   }
 }
 
-@mixin scrollBar {
+@mixin skewBg($deg, $width, $minWidth) {
+  &:after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: $width;
+    margin-right: -5%;
+    min-width: if($minWidth, $minWidth, $width);
+    background-image: linear-gradient(to bottom, $colorPrimary, $colorPrimaryActive);
+    // background-image: linear-gradient(135deg, transparent 0%,transparent 20%,$colorPrimary 20%, $colorPrimaryActive);
+    transform: skew($deg, 0);
+  }
+}
+
+@mixin scrollBar($width: 10px) {
   &::-webkit-scrollbar-track-piece {
-    background: #d3dce6;
+    background: #e8edef;
   }
 
   &::-webkit-scrollbar {
-    width: 6px;
+    width: $width;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #99a9bf;
-    border-radius: 20px;
+    background: lighten($colorSecondary, 5%);
+    // border: 1px solid #e8edef;
+    &:hover {
+      background: $colorSecondary;
+    }
   }
 }
 
@@ -44,21 +65,15 @@
     border-bottom: $color-border-style;
     border-left: $transparent-border-style;
     border-right: $transparent-border-style;
-  }
-
-  @else if $direction==right {
+  } @else if $direction==right {
     border-left: $color-border-style;
     border-top: $transparent-border-style;
     border-bottom: $transparent-border-style;
-  }
-
-  @else if $direction==down {
+  } @else if $direction==down {
     border-top: $color-border-style;
     border-left: $transparent-border-style;
     border-right: $transparent-border-style;
-  }
-
-  @else if $direction==left {
+  } @else if $direction==left {
     border-right: $color-border-style;
     border-top: $transparent-border-style;
     border-bottom: $transparent-border-style;

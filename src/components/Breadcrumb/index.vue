@@ -78,16 +78,53 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+@import "~@/styles/variables.scss";
 .app-breadcrumb.el-breadcrumb {
   display: inline-block;
-  font-size: 14px;
-  line-height: 50px;
-  margin-left: 8px;
+  font-size: 15px;
+  line-height: $navbarHeight;
+  margin-left: 25px;
+  padding-left: 20px;
+  position: relative;
+
+  &:before {
+    content: "";
+    width: 5px;
+    height: 16px;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: $colorPrimary;
+  }
+
+  .el-breadcrumb__item {
+    a,span{
+      transition: all .1s ease;
+    }
+    .el-breadcrumb__inner a {
+      color: $textColor;
+    }
+    &:first-child {
+      .el-breadcrumb__inner,
+      .el-breadcrumb__inner a {
+        // font-size: 17px;
+        font-weight: bold !important;
+      }
+      span {
+        color: $textColor !important;
+      }
+    }
+  }
 
   .no-redirect {
-    color: #97a8be;
+    color: $textColor;
     cursor: text;
+  }
+
+  .el-breadcrumb__separator {
+    color: $textColor;
   }
 }
 </style>

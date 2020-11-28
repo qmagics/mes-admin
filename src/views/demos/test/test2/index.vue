@@ -7,7 +7,9 @@
 </template>
 
 <script>
-export default {}
+export default {
+  name:'Test_Test2',
+}
 </script>
 
 <style>

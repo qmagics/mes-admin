@@ -442,22 +442,22 @@ export default {
       },
     },
 
-    selectedRow: {
-      get() {
-        const { selectable, singleSelect } = this.cOptions;
-        if (selectable || singleSelect) {
-          return this.selected.row;
-        } else {
-          return null;
-        }
-      },
-      set(row) {
-        const { selectable, singleSelect } = this.cOptions;
-        if (selectable || singleSelect) {
-          this.selected.row = data;
-        }
-      },
-    },
+    // selectedRow: {
+    //   get() {
+    //     const { selectable, singleSelect } = this.cOptions;
+    //     if (selectable || singleSelect) {
+    //       return this.selected.row;
+    //     } else {
+    //       return null;
+    //     }
+    //   },
+    //   set(row) {
+    //     const { selectable, singleSelect } = this.cOptions;
+    //     if (selectable || singleSelect) {
+    //       this.selected.row = data;
+    //     }
+    //   },
+    // },
 
     highlightCurrentRow() {
       const { selectable, singleSelect, highlightCurrentRow } = this.cOptions;
@@ -696,11 +696,19 @@ export default {
         ...this.searchModel,
       };
 
-      return this.method.toLowerCase() === "get"
-        ? {
-            params: model,
-          }
-        : model;
+      if (this.request || this.method.toLowerCase() !== "get") {
+        return model;
+      } else {
+        return {
+          params: model,
+        };
+      }
+
+      // return this.method.toLowerCase() === "get"
+      //   ? {
+      //       params: model,
+      //     }
+      //   : model;
     },
 
     method() {
@@ -709,6 +717,17 @@ export default {
 
     api() {
       return this.cOptions.api;
+    },
+
+    request() {
+      return this.cOptions.request;
+    },
+
+    needRequest() {
+      return (
+        this.cOptions.api ||
+        (this.cOptions.request && typeof this.cOptions.request === "function")
+      );
     },
 
     rowKey() {
@@ -818,14 +837,30 @@ export default {
 
     //获取数据
     async getData() {
-      if (!this.api) return;
+      if (!this.needRequest) return;
+      // if (!this.api && !this.request) return;
 
       this.vLoading = true;
 
       try {
-        const { data } = await (Vue.__FxTable_axios || axios)[
-          this.method.toLowerCase()
-        ](this.cOptions.api, this.queryParams);
+        let data = null;
+
+        //根据api路径发起请求
+        if (this.api) {
+          const response = await (Vue.__FxTable_axios || axios)[
+            this.method.toLowerCase()
+          ](this.cOptions.api, this.queryParams);
+
+          data = response.data;
+        }
+        //根据request方法发起请求
+        else if (this.request) {
+          const response = await this.request(this.queryParams);
+
+          data = response.data;
+        }
+
+        if (!data) throw new Error("data不存在");
 
         const res = this.cOptions.resHandler(data);
 
@@ -838,9 +873,9 @@ export default {
         }
         this.vLoading = false;
       } catch (error) {
-        if (process.env === "development") {
-          console.warn(`[FxTable]组件getData方法错误：`, error);
-        }
+        // if (process.env === "development") {
+        console.warn(`[FxTable]组件getData方法错误：`, error);
+        // }
         this.vLoading = false;
       }
     },
@@ -1031,7 +1066,7 @@ export default {
   async mounted() {
     this.ready = true;
 
-    if (this.cOptions.api) {
+    if (this.needRequest) {
       await this.getData();
     }
   },

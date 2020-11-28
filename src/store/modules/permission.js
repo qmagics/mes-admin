@@ -1,6 +1,7 @@
-import { getRoutes } from '@/api/menu'
-import { constantRoutes } from '@/router'
-import Layout from '@/layout/index'
+import { getRoutes } from '@/api/menu';
+import { constantRoutes } from '@/router';
+import Layout from '@/layout/index';
+import { getBlankRouterView } from '@/layout/utils';
 
 // /**
 //  * Use meta.role to determine if the current user has permission
@@ -42,10 +43,10 @@ import Layout from '@/layout/index'
  * @param {*} asyncRoutesData 
  */
 function parseRoutes(asyncRoutesData) {
-  return asyncRoutesData.map(i => {
-    const route = { ...i };
+  return asyncRoutesData.map(route => {
+    // const route = { ...i };
 
-    if (i.component) {
+    if (route.component) {
       if (route.component === 'Layout') {
         route.component = Layout;
       }
@@ -53,6 +54,11 @@ function parseRoutes(asyncRoutesData) {
         route.component = loadView(route.component);
       }
     }
+    else if (route.children && route.children.length > 0) {
+      route.component = getBlankRouterView(route.name);
+    }
+
+
     if (route.children != null && route.children && route.children.length) {
       route.children = parseRoutes(route.children)
     }

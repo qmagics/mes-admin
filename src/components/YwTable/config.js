@@ -43,6 +43,9 @@ export const DEFAULT_OPTIONS = {
 
     method: 'get',
 
+    //自定义获取表格数据的方法，必须返回一个Promise
+    request: null,
+
     order: "asc",
 
     sort: "",
@@ -133,7 +136,7 @@ export const DEFAULT_OPTIONS = {
     //关键词查询控件属性
     keywordProps: {
         label: '',
-        prop: 'key',
+        prop: 'Key',
         placeholder: '请输入关键词'
     },
 

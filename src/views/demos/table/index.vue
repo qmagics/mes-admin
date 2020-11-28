@@ -1,24 +1,24 @@
 <template>
   <!-- <router-view /> -->
-  <div>
-    <pre>{{ cachedViews }}{{ key }}</pre>
-    <keep-alive>
+  <!-- <div> -->
+    <!-- <pre>{{ cachedViews }}{{ key }}</pre> -->
+    <!-- <keep-alive> -->
       <router-view />
-    </keep-alive>
-  </div>
+    <!-- </keep-alive> -->
+  <!-- </div> -->
 </template>
 
 <script>
 export default {
   name: "Demo_Table",
-  computed: {
-    cachedViews() {
-      return this.$store.state.tagsView.cachedViews;
-    },
-    key() {
-      return this.$route.path;
-    },
-  },
+  // computed: {
+  //   cachedViews() {
+  //     return this.$store.state.tagsView.cachedViews;
+  //   },
+  //   key() {
+  //     return this.$route.path;
+  //   },
+  // },
 
   // created() {
   //   const route = this.$route.matched.find(

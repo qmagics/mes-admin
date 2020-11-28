@@ -20,19 +20,21 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "~@/styles/variables.scss";
+
 .splitter-pane.vertical.splitter-paneL {
   position: absolute;
   left: 0px;
   height: 100%;
-  padding-right: 3px;
+  padding-right: $gutter/2;
 }
 
 .splitter-pane.vertical.splitter-paneR {
   position: absolute;
   right: 0px;
   height: 100%;
-  padding-left: 3px;
+  padding-left: $gutter/2;
 }
 
 .splitter-pane.horizontal.splitter-paneL {
@@ -45,6 +47,6 @@
   position: absolute;
   bottom: 0px;
   width: 100%;
-  padding-top: 3px;
+  padding-top: $gutter/2;
 }
 </style>

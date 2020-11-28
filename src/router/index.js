@@ -6,7 +6,7 @@ Vue.use(Router);
 /* 路由模块 */
 import commonRouters from './modules/common';
 import devRouter from './modules/dev';
-import demoRouter from './modules/demo';
+import demoRouters from './modules/demo';
 import testRouter from './modules/test';
 
 /**
@@ -39,7 +39,7 @@ export const constantRoutes = [
 
   devRouter,
 
-  demoRouter,
+  ...demoRouters,
 
   testRouter
 ]

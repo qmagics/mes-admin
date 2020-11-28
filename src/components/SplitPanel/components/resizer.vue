@@ -22,12 +22,14 @@
   }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+@import "~@/styles/variables.scss";
+
 .splitter-pane-resizer {
   -moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
-	background: #000;
+	/* background: #000; */
 	position: absolute;
 	opacity: .2;
 	z-index: 1;

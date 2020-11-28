@@ -9,6 +9,7 @@ const getters = {
   name: state => state.user.name,
   introduction: state => state.user.introduction,
   roles: state => state.user.roles,
+  permissions: state => state.user.permissions,
   permission_routes: state => state.permission.routes,
   errorLogs: state => state.errorLog.logs,
 
@@ -32,7 +33,7 @@ const getters = {
       const item = pre.find((i) => i.path === cur || i.path === '/' + cur)
 
       if (index < path_arr.length - 1) {
-        return item.children
+        return item.children;
       } else {
         return item
       }

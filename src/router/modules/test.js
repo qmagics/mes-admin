@@ -1,6 +1,6 @@
-/** When your routing table is too long, you can split it into small modules**/
-
-import Layout from '@/layout'
+import Layout from '@/layout';
+import GatherRouterComponent from '@/layout/gather-router';
+import { getGatherRouterView } from '@/layout/utils';
 
 const testRouter = {
   path: '/test',
@@ -15,9 +15,9 @@ const testRouter = {
   children: [
     {
       path: 'test1',
-      name: 'Test1',
+      name: 'Test_Test1',
       // 聚合路由使用这个layout
-      component: () => import('@/views/common/gather/index.vue'),
+      component: getGatherRouterView('Test_Test1'),
       redirect: '/test/test1/test1-1',
       meta: {
         title: '测试1',
@@ -27,7 +27,7 @@ const testRouter = {
       children: [
         {
           path: 'test1-1',
-          name: 'Test1-1',
+          name: 'Test_Test1_1',
           component: () => import('@/views/demos/test/test1/subs/test1-1'),
           hidden: true,
           meta: {
@@ -39,7 +39,7 @@ const testRouter = {
         },
         {
           path: 'test1-2',
-          name: 'Test1-2',
+          name: 'Test_Test1_2',
           component: () => import('@/views/demos/test/test1/subs/test1-2'),
           hidden: true,
           meta: {
@@ -53,7 +53,7 @@ const testRouter = {
     },
     {
       path: 'test2',
-      name: 'Test2',
+      name: 'Test_Test2',
       component: () => import('@/views/demos/test/test2'),
       redirect: '/test/test2/test2-1',
       meta: {
@@ -62,7 +62,7 @@ const testRouter = {
       children: [
         {
           path: 'test2-1',
-          name: 'Test2-1',
+          name: 'Test_Test2_1',
           component: () => import('@/views/demos/test/test2/subs/test2-1'),
           meta: {
             title: '测试2-1'
@@ -70,7 +70,7 @@ const testRouter = {
         },
         {
           path: 'test2-2',
-          name: 'Test2-2',
+          name: 'Test_Test2_2',
           component: () => import('@/views/demos/test/test2/subs/test2-2'),
           meta: {
             title: '测试2-2'

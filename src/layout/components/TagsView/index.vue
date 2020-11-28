@@ -6,10 +6,13 @@
       @scroll="handleScroll"
     >
       <router-link
-        v-for="tag in visitedViewsFiltered"
+        v-for="tag in visitedViews"
         ref="tag"
         :key="tag.path"
-        :class="isActive(tag) ? 'active' : ''"
+        :class="{
+          active: isActive(tag),
+          'is-affix': isAffix(tag),
+        }"
         :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
         tag="span"
         class="tags-view-item"
@@ -40,8 +43,8 @@
 </template>
 
 <script>
-import ScrollPane from './ScrollPane'
-import path from 'path'
+import ScrollPane from "./ScrollPane";
+import path from "path";
 
 export default {
   components: { ScrollPane },
@@ -51,299 +54,314 @@ export default {
       top: 0,
       left: 0,
       selectedTag: {},
-      affixTags: []
-    }
+      affixTags: [],
+    };
   },
   computed: {
     visitedViews() {
-      return this.$store.state.tagsView.visitedViews
+      return this.$store.state.tagsView.visitedViews;
     },
     // 过滤标签页的页签列表
     // 主要是处理被聚合的路由的标签页问题
-    visitedViewsFiltered() {
-      const result = []
-      const juhe_subroutes = []
+    // visitedViewsFiltered() {
+    //   const result = []
+    //   const juhe_subroutes = []
 
-      // 被聚合的子路由,排除出页签,添加进juhe_subroutes;
-      this.visitedViews.forEach((view, index) => {
-        if (!view.meta || view.meta.parentJuhe !== true) {
-          result.push(view)
-        }
-        // 被聚合的子路由
-        else if (view.meta.parentJuhe === true) {
-          juhe_subroutes.push(view)
-        }
-      })
+    //   // 被聚合的子路由,排除出页签,添加进juhe_subroutes;
+    //   this.visitedViews.forEach((view, index) => {
+    //     if (!view.meta || view.meta.parentJuhe !== true) {
+    //       result.push(view)
+    //     }
+    //     // 被聚合的子路由
+    //     else if (view.meta.parentJuhe === true) {
+    //       juhe_subroutes.push(view)
+    //     }
+    //   })
 
-      // 聚合路由处理
-      juhe_subroutes.forEach((subRoute) => {
-        const parentRoute = this.$store.getters.getParentRouteByFullPath(
-          subRoute.meta.fullPath
-        )
+    //   // 聚合路由处理
+    //   juhe_subroutes.forEach((subRoute) => {
+    //     const parentRoute = this.$store.getters.getParentRouteByFullPath(
+    //       subRoute.meta.fullPath
+    //     )
 
-        // 页签列表中是否有被聚合路由的父路由
-        let _view = result.find(
-          (i) => i.meta && i.meta.fullPath === parentRoute.meta.fullPath
-        )
+    //     // 页签列表中是否有被聚合路由的父路由
+    //     let _view = result.find(
+    //       (i) => i.meta && i.meta.fullPath === parentRoute.meta.fullPath
+    //     )
 
-        // 如果存在父路由页签，把子路由添加进父路由的subViews
-        if (_view) {
-          _view.subViews.push(subRoute)
-        }
-        // 否则，新建父路由，并插入result(页签列表)
-        else {
-          _view = Object.assign({}, parentRoute, {
-            title: parentRoute.meta.title || 'no-name',
-            subViews: [subRoute],
-            path: parentRoute.meta.fullPath,
-            fullPath: parentRoute.meta.fullPath
-          })
-          result.push(_view)
-        }
-      })
+    //     // 如果存在父路由页签，把子路由添加进父路由的subViews
+    //     if (_view) {
+    //       _view.subViews.push(subRoute)
+    //     }
+    //     // 否则，新建父路由，并插入result(页签列表)
+    //     else {
+    //       _view = Object.assign({}, parentRoute, {
+    //         title: parentRoute.meta.title || 'no-name',
+    //         subViews: [subRoute],
+    //         path: parentRoute.meta.fullPath,
+    //         fullPath: parentRoute.meta.fullPath
+    //       })
+    //       result.push(_view)
+    //     }
+    //   })
 
-      return result
-    },
+    //   return result
+    // },
     routes() {
-      return this.$store.state.permission.routes
-    }
+      return this.$store.state.permission.routes;
+    },
   },
   watch: {
     $route() {
-      this.addTags()
-      this.moveToCurrentTag()
+      this.addTags();
+      this.moveToCurrentTag();
     },
     visible(value) {
       if (value) {
-        document.body.addEventListener('click', this.closeMenu)
+        document.body.addEventListener("click", this.closeMenu);
       } else {
-        document.body.removeEventListener('click', this.closeMenu)
+        document.body.removeEventListener("click", this.closeMenu);
       }
-    }
+    },
   },
   mounted() {
-    this.initTags()
-    this.addTags()
+    this.initTags();
+    this.addTags();
   },
   methods: {
     // 判断当前页签是否高亮
     isActive(route) {
-      if (!route.meta || !route.meta.juhe) {
-        return route.path === this.$route.path
-      } else {
-        return route.subViews.some((i) => this.$route.path === i.fullPath)
-      }
+      // if (!route.meta || !route.meta.juhe) {
+      return route.path === this.$route.path;
+      // } else {
+      // return route.subViews.some((i) => this.$route.path === i.fullPath);
+      // }
     },
 
     isAffix(tag) {
-      return tag.meta && tag.meta.affix
+      return tag.meta && tag.meta.affix;
     },
 
     // 过滤出固定打开的路由对应的页签
-    filterAffixTags(routes, basePath = '/') {
-      let tags = []
+    filterAffixTags(routes, basePath = "/") {
+      let tags = [];
       routes.forEach((route) => {
         if (route.meta && route.meta.affix) {
-          const tagPath = path.resolve(basePath, route.path)
+          const tagPath = path.resolve(basePath, route.path);
           tags.push({
             fullPath: tagPath,
             path: tagPath,
             name: route.name,
-            meta: { ...route.meta }
-          })
+            meta: { ...route.meta },
+          });
         }
         if (route.children) {
-          const tempTags = this.filterAffixTags(route.children, route.path)
+          const tempTags = this.filterAffixTags(route.children, route.path);
           if (tempTags.length >= 1) {
-            tags = [...tags, ...tempTags]
+            tags = [...tags, ...tempTags];
           }
         }
-      })
-      return tags
+      });
+      return tags;
     },
     initTags() {
-      const affixTags = (this.affixTags = this.filterAffixTags(this.routes))
+      const affixTags = (this.affixTags = this.filterAffixTags(this.routes));
       for (const tag of affixTags) {
         // Must have tag name
         if (tag.name) {
-          this.$store.dispatch('tagsView/addVisitedView', tag)
+          this.$store.dispatch("tagsView/addVisitedView", tag);
         }
       }
     },
     addTags() {
-      const { name } = this.$route
+      const { name } = this.$route;
       if (name) {
-        this.$store.dispatch('tagsView/addView', this.$route)
+        this.$store.dispatch("tagsView/addView", this.$route);
       }
-      return false
+      return false;
     },
     moveToCurrentTag() {
-      const tags = this.$refs.tag
+      const tags = this.$refs.tag;
       this.$nextTick(() => {
         for (const tag of tags) {
           if (tag.to.path === this.$route.path) {
-            this.$refs.scrollPane.moveToTarget(tag)
+            this.$refs.scrollPane.moveToTarget(tag);
             // when query is different then update
             if (tag.to.fullPath !== this.$route.fullPath) {
-              this.$store.dispatch('tagsView/updateVisitedView', this.$route)
+              this.$store.dispatch("tagsView/updateVisitedView", this.$route);
             }
-            break
+            break;
           }
         }
-      })
+      });
     },
     // 刷新选中页签
     refreshSelectedTag(view) {
       // 聚合的路由被刷新时，要把所属子路由都销毁掉
-      if (view.meta.juhe) {
-        const plist = view.subViews.map((sub_view) =>
-          this.$store.dispatch('tagsView/delCachedView', sub_view)
-        )
+      // if (view.meta.juhe) {
+      //   const plist = view.subViews.map((sub_view) =>
+      //     this.$store.dispatch('tagsView/delCachedView', sub_view)
+      //   )
 
-        Promise.all(plist).then(() => {
-          this.$nextTick(() => {
-            this.$router.replace({
-              path: '/redirect' + view.fullPath
-            })
-          })
-        })
-      } else {
-        this.$store.dispatch('tagsView/delCachedView', view).then(() => {
-          const { fullPath } = view
-          this.$nextTick(() => {
-            this.$router.replace({
-              path: '/redirect' + fullPath
-            })
-          })
-        })
-      }
+      //   Promise.all(plist).then(() => {
+      //     this.$nextTick(() => {
+      //       this.$router.replace({
+      //         path: '/redirect' + view.fullPath
+      //       })
+      //     })
+      //   })
+      // } else {
+      this.$store.dispatch("tagsView/delCachedView", view).then(() => {
+        const { fullPath } = view;
+        this.$nextTick(() => {
+          this.$router.replace({
+            path: "/redirect" + fullPath,
+          });
+        });
+      });
+      // }
     },
     // 关闭选中页签
     closeSelectedTag(view) {
       // 聚合的路由呗关闭时，要把所属子路由都销毁掉
-      if (view.meta.juhe) {
-        view.subViews.forEach((i) => {
-          this.closeSelectedTag(i)
-        })
-      } else {
-        this.$store
-          .dispatch('tagsView/delView', view)
-          .then(({ visitedViews }) => {
-            if (this.isActive(view)) {
-              this.toLastView(visitedViews, view)
-            }
-          })
-      }
+      // if (view.meta.juhe) {
+      //   view.subViews.forEach((i) => {
+      //     this.closeSelectedTag(i);
+      //   });
+      // } else {
+      this.$store
+        .dispatch("tagsView/delView", view)
+        .then(({ visitedViews }) => {
+          if (this.isActive(view)) {
+            this.toLastView(visitedViews, view);
+          }
+        });
+      // }
     },
     // 关闭其它页签
     closeOthersTags() {
-      this.$router.push(this.selectedTag)
+      this.$router.push(this.selectedTag);
 
-      let tagToKeep = this.selectedTag
+      let tagToKeep = this.selectedTag;
 
-      if (tagToKeep.meta && tagToKeep.meta.juhe && tagToKeep.subViews) {
-        tagToKeep = tagToKeep.subViews.find(
-          (i) => i.meta.fullPath === tagToKeep.redirect
-        )
+      // if (tagToKeep.meta && tagToKeep.meta.juhe && tagToKeep.subViews) {
+      //   tagToKeep = tagToKeep.subViews.find(
+      //     (i) => i.meta.fullPath === tagToKeep.redirect
+      //   );
 
-        if (!tagToKeep) return
-      }
+      //   if (!tagToKeep) return;
+      // }
 
-      this.$store.dispatch('tagsView/delOthersViews', tagToKeep).then(() => {
-        this.moveToCurrentTag()
-      })
+      this.$store.dispatch("tagsView/delOthersViews", tagToKeep).then(() => {
+        this.moveToCurrentTag();
+      });
     },
     closeAllTags(view) {
-      this.$store.dispatch('tagsView/delAllViews').then(({ visitedViews }) => {
+      this.$store.dispatch("tagsView/delAllViews").then(({ visitedViews }) => {
         if (this.affixTags.some((tag) => tag.path === view.path)) {
-          return
+          return;
         }
-        this.toLastView(visitedViews, view)
-      })
+        this.toLastView(visitedViews, view);
+      });
     },
     toLastView(visitedViews, view) {
-      const latestView = visitedViews.slice(-1)[0]
+      const latestView = visitedViews.slice(-1)[0];
       if (latestView) {
-        this.$router.push(latestView.fullPath)
+        this.$router.push(latestView.fullPath);
       } else {
         // now the default is to redirect to the home page if there is no tags-view,
         // you can adjust it according to your needs.
-        if (view.name === 'Dashboard') {
+        if (view.name === "Dashboard") {
           // to reload home page
-          this.$router.replace({ path: '/redirect' + view.fullPath })
+          this.$router.replace({ path: "/redirect" + view.fullPath });
         } else {
-          this.$router.push('/')
+          this.$router.push("/");
         }
       }
     },
     openMenu(tag, e) {
-      const menuMinWidth = 105
-      const offsetLeft = this.$el.getBoundingClientRect().left // container margin left
-      const offsetWidth = this.$el.offsetWidth // container width
-      const maxLeft = offsetWidth - menuMinWidth // left boundary
-      const left = e.clientX - offsetLeft // 15: margin right
+      const menuMinWidth = 105;
+      const offsetLeft = this.$el.getBoundingClientRect().left; // container margin left
+      const offsetWidth = this.$el.offsetWidth; // container width
+      const maxLeft = offsetWidth - menuMinWidth; // left boundary
+      const left = e.clientX - offsetLeft; // 15: margin right
 
       if (left > maxLeft) {
-        this.left = maxLeft
+        this.left = maxLeft;
       } else {
-        this.left = left
+        this.left = left;
       }
 
-      this.top = e.clientY
-      this.visible = true
-      this.selectedTag = tag
+      this.top = e.clientY;
+      this.visible = true;
+      this.selectedTag = tag;
     },
     closeMenu() {
-      this.visible = false
+      this.visible = false;
     },
     handleScroll() {
-      this.closeMenu()
-    }
-  }
-}
+      this.closeMenu();
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
+@import "~@/styles/variables.scss";
+
 .tags-view-container {
-  height: 34px;
+  height: $tagsViewHeight;
   width: 100%;
   background: #fff;
-  border-bottom: 1px solid #d8dce5;
+  // border-bottom: 1px solid #d8dce5;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;
       position: relative;
       cursor: pointer;
-      height: 26px;
-      line-height: 26px;
-      border: 1px solid #d8dce5;
-      color: #495060;
-      background: #fff;
-      padding: 0 8px;
-      font-size: 12px;
-      margin-left: 5px;
-      margin-top: 4px;
+      height: $tagsViewHeight;
+      line-height: $tagsViewHeight;
+      // border: 1px solid #d8dce5;
+      color: $textColorLight;
+      // background: yellowgreen;
+      // padding: 0 8px;
+      padding: 0 24px 0 0;
+      font-size: 14px;
+      margin-left: 30px;
+      position: relative;
+      // margin-top: 4px;
       &:first-of-type {
         margin-left: 15px;
       }
       &:last-of-type {
         margin-right: 15px;
       }
+      &.is-affix {
+        padding-right: 0;
+      }
       &.active {
-        background-color: #42b983;
-        color: #fff;
-        border-color: #42b983;
-        &::before {
+        color:$textColor !important;
+        font-weight: bold;
+        &:after {
           content: "";
-          background: #fff;
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          position: relative;
-          margin-right: 2px;
+          height: 3px;
+          width: 100%;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          background: $colorPrimary;
         }
+        // &::before {
+        //   content: "";
+        //   background: $colorPrimary;
+        //   display: inline-block;
+        //   width: 8px;
+        //   height: 8px;
+        //   border-radius: 50%;
+        //   position: relative;
+        //   margin-right: 2px;
+        // }
       }
     }
   }
@@ -372,25 +390,28 @@ export default {
 </style>
 
 <style lang="scss">
+@import "~@/styles/variables.scss";
+
 //reset element css of el-icon-close
 .tags-view-wrapper {
   .tags-view-item {
     .el-icon-close {
-      width: 16px;
-      height: 16px;
-      vertical-align: 2px;
-      border-radius: 50%;
+      opacity: 0.5;
+      width: 18px;
+      height: 18px;
+      line-height: 18px;
       text-align: center;
-      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-      transform-origin: 100% 50%;
-      &:before {
-        transform: scale(0.6);
-        display: inline-block;
-        vertical-align: -3px;
-      }
+      border-radius: 50%;
+      position: absolute;
+      right: 0;
+      top: 50%;
+      font-weight: bold;
+      transform: translateY(-50%);
+      transition: background-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
       &:hover {
-        background-color: #b4bccc;
-        color: #fff;
+        background-color: rgba($colorPrimary,.15);
+        color: $colorPrimary;
+        opacity: 1;
       }
     }
   }

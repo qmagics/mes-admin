@@ -1,3 +1,5 @@
+import router from "@/router"
+
 const state = {
   visitedViews: [],
   cachedViews: []
@@ -80,10 +82,10 @@ const actions = {
     commit('ADD_VISITED_VIEW', view)
   },
   addCachedView({ commit }, view) {
-    console.log(view.matched)
-    if (view.matched && view.matched.length >= 3) { // 若为三级及其以上路由点击打开标签页时，将三级路由或以上的根目录路由塞入缓存路由name list中
-      commit('ADD_CACHED_VIEW', view.matched[1])
-    }
+    // 若为三级路由点击打开标签页时，将二级根路由塞入缓存路由cachedViews列表中
+    // if (view.matched && view.matched.length === 3) { 
+    //   commit('ADD_CACHED_VIEW', view.matched[1])
+    // }
     commit('ADD_CACHED_VIEW', view)
   },
 
@@ -105,13 +107,27 @@ const actions = {
   },
   delCachedView({ commit, state }, view) {
     return new Promise(resolve => {
-      // 若为三级及其以上路由关闭当前标签页时，将3级路由以上的根目录name 从list中删除
-      // TODO: 当缓存中的子路由数量为1时才可以删除
-      if (view.matched && view.matched.length >= 3) { 
-        console.log('DEL_CACHED_VIEW', view.matched);
-        commit('DEL_CACHED_VIEW', view.matched[1])
-      }
-      commit('DEL_CACHED_VIEW', view)
+      commit('DEL_CACHED_VIEW', view);
+
+      // 若当前关闭的标签页为三级路由，将2级根路由 从缓存list中删除
+      // 目前没有做四级路由的适配
+      // if (view.matched && view.matched.length === 3) {
+      //   // console.log('删除第二级路由缓存');
+      //   // console.log(view.matched[1].children);
+
+      //   /**
+      //    * // TODO: 当缓存中的子路由数量为1时才可以删除
+      //    * 如果view.matched[1]的子路由在 store.cachedViews 中存在的数量<=1时才执行 commit('DEL_CACHED_VIEW', view.matched[1])
+      //    */
+
+      //   const _routeName = view.matched[1].name;
+      //   if (state.cachedViews.find(i => i !== _routeName && _routeName.indexOf(i) >= 0)) {
+      //     commit('DEL_CACHED_VIEW', view.matched[1]);
+      //   }
+      //   // commit('DEL_CACHED_VIEW', view.matched[1]);
+
+      // }
+
       resolve([...state.cachedViews])
     })
   },

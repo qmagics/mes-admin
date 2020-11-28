@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!item.hidden">
+  <div v-if="!item.hidden" class="sidebar-item">
     <template
       v-if="
         hasOneShowingChild(item.children, item) &&

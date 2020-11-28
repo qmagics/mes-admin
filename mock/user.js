@@ -11,7 +11,10 @@ const tokens = {
 const users = {
   'admin-token': {
     "permissions": [
-      "*:*:*",
+      // "*:*:*",
+      "system:permission:list",
+      "system:permission:add",
+      "system:permission:edit",
     ],
 
     "roles": [
@@ -67,13 +70,13 @@ module.exports = [
       // mock error
       if (!token) {
         return {
-          code: 602,
+          status: 602,
           message: '账号或密码不正确'
         }
       }
 
       return {
-        code: 200,
+        status: 200,
         data: token
       }
     }
@@ -90,13 +93,13 @@ module.exports = [
       // mock error
       if (!info) {
         return {
-          code: 508,
+          status: 508,
           msg: '登录失败，无法获取用户信息'
         }
       }
 
       return {
-        code: 200,
+        status: 200,
         data: info
       }
     }
@@ -108,7 +111,7 @@ module.exports = [
     type: 'post',
     response: _ => {
       return {
-        code: 200,
+        status: 200,
         data: 'success'
       }
     }

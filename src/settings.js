@@ -3,13 +3,14 @@ module.exports = {
    * @type {string} 
    * @description 会显示在浏览器页签中
    */
-  title: 'MES Admin',
+  // title: 'MES Admin',
+  title: '智慧工厂生产操作系统',
 
   /**
    * @type {boolean} true | false
    * @description 是否显示右侧设置栏
    */
-  showSettings: false,
+  showSettings: true,
 
   /**
    * @type {boolean} true | false
@@ -27,7 +28,7 @@ module.exports = {
    * @type {boolean} true | false
    * @description 是否默认显示左侧栏Logo
    */
-  sidebarLogo: true,
+  sidebarLogo: false,
 
   /**
    * @type {string | array} 'production' | ['production', 'development']

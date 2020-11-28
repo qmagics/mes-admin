@@ -1,20 +1,22 @@
-#app {
+@import "./variables.scss";
 
+.app {
   .main-container {
     min-height: 100%;
-    transition: margin-left .28s;
+    transition: margin-left 0.28s;
     margin-left: $sideBarWidth;
     position: relative;
+    background-color: $bgColorLight;
   }
 
   .sidebar-container {
     transition: width 0.28s;
     width: $sideBarWidth !important;
     background-color: $menuBg;
-    height: 100%;
+    // height: 100%;
     position: fixed;
     font-size: 0px;
-    top: 0;
+    top: $topBarHeight;
     bottom: 0;
     left: 0;
     z-index: 1001;
@@ -55,7 +57,7 @@
 
     .svg-icon {
       margin-right: 12px;
-      width:22px;
+      width: 22px;
     }
 
     .sub-el-icon {
@@ -67,6 +69,59 @@
       border: none;
       height: 100%;
       width: 100% !important;
+      border-top: 2px solid rgb(41, 42, 42);
+
+      .el-menu-item,
+      .el-submenu__title {
+        font-size: 15px;
+        font-weight: bold;
+        text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.6);
+      }
+
+      .sidebar-item {
+        border-bottom: 2px solid rgb(41, 42, 42);
+        position: relative;
+        // border-left: 4px solid rgb(95, 107, 116);
+
+        &:before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 5px;
+          height: 56px;
+          background-color: rgb(95, 107, 116);
+          z-index: 1;
+        }
+
+        & > .is-active,
+        & > a > .is-active {
+          &:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 5px;
+            height: 56px;
+            background-color: $colorPrimary;
+            z-index: 1;
+          }
+        }
+
+        &.nest-menu {
+          border: none;
+          &::before {
+            display: none;
+          }
+
+          .is-active {
+            &::before {
+              display: none;
+            }
+            background-image: linear-gradient(to right, darken($colorPrimary,12%), rgba($colorPrimary, 0));
+          }
+        }
+      }
     }
 
     // menu hover
@@ -77,11 +132,12 @@
       }
     }
 
-    .is-active>.el-submenu__title {
+    .is-active > .el-submenu__title {
       color: $subMenuActiveText !important;
+      font-weight: bold;
     }
 
-    & .nest-menu .el-submenu>.el-submenu__title,
+    & .nest-menu .el-submenu > .el-submenu__title,
     & .el-submenu .el-menu-item {
       min-width: $sideBarWidth !important;
       background-color: $subMenuBg !important;
@@ -94,11 +150,11 @@
 
   .hideSidebar {
     .sidebar-container {
-      width: 54px !important;
+      width: #{$sideBarMinWidth} !important;
     }
 
     .main-container {
-      margin-left: 54px;
+      margin-left: #{$sideBarMinWidth};
     }
 
     .submenu-title-noDropdown {
@@ -121,7 +177,7 @@
     .el-submenu {
       overflow: hidden;
 
-      &>.el-submenu__title {
+      & > .el-submenu__title {
         padding: 0 !important;
 
         .svg-icon {
@@ -140,8 +196,8 @@
 
     .el-menu--collapse {
       .el-submenu {
-        &>.el-submenu__title {
-          &>span {
+        & > .el-submenu__title {
+          & > span {
             height: 0;
             width: 0;
             overflow: hidden;
@@ -164,7 +220,7 @@
     }
 
     .sidebar-container {
-      transition: transform .28s;
+      transition: transform 0.28s;
       width: $sideBarWidth !important;
     }
 
@@ -178,7 +234,6 @@
   }
 
   .withoutAnimation {
-
     .main-container,
     .sidebar-container {
       transition: none;
@@ -188,7 +243,7 @@
 
 // when menu collapsed
 .el-menu--vertical {
-  &>.el-menu {
+  & > .el-menu {
     .svg-icon {
       margin-right: 16px;
     }
@@ -198,7 +253,7 @@
     }
   }
 
-  .nest-menu .el-submenu>.el-submenu__title,
+  .nest-menu .el-submenu > .el-submenu__title,
   .el-menu-item {
     &:hover {
       // you can use $subMenuHover
@@ -207,7 +262,7 @@
   }
 
   // the scroll bar appears when the subMenu is too long
-  >.el-menu--popup {
+  > .el-menu--popup {
     max-height: 100vh;
     overflow-y: auto;
 
