@@ -1,11 +1,11 @@
 <template>
   <el-table-column
-    :prop="(column.children && column.children.length)?'':column.prop"
+    :prop="column.children && column.children.length ? '' : column.prop"
     :label="column.label"
     :type="column.type"
-    :sortable="column.sortable?'custom':false"
+    :sortable="column.sortable ? 'custom' : false"
     :resizable="column.resizable"
-    :show-overflow-tooltip="(column.showOverflowTooltip===false)?false:true"
+    :show-overflow-tooltip="column.showOverflowTooltip === false ? false : true"
     :align="column.align"
     :header-align="column.headerAlign"
     :width="column.width"
@@ -14,10 +14,16 @@
     :formatter="column.formatter"
     :key="Math.random()"
   >
-    <template v-slot="{row}">
-      <slot v-if="$scopedSlots.default" v-bind="{row,column,value:row[column.prop]}"></slot>
+    <template v-slot="{ row }">
+      <!-- 插槽渲染 -->
+      <slot
+        v-if="$scopedSlots.default"
+        v-bind="{ row, column, value: row[column.prop] }"
+      ></slot>
 
+      <!-- 配置项渲染 -->
       <template v-else>
+        <!-- component -->
         <component
           v-if="column.component"
           :is="column.component"
@@ -27,19 +33,29 @@
           :column="column"
           :currentRow="currentRow"
         ></component>
+        <!-- render -->
         <renderComp
           v-else-if="column.render"
           :p-render="render"
           :render="column.render"
-          :renderProps="column.renderProps"
-          :context="{value:row[column.prop],row,column}"
+          :renderArgs="column.renderArgs"
+          :context="{ value: row[column.prop], row, column }"
         ></renderComp>
-        <span v-else-if="column.formatter" v-html="column.formatter(row[column.prop],row)"></span>
-        <span v-else>{{row[column.prop]}}</span>
+        <!-- formatter -->
+        <span
+          v-else-if="column.formatter"
+          v-html="column.formatter(row[column.prop], row)"
+        ></span>
+        <!-- normal -->
+        <span v-else>{{ row[column.prop] }}</span>
       </template>
 
       <template v-if="column.children && column.children.length">
-        <FxTableColumn v-for="(i,index) in column.children" :column="i" :key="i.prop+index"></FxTableColumn>
+        <FxTableColumn
+          v-for="(i, index) in column.children"
+          :column="i"
+          :key="i.prop + index"
+        ></FxTableColumn>
       </template>
     </template>
   </el-table-column>
@@ -58,27 +74,37 @@ function getRenderFn(obj) {
 
 const renderComp = {
   props: {
-    render: [Function, String, Array],
-    renderProps: {},
+    render: [Function, String, Array, Object],
+    renderArgs: {},
     pRender: Function,
-    context: {}
+    context: {},
   },
   render(h) {
     let renderFn = null,
-      renderProps = this.renderProps;
+      renderArgs = this.renderArgs;
 
+    //render:string
     if (typeof this.render === "string") {
       renderFn = getRenderFn(this.render);
-    } else if (typeof this.render === "function") {
+    }
+    //render:function
+    else if (typeof this.render === "function") {
       renderFn = this.render;
-    } else if (isArray(this.render)) {
+    }
+    //render:array
+    else if (isArray(this.render)) {
       renderFn = getRenderFn(this.render[0]);
 
-      renderProps = isNotEmpty(this.render[1]) ? this.render[1] : renderProps;
+      renderArgs = isNotEmpty(this.render[1]) ? this.render[1] : renderArgs;
+    }
+    //render:object
+    else if (typeof this.render === "object" && this.render.name) {
+      renderFn = getRenderFn(this.render.name);
+      renderArgs = this.render.args;
     }
 
-    return this.pRender && this.pRender(h, renderFn, this.context, renderProps);
-  }
+    return this.pRender && this.pRender(h, renderFn, this.context, renderArgs);
+  },
 };
 
 export default {
@@ -87,11 +113,11 @@ export default {
   props: {
     column: {},
     render: Function,
-    currentRow: {}
+    currentRow: {},
   },
 
   components: {
-    renderComp
-  }
+    renderComp,
+  },
 };
 </script>

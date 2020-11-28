@@ -1025,8 +1025,8 @@ export default {
     },
 
     //fx-table-column的作用域插槽渲染函数
-    slotsRender(h, render, context, options) {
-      return render && render.call(this, h, context, options);
+    slotsRender(h, render, context, renderArgs) {
+      return render && render.call(this, h, context, renderArgs);
     },
 
     /**

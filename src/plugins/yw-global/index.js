@@ -1,3 +1,6 @@
+//全局通用方法
+import './common';
+
 //注册全局组件
 import './components';
 

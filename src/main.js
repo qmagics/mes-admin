@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import App from './App';
-import App2 from './App2';
+// import App2 from './App2';
 import store from './store';
 import router from './router';
 
@@ -8,8 +8,8 @@ import router from './router';
 import 'normalize.css/normalize.css';
 
 //插件模块
-import '@/plugins/element-ui';
 import '@/plugins/yw-global';
+import '@/plugins/element-ui';
 import '@/plugins/yw-table';
 import YwModal from '@/plugins/yw-modal';
 Vue.use(YwModal, { store });

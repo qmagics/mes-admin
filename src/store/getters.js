@@ -40,6 +40,10 @@ const getters = {
     }, state.permission.routes)
 
     return parentRoute
+  },
+
+  getConfigByName: state => name => {
+    return state.pageConfig.configMap[name];
   }
 }
 export default getters

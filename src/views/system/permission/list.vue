@@ -50,7 +50,7 @@
               </el-col>
             </el-row>
           </div>
-          <yw-table v-bind="table" ref="table">
+          <yw-table v-bind="table" ref="table" :columns="columns">
             <template #actions>
               <el-button
                 v-permission="'system:permission:add'"
@@ -74,11 +74,20 @@ import {
   getPermissionCategory,
 } from "@/api/system/permission";
 import { getTreeByArr } from "@/utils/structure";
+import { mapGetters } from "vuex";
 
 export default {
   name: "System_Permission_List",
   components: {
     TreeMenu,
+  },
+  computed: {
+    $pageConfig() {
+      return this.$store.getters.getConfigByName(this.$options.name);
+    },
+    columns() {
+      return this.$pageConfig.columns;
+    },
   },
   data() {
     const _this = this;
@@ -93,28 +102,7 @@ export default {
       },
       table: {
         data: [],
-        columns: [
-          {
-            label: "权限名称",
-            prop: "Name",
-          },
-          {
-            label: "接口地址",
-            prop: "Url",
-          },
-          {
-            label: "控制器",
-            prop: "Controller",
-          },
-          {
-            label: "Action",
-            prop: "Action",
-          },
-          {
-            label: "排序码",
-            prop: "SortCode",
-          },
-        ],
+        columns: [],
         query: {},
         options: {
           selectable: true,
