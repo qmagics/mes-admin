@@ -45,7 +45,7 @@ export function deletePermission(Id) {
         url: `/api/actionPermisson`,
         method: 'delete',
         params: {
-            Id
+            ActionPermissonId:Id
         }
     })
 }
@@ -72,7 +72,7 @@ export function getPermissionDetail(Id) {
         method: 'get',
         params: {
             OptionType: 'detail',
-            Id
+            ActionPermissonId:Id
         }
     })
 }

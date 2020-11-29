@@ -32,25 +32,7 @@
       </template>
       <template #paneR>
         <fixed-panel>
-          <div slot="header">
-            <el-row>
-              <el-col :span="12">权限分类</el-col>
-              <el-col :span="12" style="text-align: right">
-                <el-button
-                  size="mini"
-                  style="
-                    border: none;
-                    padding-left: 8px;
-                    padding-right: 8px;
-                    margin: 0;
-                    font-size: 14px;
-                  "
-                  icon="el-icon-s-tools"
-                ></el-button>
-              </el-col>
-            </el-row>
-          </div>
-          <yw-table v-bind="table" ref="table" :columns="columns">
+          <yw-table v-bind="table" ref="table">
             <template #actions>
               <el-button
                 v-permission="'system:permission:add'"
@@ -58,6 +40,13 @@
                 icon="el-icon-plus"
                 @click="create"
                 >新增</el-button
+              >
+              <el-button
+                v-permission="'system:permission:edit'"
+                type="primary"
+                icon="el-icon-edit"
+                @click="edit"
+                >编辑</el-button
               >
             </template>
           </yw-table>
@@ -81,14 +70,6 @@ export default {
   components: {
     TreeMenu,
   },
-  computed: {
-    $pageConfig() {
-      return this.$store.getters.getConfigByName(this.$options.name);
-    },
-    columns() {
-      return this.$pageConfig.columns;
-    },
-  },
   data() {
     const _this = this;
     return {
@@ -102,10 +83,52 @@ export default {
       },
       table: {
         data: [],
-        columns: [],
+        columns: [
+          {
+            label: "权限名称",
+            prop: "Name",
+            render: [
+              "link",
+              {
+                routeName: "System_Permission_View",
+                id: "ActionPermissonId",
+              },
+            ],
+            // render: {
+            //     name: "link",
+            //     args: {
+            //         name: "System_Permission_Edit",
+            //         params: "Id"
+            //     }
+            // }
+          },
+          {
+            label: "接口地址",
+            prop: "Url",
+          },
+          {
+            label: "控制器",
+            prop: "Controller",
+          },
+          {
+            label: "Action",
+            prop: "Action",
+          },
+          {
+            label: "排序码",
+            prop: "SortCode",
+          },
+          {
+            label: "创建时间",
+            prop: "CreateTime",
+            render: ["time"],
+            renderArgs: "yyyy",
+          },
+        ],
         query: {},
         options: {
           selectable: true,
+          singleSelect: true,
           request: (params) => getPermissionList(params),
         },
       },
@@ -126,7 +149,6 @@ export default {
           "ParentId"
         );
 
-        console.log(treeData);
         this.menu.data = treeData;
       } finally {
         this.menu.loading = false;
@@ -139,8 +161,13 @@ export default {
 
     edit(row) {
       const rows = this.$refs.table.getSelected();
-      console.log(rows);
-      // this.$open({ name: "System_Permission_Edit", params: { id: row.id } });
+
+      if (rows.length > 0) {
+        this.$open({
+          name: "System_Permission_Edit",
+          params: { id: rows[0].ActionPermissonId },
+        });
+      }
     },
 
     // test() {

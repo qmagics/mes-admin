@@ -66,6 +66,17 @@ module.exports = [
                                             "icon": "el-icon-edit",
                                             "title": "编辑权限",
                                         }
+                                    },
+                                    {
+                                        "name": "System_Permission_View",
+                                        "path": "/system/permission/view/:id",
+                                        "component": "system/permission/view",
+                                        "hidden": true,
+                                        "props": true,
+                                        "meta": {
+                                            "icon": "el-icon-view",
+                                            "title": "查看权限",
+                                        }
                                     }
                                 ]
                             }

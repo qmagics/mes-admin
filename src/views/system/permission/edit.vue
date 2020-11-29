@@ -1,49 +1,70 @@
 <template>
-  <page :loading="loading">
-    <detail v-if="model" type="edit" :data="model"> </detail>
-    <el-button @click="save">保存</el-button>
+  <page :loading="loading" width="60%" :fixed="false">
+    <title-block> 编辑权限 </title-block>
+    <detail ref="form" type="edit" :data.sync="vm"></detail>
+    <fixed-block>
+      <el-button @click="save" type="primary" :loading="saving"
+        >确认</el-button
+      >
+      <el-button @click="cancel">取消</el-button>
+    </fixed-block>
   </page>
 </template>
 
 <script>
+import { getPermissionDetail, updatePermission } from "@/api/system/permission";
 import detail from "./detail";
 
 export default {
   name: "System_Permission_Edit",
 
+  components: {
+    detail,
+  },
   props: {
     id: {},
   },
 
-  components: {
-    detail,
-  },
-
   data() {
     return {
-      model: null,
+      vm: {},
       loading: false,
+      saving: false,
     };
   },
 
   mounted() {
     this.loading = true;
-    setTimeout(() => {
-      this.model = {
-        name: "老王",
-        age: 48,
-      };
-      this.loading = false;
-    }, 1000);
+
+    getPermissionDetail(this.id)
+      .then((res) => {
+        this.vm = res.data.rows[0];
+      })
+      .finally(() => {
+        this.loading = false;
+      });
   },
 
   methods: {
     save() {
-      this.$message("更新成功");
-
-      setTimeout((_) => {
-        this.$close();
-      }, 500);
+      this.saving = true;
+      this.$refs.form.validate().then((pass) => {
+        updatePermission(this.vm)
+          .then((res) => {
+            if (res.bl) {
+              this.$message(res.msg);
+              setTimeout(() => {
+                this.$close();
+              }, 500);
+            }
+          })
+          .finally(() => {
+            this.saving = false;
+          });
+      });
+    },
+    cancel() {
+      this.$close();
     },
   },
 };

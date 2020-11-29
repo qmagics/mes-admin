@@ -4,7 +4,7 @@
     :model="vm"
     label-width="100px"
     :disabled="disabled"
-    :rules="rules"
+    :rules="disabled ? null : rules"
   >
     <el-row :gutter="120">
       <el-col :span="12">
@@ -64,7 +64,6 @@ export default {
 
   data() {
     return {
-      disabled: false,
       vm: this.data,
       rules: {
         Name: { required: true, message: "请输入权限名称" },
@@ -74,6 +73,27 @@ export default {
         SortCode: [{ required: true, message: "请输入排序码" }],
       },
     };
+  },
+
+  computed: {
+    disabled() {
+      return this.type === "view";
+    },
+  },
+
+  watch: {
+    data: {
+      deep: true,
+      handler(val) {
+        this.vm = val;
+      },
+    },
+    vm: {
+      deep: true,
+      handler(val) {
+        this.$emit("update:data", val);
+      },
+    },
   },
 };
 </script>
