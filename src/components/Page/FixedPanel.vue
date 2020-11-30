@@ -79,6 +79,7 @@ export default {
     border-bottom: 1px solid rgb(226, 234, 237);
     font-size: 14px;
     padding: 0 10px;
+    overflow: hidden;
   }
 
   .fixed-panel__body {
@@ -90,6 +91,17 @@ export default {
     .fixed-panel__scrollbar-wrapper {
       overflow-x: hidden;
     }
+  }
+}
+
+.fixed-panel__header-btn {
+  border: none;
+  padding: 6px 8px;
+  margin: 0;
+  font-size: 14px;
+
+  & + .fixed-panel__header-btn {
+    margin-left: 0;
   }
 }
 </style>

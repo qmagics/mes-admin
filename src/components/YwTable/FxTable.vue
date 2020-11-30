@@ -129,8 +129,8 @@
             <!-- 索引列 -->
             <el-table-column
               width="50px"
-              type="index"
               :label="cOptions.indexTitle"
+              :formatter="indexFormatter"
               align="center"
               fixed
               v-if="cOptions.showIndex"
@@ -736,6 +736,24 @@ export default {
   },
 
   methods: {
+    //表格索引生成函数
+    indexFormatter(row, column, value, index) {
+      const { pageIndex, pageSize } = this.pagerModel;
+
+      if (!this.cOptions.indexFormatter) {
+        return (pageIndex - 1) * pageSize + index + 1;
+      } else {
+        return this.cOptions.indexFormatter({
+          pageIndex,
+          pageSize,
+          value,
+          row,
+          column,
+          index,
+        });
+      }
+    },
+
     //切换搜索栏大小
     toggleSearchbarSize(size) {
       if (size) {

@@ -17,6 +17,8 @@ export const DEFAULT_OPTIONS = {
 
     indexTitle: "#",
 
+    indexFormatter: null,
+
     pageNumber: 1,
 
     pageSize: 10,

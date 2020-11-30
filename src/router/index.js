@@ -61,4 +61,6 @@ export function resetRouter() {
   router.matcher = newRouter.matcher
 }
 
+window.router = router;
+
 export default router

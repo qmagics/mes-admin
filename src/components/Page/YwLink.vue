@@ -2,7 +2,7 @@
 export default {
   name: "YwLink",
   props: {
-    location: [String, Object],
+    target: [String, Object],
   },
 
   render() {
@@ -10,10 +10,10 @@ export default {
       <a
         class="yw-link"
         onclick={() => {
-          this.$open(location);
+          this.$open(this.target);
         }}
       >
-        {this.$slots.default}
+        <span class="yw-link__inner">{this.$slots.default}</span>
       </a>
     );
   },
@@ -21,7 +21,36 @@ export default {
 </script>
 
 <style lang="scss">
+@import "~@/styles/variables.scss";
+
 .yw-link {
-  color: red;
+  color: $colorPrimary;
+  cursor: pointer;
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  position: relative;
+  text-decoration: none;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  font-weight: 500;
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 0;
+    bottom: 0;
+    border-bottom: 1px solid lighten($colorPrimary,10%);
+  }
+
+  &:hover {
+    color: $colorPrimaryActive;
+  }
 }
 </style>

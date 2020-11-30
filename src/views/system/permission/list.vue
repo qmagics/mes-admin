@@ -8,14 +8,13 @@
               <el-col :span="12">权限分类</el-col>
               <el-col :span="12" style="text-align: right">
                 <el-button
-                  size="mini"
-                  style="
-                    border: none;
-                    padding-left: 8px;
-                    padding-right: 8px;
-                    margin: 0;
-                    font-size: 14px;
-                  "
+                  class="fixed-panel__header-btn"
+                  @click="clearCurrentMenu"
+                >
+                  清空
+                </el-button>
+                <el-button
+                  class="fixed-panel__header-btn"
                   icon="el-icon-s-tools"
                 ></el-button>
               </el-col>
@@ -23,16 +22,19 @@
           </div>
           <div style="padding: 10px">
             <TreeMenu
+              ref="treeMenu"
               :data="menu.data"
+              nodeKey="ActionPermissonId"
               v-loading="menu.loading"
               :treeProps="menu.options"
+              @node-click="currentMenuChange"
             ></TreeMenu>
           </div>
         </fixed-panel>
       </template>
       <template #paneR>
         <fixed-panel>
-          <yw-table v-bind="table" ref="table">
+          <yw-table v-bind="table" ref="table" :query.sync="table.query">
             <template #actions>
               <el-button
                 v-permission="'system:permission:add'"
@@ -87,20 +89,47 @@ export default {
           {
             label: "权限名称",
             prop: "Name",
+
+            // 0 不使用任何格式化处理配置，则默认显示row.prop属性对应的值
+
+            // 1 使用formatter函数 只能输出纯文本，相比render函数性能开销更低
+            // formatter(value, row) {
+            //   return `${value}-${row.Action}`;
+            // },
+
+            // 1 使用内置渲染器, 不带参数
+            // render: "link",
+
+            // 2 使用内置渲染器, Array形式 传参
             render: [
               "link",
               {
                 routeName: "System_Permission_View",
-                id: "ActionPermissonId",
+                idField: "ActionPermissonId",
+                textField: "Name",
               },
             ],
+
+            // 3 使用内置渲染器, Object形式 传参
             // render: {
             //     name: "link",
             //     args: {
-            //         name: "System_Permission_Edit",
-            //         params: "Id"
+            //         name: "System_Permission_View",
+            //         params: "ActionPermissonId"
             //     }
             // }
+
+            // 4 使用自定义渲染函数 context:{ value, row, column }
+            // render(h, context) {
+            //   return (
+            //     <a
+            //       target="_blank"
+            //       href={`https://www.baidu.com/s?wd=${context.row.ActionPermissonId}`}
+            //     >
+            //       {context.value}
+            //     </a>
+            //   );
+            // },
           },
           {
             label: "接口地址",
@@ -125,8 +154,11 @@ export default {
             renderArgs: "yyyy",
           },
         ],
-        query: {},
+        query: {
+          ParentId: "67867",
+        },
         options: {
+          showIndex: true,
           selectable: true,
           singleSelect: true,
           request: (params) => getPermissionList(params),
@@ -168,6 +200,17 @@ export default {
           params: { id: rows[0].ActionPermissonId },
         });
       }
+    },
+
+    currentMenuChange(data) {
+      this.table.query.ParentId = data.ActionPermissonId;
+      this.$refs.table.refreshTable();
+    },
+
+    clearCurrentMenu() {
+      this.$refs.treeMenu.setCurrentKey(null);
+      this.table.query.ParentId = "";
+      this.$refs.table.refreshTable();
     },
 
     // test() {
