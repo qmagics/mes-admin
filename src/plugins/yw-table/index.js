@@ -7,13 +7,23 @@ import * as renderers from './renderers';
 Vue.use(YwTable, {
     axios: request,
     defaultOptions: {
+        outBorder: false,
+        border: false,
+        stripe: true,
+        // background: 'transparent',
         toolbarProps: {
-            layout: 'query,searchBtn -> actions,searchbarToggle,columnToggle',
-            height: 50
+            layout: 'query,searchBtn -> actions,columnToggle',
+            height: 60
         },
+
         searchbar: true,
         resHandler(res) {
-            return res;
+            if (this.cOptions.pagination) {
+                return res;
+            }
+            else {
+                return res.rows;
+            }
         },
         indexTitle: '序号'
     },

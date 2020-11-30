@@ -27,7 +27,7 @@ export default {
       default: "query",
     },
   },
-  
+
   computed: {
     toolbarLayout() {
       let [startStr, endStr] = this.layout.split("->");
@@ -91,7 +91,7 @@ export default {
   //工具栏项目
   .toolbar-item {
     display: inline-block;
-    margin-right: 10px;
+    margin-right: 5px;
     & + .toolbar-item {
       margin-left: 0;
     }
@@ -101,6 +101,12 @@ export default {
 
     .el-input {
       width: auto;
+    }
+
+    .el-button {
+      & + .el-button {
+        margin-left: 5px;
+      }
     }
   }
 

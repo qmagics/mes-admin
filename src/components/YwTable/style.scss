@@ -1,3 +1,6 @@
+@import "~@/styles/variables.scss";
+@import "~@/styles/mixin.scss";
+
 .fx-table {
   box-sizing: border-box;
 
@@ -14,6 +17,18 @@
   }
 
   &.is--show-aside {
+  }
+
+  &.is--has-toolbar {
+    .fx-table--main {
+      padding-top: 0 !important;
+    }
+  }
+
+  &.is--has-pagination {
+    .fx-table--main {
+      padding-bottom: 0 !important;
+    }
   }
 
   &.is--full-screen {
@@ -44,7 +59,7 @@
       bottom: 0;
       right: 0;
       transition: all 0.3s ease-in-out;
-      padding: 0 10px;
+      padding: 15px;
       .fx-table--toolbar {
       }
 
@@ -75,6 +90,77 @@
       }
 
       .fx-table--table {
+        border: 2px solid rgb(226, 234, 237);
+        // border-radius: 4px;
+        padding: 0 10px;
+        overflow: hidden;
+        box-shadow: 0 0 3px 6px rgba(240, 246, 248, 0.7);
+        position: relative;
+
+        * {
+          @include scrollBar;
+        }
+
+        .el-table {
+          &:before,
+          .el-table__fixed:before {
+            display: none;
+          }
+          &.el-table--border {
+            &:before,
+            .el-table__fixed:before {
+              display: block;
+            }
+          }
+
+          &.el-table--striped .el-table__body tr.el-table__row--striped td {
+            background-color: rgb(245, 250, 252);
+          }
+
+          th {
+            border-bottom-color: rgb(189, 205, 214);
+            border-bottom-width: 2px;
+            font-size: 14px;
+            color: $textColorLight;
+          }
+
+          td {
+            border-bottom: none;
+          }
+
+          tr {
+            td {
+              padding: 10px 0;
+              transition: border-color ease 0.2s;
+              border-bottom: 2px solid transparent;
+              border-top: 2px solid transparent;
+              &:first-child {
+                border-left: 2px solid transparent;
+              }
+              &:last-child {
+                border-right: 2px solid transparent;
+              }
+            }
+          }
+
+          tr.is--selected {
+            td {
+              background-color: rgb(231, 245, 255) !important;
+              border-bottom-color: $colorPrimary;
+              border-top-color: $colorPrimary;
+              &:first-child {
+                border-left-color: $colorPrimary;
+              }
+              &:last-child {
+                border-right-color: $colorPrimary;
+              }
+            }
+          }
+
+          .el-table__body {
+            border-spacing: 0 5px;
+          }
+        }
       }
 
       .fx-table--pagination {

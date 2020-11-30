@@ -33,26 +33,24 @@
         </fixed-panel>
       </template>
       <template #paneR>
-        <fixed-panel>
-          <yw-table v-bind="table" ref="table" :query.sync="table.query">
-            <template #actions>
-              <el-button
-                v-permission="'system:permission:add'"
-                type="primary"
-                icon="el-icon-plus"
-                @click="create"
-                >新增</el-button
-              >
-              <el-button
-                v-permission="'system:permission:edit'"
-                type="primary"
-                icon="el-icon-edit"
-                @click="edit"
-                >编辑</el-button
-              >
-            </template>
-          </yw-table>
-        </fixed-panel>
+        <!-- <fixed-panel> -->
+        <yw-table v-bind="table" ref="table" :query.sync="table.query">
+          <template #actions>
+            <el-button
+              v-permission="'system:permission:add'"
+              type="primary"
+              @click="create"
+              >新增</el-button
+            >
+            <el-button
+              v-permission="'system:permission:edit'"
+              type="primary"
+              @click="edit"
+              >编辑</el-button
+            >
+          </template>
+        </yw-table>
+        <!-- </fixed-panel> -->
       </template>
     </split-panel>
   </page>
@@ -160,7 +158,11 @@ export default {
         options: {
           showIndex: true,
           selectable: true,
-          singleSelect: true,
+          // toolbar: false,
+          // pagination: false,
+          pageSize: Number.MAX_VALUE,
+          // border:true,
+          // singleSelect: true,
           request: (params) => getPermissionList(params),
         },
       },

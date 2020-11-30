@@ -108,6 +108,7 @@
             :size="cOptions.size"
             :border="cOptions.border"
             :row-key="cOptions.rowKey"
+            :stripe="cOptions.stripe"
             :tree-props="
               cOptions.tree
                 ? cOptions.treeProps
@@ -119,6 +120,7 @@
             :highlight-current-row="highlightCurrentRow"
             :show-summary="cOptions.showSummary"
             :summary-method="cOptions.summaryMethod"
+            :row-class-name="rowClassName"
             @sort-change="onSortChange"
             @row-click="onRowClick"
             @row-dblclick="onRowDblclick"
@@ -126,6 +128,15 @@
             @selection-change="onSelectionChange"
             @current-change="onCurrentChange"
           >
+            <!-- 选项框列 -->
+            <el-table-column
+              type="selection"
+              align="center"
+              width="50px"
+              fixed
+              v-if="cOptions.selectable && cOptions.singleSelect == false"
+            ></el-table-column>
+
             <!-- 索引列 -->
             <el-table-column
               width="50px"
@@ -134,15 +145,6 @@
               align="center"
               fixed
               v-if="cOptions.showIndex"
-            ></el-table-column>
-
-            <!-- 选项框列 -->
-            <el-table-column
-              type="selection"
-              align="center"
-              width="50px"
-              fixed
-              v-if="cOptions.selectable && cOptions.singleSelect == false"
             ></el-table-column>
 
             <!--用户提供的列-->
@@ -498,6 +500,14 @@ export default {
         classes.push("is--no-transition");
       }
 
+      if (this.cOptions.toolbar) {
+        classes.push("is--has-toolbar");
+      }
+
+      if (this.cOptions.pagination) {
+        classes.push("is--has-pagination");
+      }
+
       return classes;
     },
 
@@ -740,17 +750,21 @@ export default {
     indexFormatter(row, column, value, index) {
       const { pageIndex, pageSize } = this.pagerModel;
 
-      if (!this.cOptions.indexFormatter) {
-        return (pageIndex - 1) * pageSize + index + 1;
+      if (this.cOptions.pagination) {
+        if (!this.cOptions.indexFormatter) {
+          return (pageIndex - 1) * pageSize + index + 1;
+        } else {
+          return this.cOptions.indexFormatter({
+            pageIndex,
+            pageSize,
+            value,
+            row,
+            column,
+            index,
+          });
+        }
       } else {
-        return this.cOptions.indexFormatter({
-          pageIndex,
-          pageSize,
-          value,
-          row,
-          column,
-          index,
-        });
+        return index + 1;
       }
     },
 
@@ -828,6 +842,10 @@ export default {
 
     //当前项变更
     onCurrentChange(currentRow, oldCurrentRow) {
+      // if()
+      const { selectable, singleSelect } = this.cOptions;
+      if (!selectable || !singleSelect) return;
+
       this.selectedRows = currentRow;
       this.currentRow = currentRow;
     },
@@ -880,7 +898,7 @@ export default {
 
         if (!data) throw new Error("data不存在");
 
-        const res = this.cOptions.resHandler(data);
+        const res = this.cOptions.resHandler.call(this, data);
 
         if (this.cOptions.pagination) {
           const { rows, total } = res;
@@ -912,6 +930,13 @@ export default {
       } else {
         this.getData();
       }
+    },
+
+    /**
+     * 刷新
+     */
+    refresh(resetPageNumber) {
+      this.refreshTable(resetPageNumber);
     },
 
     //获取选中项
@@ -1074,6 +1099,16 @@ export default {
       return rows.map((row) => {
         return this.decorateRow(row, presetRowStates);
       });
+    },
+
+    rowClassName({ row, rowIndex }) {
+      let classes = [];
+
+      if (this.selectedRows.indexOf(row) >= 0) {
+        classes.push("is--selected");
+      }
+
+      return [classes];
     },
 
     test(str) {

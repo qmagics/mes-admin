@@ -9,6 +9,8 @@ export const DEFAULT_OPTIONS = {
 
     width: '100%',
 
+    stripe: false,
+
     border: true,
 
     outBorder: true,

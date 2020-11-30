@@ -25,6 +25,7 @@ const renderMap = {
     return (
       <el-button
         class="toolbar-item"
+        type="primary"
         icon="el-icon-search"
         vOn:click={this.$fxTable.refreshTable}
       >
@@ -39,9 +40,10 @@ const renderMap = {
     return (
       <el-button
         class="toolbar-item"
-        icon="el-icon-receiving"
         vOn:click={toggleSearchbarVisible}
-      ></el-button>
+      >
+      <svg-icon iconClass="cog"></svg-icon>
+      </el-button>
     );
   },
 
