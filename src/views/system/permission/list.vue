@@ -42,18 +42,21 @@
                 v-permission="'system:permission:add'"
                 type="primary"
                 @click="create"
+                icon="el-icon-plus"
                 >新增</el-button
               >
               <el-button
                 v-permission="'system:permission:edit'"
                 type="primary"
                 @click="edit"
+                icon="el-icon-edit"
                 >编辑</el-button
               >
               <el-button
                 v-permission="'system:permission:delete'"
                 type="primary"
                 @click="del"
+                icon="el-icon-delete"
                 >删除</el-button
               >
             </template>

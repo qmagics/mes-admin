@@ -91,10 +91,8 @@ export function isActive(route) {
     // }
 }
 
+// export function modalSelect(option){}
 
-/**
- * yw开发框架全局对象
- */
 Vue.prototype.$hasPermission = hasPermission;
 Vue.prototype.$open = open;
 Vue.prototype.$close = close;
