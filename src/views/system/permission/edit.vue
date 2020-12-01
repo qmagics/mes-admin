@@ -3,9 +3,7 @@
     <title-block> 编辑权限 </title-block>
     <detail ref="form" type="edit" :data.sync="vm"></detail>
     <fixed-block>
-      <el-button @click="save" type="primary" :loading="saving"
-        >确认</el-button
-      >
+      <el-button @click="save" type="primary" :loading="saving">确认</el-button>
       <el-button @click="cancel">取消</el-button>
     </fixed-block>
   </page>
@@ -47,8 +45,8 @@ export default {
 
   methods: {
     save() {
-      this.saving = true;
       this.$refs.form.validate().then((pass) => {
+        this.saving = true;
         updatePermission(this.vm)
           .then((res) => {
             if (res.bl) {

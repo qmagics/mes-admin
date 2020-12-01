@@ -16,6 +16,8 @@
                 <el-button
                   class="fixed-panel__header-btn"
                   icon="el-icon-s-tools"
+                  v-permission="'system:permissionCategory:list'"
+                  @click="$open('System_PermissionCategory_List')"
                 ></el-button>
               </el-col>
             </el-row>
@@ -48,6 +50,12 @@
                 @click="edit"
                 >编辑</el-button
               >
+              <el-button
+                v-permission="'system:permission:delete'"
+                type="primary"
+                @click="del"
+                >删除</el-button
+              >
             </template>
           </yw-table>
         </fixed-panel>
@@ -60,7 +68,8 @@
 import TreeMenu from "@/components/TreeMenu";
 import {
   getPermissionList,
-  getPermissionCategory,
+  getPermissionCategoryTree,
+  deletePermission,
 } from "@/api/system/permission";
 import { getTreeByArr } from "@/utils/structure";
 import { mapGetters } from "vuex";
@@ -153,16 +162,9 @@ export default {
           },
         ],
         query: {
-          ParentId: "67867",
+          ParentId: "",
         },
         options: {
-          showIndex: true,
-          selectable: true,
-          // toolbar: false,
-          // pagination: false,
-          // pageSize: Number.MAX_VALUE,
-          // border:true,
-          singleSelect: true,
           request: (params) => getPermissionList(params),
         },
       },
@@ -170,11 +172,15 @@ export default {
   },
 
   methods: {
+    refresh() {
+      this.$refs.table.refresh();
+    },
+
     async getMenuData() {
       this.menu.loading = true;
 
       try {
-        const { data } = await getPermissionCategory();
+        const { data } = await getPermissionCategoryTree();
 
         const treeData = getTreeByArr(
           data.rows,
@@ -193,7 +199,7 @@ export default {
       this.$open({ name: "System_Permission_Add" });
     },
 
-    edit(row) {
+    edit() {
       const rows = this.$refs.table.getSelected();
 
       if (rows.length > 0) {
@@ -204,15 +210,27 @@ export default {
       }
     },
 
+    del() {
+      const rows = this.$refs.table.getSelected();
+
+      if (rows.length > 0) {
+        this.$confirm(`是否确认删除？`).then(() => {
+          deletePermission(rows[0].ActionPermissonId).then(() => {
+            this.refresh();
+          });
+        });
+      }
+    },
+
     currentMenuChange(data) {
       this.table.query.ParentId = data.ActionPermissonId;
-      this.$refs.table.refreshTable();
+      this.refresh();
     },
 
     clearCurrentMenu() {
       this.$refs.treeMenu.setCurrentKey(null);
       this.table.query.ParentId = "";
-      this.$refs.table.refreshTable();
+      this.refresh();
     },
 
     // test() {

@@ -36,12 +36,12 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    before: require('./mock/mock-server.js'),
+    // before: require('./mock/mock-server.js'),
     proxy: {
       "/api/*": {
-        target: 'http://localhost:51961',
-        changeOrigin: true,
-        secure: false,
+        target: 'http://localhost:32236',
+        // changeOrigin: true,
+        // secure: false,
       }
     }
   },

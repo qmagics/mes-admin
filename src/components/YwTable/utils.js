@@ -68,6 +68,14 @@ export function isArray(obj) {
 }
 
 /**
+ * isBoolean
+ * @param {any} obj 
+ */
+export function isBoolean(obj){
+    return Object.prototype.toString.call(obj)==='[object Boolean]';
+}
+
+/**
  * isNotEmpty
  * @param {any} obj 
  */

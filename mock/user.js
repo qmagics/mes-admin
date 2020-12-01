@@ -11,7 +11,7 @@ const tokens = {
 const users = {
   'admin-token': {
     "permissions": [
-      // "*:*:*",
+      "*:*:*",
       "system:permission:list",
       "system:permission:add",
       "system:permission:edit",

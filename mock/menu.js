@@ -32,7 +32,6 @@ module.exports = [
                             {
                                 "name": "System_Permission",
                                 "path": "/system/permission",
-                                // "component": "system/permission",
                                 "level": 2,
                                 "redirect": "/system/permission/list",
                                 "meta": {
@@ -51,60 +50,96 @@ module.exports = [
                                         }
                                     },
                                     {
-                                        "name": "System_Permission_List2",
-                                        "path": "/system/permission/list2",
-                                        "component": "system/permission/list",
+                                        "name": "System_Permission_Add",
+                                        "path": "/system/permission/add",
+                                        "component": "system/permission/add",
                                         "level": 3,
+                                        "hidden": true,
                                         "meta": {
-                                            "icon": "el-icon-unlock",
-                                            "title": "权限列表2",
+                                            "icon": "el-icon-plus",
+                                            "title": "新增权限",
                                         }
                                     },
                                     {
-                                        "name": "System_Permission_List3",
-                                        "path": "/system/permission/list3",
-                                        "component": "system/permission/list",
+                                        "name": "System_Permission_Edit",
+                                        "path": "/system/permission/edit/:id",
+                                        "component": "system/permission/edit",
                                         "level": 3,
+                                        "hidden": true,
+                                        "props": true,
                                         "meta": {
-                                            "icon": "el-icon-unlock",
-                                            "title": "权限列表3",
+                                            "icon": "el-icon-edit",
+                                            "title": "编辑权限",
                                         }
                                     },
-                                    // {
-                                    //     "name": "System_Permission_Add",
-                                    //     "path": "/system/permission/add",
-                                    //     "component": "system/permission/add",
-                                    //     "level": 3,
-                                    //     "hidden": true,
-                                    //     "meta": {
-                                    //         "icon": "el-icon-plus",
-                                    //         "title": "新增权限",
-                                    //     }
-                                    // },
-                                    // {
-                                    //     "name": "System_Permission_Edit",
-                                    //     "path": "/system/permission/edit/:id",
-                                    //     "component": "system/permission/edit",
-                                    //     "level": 3,
-                                    //     "hidden": true,
-                                    //     "props": true,
-                                    //     "meta": {
-                                    //         "icon": "el-icon-edit",
-                                    //         "title": "编辑权限",
-                                    //     }
-                                    // },
-                                    // {
-                                    //     "name": "System_Permission_View",
-                                    //     "path": "/system/permission/view/:id",
-                                    //     "component": "system/permission/view",
-                                    //     "level": 3,
-                                    //     "hidden": true,
-                                    //     "props": true,
-                                    //     "meta": {
-                                    //         "icon": "el-icon-view",
-                                    //         "title": "查看权限",
-                                    //     }
-                                    // }
+                                    {
+                                        "name": "System_Permission_View",
+                                        "path": "/system/permission/view/:id",
+                                        "component": "system/permission/view",
+                                        "level": 3,
+                                        "hidden": true,
+                                        "props": true,
+                                        "meta": {
+                                            "icon": "el-icon-view",
+                                            "title": "查看权限",
+                                        }
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "System_PermissionCategory",
+                                "path": "/system/permission-category",
+                                "redirect": "/system/permission-category/list",
+                                "hidden": true,
+                                "level": 2,
+                                "meta": {
+                                    "icon": "el-icon-unlock",
+                                    "title": "权限分类管理",
+                                },
+                                "children": [
+                                    {
+                                        "name": "System_PermissionCategory_List",
+                                        "path": "/system/permission-category/list",
+                                        "component": "system/permission-category/list",
+                                        "hidden": true,
+                                        "level": 3,
+                                        "meta": {
+                                            "icon": "el-icon-s-grid",
+                                            "title": "权限分类管理",
+                                        }
+                                    },
+                                    {
+                                        "name": "System_PermissionCategory_Add",
+                                        "path": "/system/permission-category/add",
+                                        "component": "system/permission-category/add",
+                                        "level": 3,
+                                        "hidden": true,
+                                        "meta": {
+                                            "title": "新增权限分类",
+                                        }
+                                    },
+                                    {
+                                        "name": "System_PermissionCategory_Edit",
+                                        "path": "/system/permission-category/edit/:id",
+                                        "component": "system/permission-category/edit",
+                                        "level": 3,
+                                        "hidden": true,
+                                        "props": true,
+                                        "meta": {
+                                            "title": "编辑权限分类",
+                                        }
+                                    },
+                                    {
+                                        "name": "System_PermissionCategory_View",
+                                        "path": "/system/permission-category/view/:id",
+                                        "component": "system/permission-category/view",
+                                        "level": 3,
+                                        "hidden": true,
+                                        "props": true,
+                                        "meta": {
+                                            "title": "查看权限分类",
+                                        }
+                                    }
                                 ]
                             }
                         ]

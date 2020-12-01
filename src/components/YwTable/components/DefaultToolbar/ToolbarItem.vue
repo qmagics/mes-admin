@@ -7,42 +7,53 @@ const renderMap = {
     if ($slots.query) return <div class="toolbar-item">{$slots.query}</div>;
 
     return (
-      <el-input
-        class="toolbar-item"
-        style="width:200px;"
-        v-model={searchModel[cOptions.keywordProps.prop]}
-        clearable
-        placeholder={cOptions.keywordProps.placeholder}
-        on-keyup
-        vOn:input={refreshTable}
-        vOn:keyup_native_enter={refreshTable}
-      ></el-input>
+      <div class="toolbar-item">
+        <el-input
+          style="width:200px;"
+          v-model={searchModel[cOptions.keywordProps.prop]}
+          clearable
+          placeholder={cOptions.keywordProps.placeholder}
+          on-keyup
+          vOn:input={refreshTable}
+          vOn:keyup_native_enter={refreshTable}
+        />
+        <el-button
+          style="margin-left:5px;"
+          type="primary"
+          icon="el-icon-search"
+          vOn:click={this.$fxTable.refreshTable}
+        >
+          查询
+        </el-button>
+      </div>
     );
   },
 
-  //搜索按钮
-  searchBtn() {
-    return (
-      <el-button
-        class="toolbar-item"
-        type="primary"
-        icon="el-icon-search"
-        vOn:click={this.$fxTable.refreshTable}
-      >
-        搜索
-      </el-button>
-    );
+  //高级搜索按钮
+  superSearchBtn() {
+    return <el-button onclick={this.$fxTable.toggleSuperSearchbar} class="toolbar-item" icon="el-icon-document-copy">更多</el-button>
   },
+
+  // //搜索按钮
+  // searchBtn() {
+  //   // return (
+  //   //   <el-button
+  //   //     class="toolbar-item"
+  //   //     type="primary"
+  //   //     icon="el-icon-search"
+  //   //     vOn:click={this.$fxTable.refreshTable}
+  //   //   >
+  //   //     搜索
+  //   //   </el-button>
+  //   // );
+  // },
 
   //搜索栏显示切换按钮
   searchbarToggle(h) {
     const { toggleSearchbarVisible } = this.$fxTable;
     return (
-      <el-button
-        class="toolbar-item"
-        vOn:click={toggleSearchbarVisible}
-      >
-      <svg-icon iconClass="cog"></svg-icon>
+      <el-button class="toolbar-item" vOn:click={toggleSearchbarVisible}>
+        <svg-icon iconClass="cog"></svg-icon>
       </el-button>
     );
   },

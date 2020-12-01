@@ -121,6 +121,7 @@
             :show-summary="cOptions.showSummary"
             :summary-method="cOptions.summaryMethod"
             :row-class-name="rowClassName"
+            :expand-row-keys="cOptions.tree ? cOptions.expandRowKeys : null"
             @sort-change="onSortChange"
             @row-click="onRowClick"
             @row-dblclick="onRowDblclick"
@@ -139,7 +140,7 @@
 
             <!-- 索引列 -->
             <el-table-column
-              width="50px"
+              :width="cOptions.indexColumnWidth"
               :label="cOptions.indexTitle"
               :formatter="indexFormatter"
               align="center"
@@ -180,13 +181,19 @@
     <div class="fx-table--footer" v-if="cOptions.footer" :style="footerStyle">
       <slot name="footer"></slot>
     </div>
+
+    <!-- 高级搜索栏 -->
+    <SuperSearchbar ref="superSearchbar">
+      <slot name="superSearch"></slot>
+    </SuperSearchbar>
   </div>
 </template>
 
 <script>
 import Vue from "vue";
 import FxTableColumn from "./components/FxTableColumn.vue";
-import FxSearchbar from "./components/FxSearchbar.vue";
+// import FxSearchbar from "./components/FxSearchbar.vue";
+import SuperSearchbar from "./components/SuperSearchbar";
 import FxPager from "./components/FxPager.vue";
 import FxButton from "./components/FxButton.vue";
 import FxAside from "./components/FxAside.vue";
@@ -213,7 +220,8 @@ export default {
   components: {
     FxTableColumn,
     FxPager,
-    FxSearchbar,
+    // FxSearchbar,
+    SuperSearchbar,
     FxButton,
     FxAside,
     ActionRenderer,
@@ -746,6 +754,15 @@ export default {
   },
 
   methods: {
+    /**
+     * 切换高级搜索栏显示隐藏
+     */
+    toggleSuperSearchbar(visible) {
+      if (this.$refs.superSearchbar) {
+        this.$refs.superSearchbar.toggle(visible);
+      }
+    },
+
     //表格索引生成函数
     indexFormatter(row, column, value, index) {
       const { pageIndex, pageSize } = this.pagerModel;

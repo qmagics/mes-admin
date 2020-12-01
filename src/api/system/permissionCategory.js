@@ -1,24 +1,27 @@
 import request from '@/utils/request';
 
-// 获取权限分类
-export function getPermissionCategoryTree() {
+/**
+ * 获取权限分类树
+ * @param {object} params 查询参数
+ */
+export function getTreeList(params) {
     return request({
         url: '/api/actionPermissonTypeTree',
         method: 'get',
+        params: params
     })
 }
 
 /**
- * 获取权限列表
- * @param {object} params 查询参数
+ * 获取上级权限分类选项
+ * @param {*} Category 当前分类
  */
-export function getPermissionList(params) {
+export function getParentSelections(Category) {
     return request({
-        url: `/api/actionPermisson`,
+        url: '/api/actionPermissonTypeSelect',
         method: 'get',
         params: {
-            Category: 4,
-            ...params
+            Category
         }
     })
 }
@@ -27,7 +30,7 @@ export function getPermissionList(params) {
  * 权限新增 
  * @param {object} data 权限数据模型
  */
-export function createPermission(data) {
+export function create(data) {
     return request({
         url: `/api/actionPermisson`,
         method: 'post',
@@ -39,7 +42,7 @@ export function createPermission(data) {
  * 权限删除
  * @param {string} Id 权限Id
  */
-export function deletePermission(Id) {
+export function del(Id) {
     return request({
         url: `/api/actionPermisson`,
         method: 'delete',
@@ -53,7 +56,7 @@ export function deletePermission(Id) {
  * 权限更新
  * @param {object} data 权限数据模型
  */
-export function updatePermission(data) {
+export function update(data) {
     return request({
         url: `/api/actionPermisson`,
         method: 'put',
@@ -65,7 +68,7 @@ export function updatePermission(data) {
  * 获取权限详情 
  * @param {string} Id 权限Id
  */
-export function getPermissionDetail(Id) {
+export function getDetail(Id) {
     return request({
         url: `/api/actionPermisson`,
         method: 'get',
@@ -75,4 +78,3 @@ export function getPermissionDetail(Id) {
         }
     })
 }
-

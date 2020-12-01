@@ -10,13 +10,17 @@ Vue.use(YwTable, {
         outBorder: false,
         border: false,
         stripe: true,
-        // background: 'transparent',
+        showIndex: true,
+        selectable: true,
+        singleSelect: true,
+        clickToSelect: true,
+        indexTitle: '序号',
+        searchbar: true,
+        tree: false,
         toolbarProps: {
-            layout: 'query,searchBtn -> actions,columnToggle',
+            layout: 'superSearchBtn, query -> actions,columnToggle',
             height: 60
         },
-
-        searchbar: true,
         resHandler(res) {
             if (this.cOptions.pagination) {
                 return res;
@@ -25,7 +29,6 @@ Vue.use(YwTable, {
                 return res.rows;
             }
         },
-        indexTitle: '序号'
     },
     presetColumnRenderers: renderers
 });

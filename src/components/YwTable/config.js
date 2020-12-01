@@ -21,6 +21,8 @@ export const DEFAULT_OPTIONS = {
 
     indexFormatter: null,
 
+    indexColumnWidth: '60px',
+
     pageNumber: 1,
 
     pageSize: 10,
@@ -54,6 +56,11 @@ export const DEFAULT_OPTIONS = {
 
     sort: "",
 
+    //默认展开全部行
+    defaultExpendAll: false,
+
+    expandRowKeys: [],
+
     //是否树形
     tree: false,
 
@@ -63,7 +70,7 @@ export const DEFAULT_OPTIONS = {
 
         children: 'children',//子节点标识
 
-        lazy: true,//懒加载子节点
+        lazy: false,//懒加载子节点
 
         load: function (tree, treeNode, resolve) {//默认加载子节点函数
             // setTimeout(() => {
@@ -100,8 +107,8 @@ export const DEFAULT_OPTIONS = {
     toolbar: true,
     //toolbar属性
     toolbarProps: {
-        // layout: 'query,searchBtn -> searchbarToggle,actions,customActions,columnToggle,fullScreen',
-        layout: 'query,searchBtn -> actions,columnToggle',
+        // layout: 'query -> searchbarToggle,actions,customActions,columnToggle,fullScreen',
+        layout: 'query -> actions,columnToggle',
         height: 50
     },
 
