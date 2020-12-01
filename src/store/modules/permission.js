@@ -2,50 +2,37 @@ import { getRoutes } from '@/api/menu';
 import { constantRoutes } from '@/router';
 import Layout from '@/layout/index';
 import { getBlankRouterView } from '@/layout/utils';
+import { deepClone } from '@/utils';
 
-// /**
-//  * Use meta.role to determine if the current user has permission
-//  * @param roles
-//  * @param route
-//  */
-// function hasPermission(roles, route) {
-//   if (route.meta && route.meta.roles) {
-//     return roles.some(role => route.meta.roles.includes(role))
-//   } else {
-//     return true
-//   }
-// }
 
-// /**
-//  * Filter asynchronous routing tables by recursion
-//  * @param routes asyncRoutes
-//  * @param roles
-//  */
-// export function filterAsyncRoutes(routes, roles, parent) {
-//   const res = []
+/**
+ * 拍平数据
+ * 超过二级以上的路由转化为二级路由
+ * @param {*} arr 
+ */
+function flattenRoutesData(routesData) {
+  let e_routes = [];
 
-//   routes.forEach(route => {
-//     const tmp = { ...route }
+  const routes = routesData.map(i => {
+    if (i.children && i.children.length && i.level > 1) {
+      e_routes = flattenRoutesData(i.children);
+      i.children = [];
+    }
+    return i;
+  });
 
-//     if (hasPermission(roles, tmp)) {
-//       if (tmp.children) {
-//         tmp.children = filterAsyncRoutes(tmp.children, roles, tmp)
-//       }
-//       res.push(tmp)
-//     }
-//   })
-
-//   return res
-// }
+  return [...routes, ...e_routes];
+}
 
 /**
  * 把通过api获取到的路由数据转化为VueRouter可识别的路由对象
- * @param {*} asyncRoutesData 
+ * @param {*} routesData 
  */
-function parseRoutes(asyncRoutesData) {
-  return asyncRoutesData.map(route => {
-    // const route = { ...i };
+function parseRoutes(routesData) {
 
+  const flattedRoutes = flattenRoutesData(routesData);
+
+  return flattedRoutes.map(route => {
     if (route.component) {
       if (route.component === 'Layout') {
         route.component = Layout;
@@ -58,13 +45,47 @@ function parseRoutes(asyncRoutesData) {
       route.component = getBlankRouterView(route.name);
     }
 
-
     if (route.children != null && route.children && route.children.length) {
       route.children = parseRoutes(route.children)
     }
 
     return route;
-  })
+  });
+}
+
+/**
+ * 把通过api获取到的路由数据转化为可供菜单栏使用路由对象
+ * @param {*} routesData 
+ */
+function parseMenuRoutes(routesData) {
+  return routesData.filter(i => {
+    if (!i.component && (!i.children || !i.children.length)) {
+      return false;
+    }
+    else if (i.children && i.children.length) {
+      i.children = parseMenuRoutes(i.children);
+    }
+    return true;
+  });
+  // return asyncRoutesData.map(route => {
+  // if (route.component) {
+  //   if (route.component === 'Layout') {
+  //     route.component = Layout;
+  //   }
+  //   else {
+  //     route.component = loadView(route.component);
+  //   }
+  // }
+  // else if (route.children && route.children.length > 0) {
+  //   route.component = getBlankRouterView(route.name);
+  // }
+
+  // if (route.children != null && route.children && route.children.length) {
+  //   route.children = parseRoutes(route.children)
+  // }
+
+  // return route;
+  // });
 }
 
 /**
@@ -72,19 +93,24 @@ function parseRoutes(asyncRoutesData) {
  * @param {*} path 视图组件路径
  */
 function loadView(path) {
-  return (resolve) => require([`@/views/${path}`], resolve)
+  return (resolve) => require([`@/views/${path}`], resolve);
   // return () => import(`@/views/${path}`);
 }
 
 const state = {
   routes: [],
-  addRoutes: []
+  addRoutes: [],
+  menuRoutes: []
 }
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
-    state.addRoutes = routes
-    state.routes = constantRoutes.concat(routes)
+    state.addRoutes = routes;
+    state.routes = constantRoutes.concat(routes);
+  },
+
+  SET_MENU_ROUTES: (state, routes) => {
+    state.menuRoutes = constantRoutes.concat(routes);
   }
 }
 
@@ -93,15 +119,28 @@ const actions = {
     return new Promise((resolve) => {
       getRoutes()
         .then(res => {
-          //路由对象转化
+          /**
+           * 1.设置路由对象 
+           * 增加404页面路由(404页面路由必须放在路由数组的最后)
+           */
           const parsedRoutes = parseRoutes(res.data);
-
-          //增加404页面路由(404页面路由必须放在路由数组的最后)
           parsedRoutes.push({ path: '*', redirect: '/404', hidden: true });
-
-          //设置异步路由
+          console.log(parsedRoutes);
           commit('SET_ROUTES', parsedRoutes);
 
+
+          /**
+           * 2.设置菜单栏路由绑定对象
+           * 菜单栏路由与Vue的路由对象并不是一一对应
+           * 有些路由不在菜单中
+           * 两种路由对象的嵌套结构很可能是不一样的
+           * 菜单栏路由可能还会包含一些额外参数
+           */
+          const clonedData = deepClone(res.data);
+          const parsedMenuRoutes = parseMenuRoutes(clonedData);
+          commit('SET_MENU_ROUTES', parsedMenuRoutes);
+
+          //Promise返回路由对象
           resolve(parsedRoutes);
         })
     })

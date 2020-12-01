@@ -13,7 +13,7 @@
         mode="vertical"
       >
         <sidebar-item
-          v-for="route in permission_routes"
+          v-for="route in permission_menuRoutes"
           :key="route.path"
           :item="route"
           :base-path="route.path"
@@ -35,7 +35,7 @@ export default {
     // Logo
   },
   computed: {
-    ...mapGetters(["permission_routes", "sidebar"]),
+    ...mapGetters(["permission_menuRoutes", "sidebar"]),
     activeMenu() {
       const route = this.$route;
       const { meta, path } = route;
