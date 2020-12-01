@@ -60,6 +60,7 @@ function parseRoutes(routesData) {
 function parseMenuRoutes(routesData) {
   return routesData.filter(i => {
     if (!i.component && (!i.children || !i.children.length)) {
+      console.log(i.meta.title)
       return false;
     }
     else if (i.children && i.children.length) {
@@ -120,16 +121,6 @@ const actions = {
       getRoutes()
         .then(res => {
           /**
-           * 1.设置路由对象 
-           * 增加404页面路由(404页面路由必须放在路由数组的最后)
-           */
-          const parsedRoutes = parseRoutes(res.data);
-          parsedRoutes.push({ path: '*', redirect: '/404', hidden: true });
-          console.log(parsedRoutes);
-          commit('SET_ROUTES', parsedRoutes);
-
-
-          /**
            * 2.设置菜单栏路由绑定对象
            * 菜单栏路由与Vue的路由对象并不是一一对应
            * 有些路由不在菜单中
@@ -139,6 +130,14 @@ const actions = {
           const clonedData = deepClone(res.data);
           const parsedMenuRoutes = parseMenuRoutes(clonedData);
           commit('SET_MENU_ROUTES', parsedMenuRoutes);
+
+          /**
+           * 1.设置路由对象 
+           * 增加404页面路由(404页面路由必须放在路由数组的最后)
+           */
+          const parsedRoutes = parseRoutes(res.data);
+          parsedRoutes.push({ path: '*', redirect: '/404', hidden: true });
+          commit('SET_ROUTES', parsedRoutes);
 
           //Promise返回路由对象
           resolve(parsedRoutes);

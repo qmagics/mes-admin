@@ -51,40 +51,60 @@ module.exports = [
                                         }
                                     },
                                     {
-                                        "name": "System_Permission_Add",
-                                        "path": "/system/permission/add",
-                                        "component": "system/permission/add",
+                                        "name": "System_Permission_List2",
+                                        "path": "/system/permission/list2",
+                                        "component": "system/permission/list",
                                         "level": 3,
-                                        "hidden": true,
                                         "meta": {
-                                            "icon": "el-icon-plus",
-                                            "title": "新增权限",
+                                            "icon": "el-icon-unlock",
+                                            "title": "权限列表2",
                                         }
                                     },
                                     {
-                                        "name": "System_Permission_Edit",
-                                        "path": "/system/permission/edit/:id",
-                                        "component": "system/permission/edit",
+                                        "name": "System_Permission_List3",
+                                        "path": "/system/permission/list3",
+                                        "component": "system/permission/list",
                                         "level": 3,
-                                        "hidden": true,
-                                        "props": true,
                                         "meta": {
-                                            "icon": "el-icon-edit",
-                                            "title": "编辑权限",
+                                            "icon": "el-icon-unlock",
+                                            "title": "权限列表3",
                                         }
                                     },
-                                    {
-                                        "name": "System_Permission_View",
-                                        "path": "/system/permission/view/:id",
-                                        "component": "system/permission/view",
-                                        "level": 3,
-                                        "hidden": true,
-                                        "props": true,
-                                        "meta": {
-                                            "icon": "el-icon-view",
-                                            "title": "查看权限",
-                                        }
-                                    }
+                                    // {
+                                    //     "name": "System_Permission_Add",
+                                    //     "path": "/system/permission/add",
+                                    //     "component": "system/permission/add",
+                                    //     "level": 3,
+                                    //     "hidden": true,
+                                    //     "meta": {
+                                    //         "icon": "el-icon-plus",
+                                    //         "title": "新增权限",
+                                    //     }
+                                    // },
+                                    // {
+                                    //     "name": "System_Permission_Edit",
+                                    //     "path": "/system/permission/edit/:id",
+                                    //     "component": "system/permission/edit",
+                                    //     "level": 3,
+                                    //     "hidden": true,
+                                    //     "props": true,
+                                    //     "meta": {
+                                    //         "icon": "el-icon-edit",
+                                    //         "title": "编辑权限",
+                                    //     }
+                                    // },
+                                    // {
+                                    //     "name": "System_Permission_View",
+                                    //     "path": "/system/permission/view/:id",
+                                    //     "component": "system/permission/view",
+                                    //     "level": 3,
+                                    //     "hidden": true,
+                                    //     "props": true,
+                                    //     "meta": {
+                                    //         "icon": "el-icon-view",
+                                    //         "title": "查看权限",
+                                    //     }
+                                    // }
                                 ]
                             }
                         ]
