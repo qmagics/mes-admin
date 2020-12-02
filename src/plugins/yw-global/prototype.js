@@ -91,7 +91,12 @@ export function isActive(route) {
     // }
 }
 
-// export function modalSelect(option){}
+// /**
+//  * 弹窗选择
+//  * @param {object} option 配置项
+//  */
+// export function modalSelect(option) {
+// }
 
 Vue.prototype.$hasPermission = hasPermission;
 Vue.prototype.$open = open;

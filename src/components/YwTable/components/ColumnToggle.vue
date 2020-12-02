@@ -18,7 +18,7 @@
         :divided="index === 0"
         @click.stop
         v-for="(i, index) in columns"
-        :key="i.prop + index"
+        :key="i.prop + '_' + index"
       >
         <el-checkbox v-model="i.visible">{{ i.label }}</el-checkbox>
       </el-dropdown-item>

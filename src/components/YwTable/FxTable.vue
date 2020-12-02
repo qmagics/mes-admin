@@ -80,7 +80,7 @@
         </div>
 
         <!-- 搜索栏 -->
-        <div
+        <!-- <div
           ref="fxTableSearchbar"
           class="fx-table--searchbar"
           v-if="cOptions.searchbar && $slots.superQuery"
@@ -92,7 +92,7 @@
               <slot name="superQuery"></slot>
             </DefaultSearchbar>
           </slot>
-        </div>
+        </div> -->
 
         <!-- 主体部分 -->
         <div
@@ -103,7 +103,7 @@
         >
           <el-table
             ref="table"
-            :data="tableData"
+            :data="cTableData"
             height="100%"
             :size="cOptions.size"
             :border="cOptions.border"
@@ -184,7 +184,7 @@
 
     <!-- 高级搜索栏 -->
     <SuperSearchbar ref="superSearchbar">
-      <slot name="superSearch"></slot>
+      <slot name="superQuery"></slot>
     </SuperSearchbar>
   </div>
 </template>
@@ -206,6 +206,7 @@ import {
   decorateData,
   decorateRow,
   isNotEmpty,
+  isArray,
 } from "./utils";
 import axios from "axios";
 import merge from "merge";
@@ -408,6 +409,31 @@ export default {
   },
 
   computed: {
+    cTableData() {
+      //服务端搜索
+      if (this.needRequest) {
+        return this.tableData;
+      }
+
+      //客户端搜索
+      else {
+        const { Key } = this.searchModel;
+        const clientFilterFields = this.cOptions.keywordProps
+          .clientFilterFields;
+
+        return this.tableData.filter(
+          (row) =>
+            !Key ||
+            clientFilterFields.some(
+              (f) =>
+                row[f] &&
+                String(row[f]).toLowerCase().includes(Key.toLowerCase())
+            )
+          // row.name.toLowerCase().includes(Key.toLowerCase())
+        );
+      }
+    },
+
     table() {
       return this.$refs.table;
     },
@@ -956,6 +982,32 @@ export default {
       this.refreshTable(resetPageNumber);
     },
 
+    //设置选中项(需要提供rowKey)
+    setSelectedByKey(key, bl) {
+      if (!isArray(key)) {
+        let row = this.getRowByKey(key);
+        if (row) {
+          if (this.cOptions.singleSelect) {
+            if (bl === false) {
+              this.table.setCurrentRow();
+            } else {
+              this.table.setCurrentRow(row);
+            }
+          } else {
+            this.table.toggleRowSelection(row, bl);
+          }
+        }
+      } else if (!this.cOptions.singleSelect) {
+        key.forEach((i) => {
+          let row = this.getRowByKey(i);
+          console.log(row);
+          if (row) {
+            this.table.toggleRowSelection(row, bl);
+          }
+        });
+      }
+    },
+
     //获取选中项
     getSelected() {
       return this.selectedRows;
@@ -1128,6 +1180,22 @@ export default {
       return [classes];
     },
 
+    //处理初始化的数据，一次性
+    doInitEvents() {
+      this.$nextTick(() => {
+        //处理初始化选中的行
+        const { defaultSelectedKeys: keys, singleSelect } = this.cOptions;
+
+        if (keys && keys.length) {
+          if (singleSelect) {
+            this.setSelectedByKey(keys[0], true);
+          } else {
+            this.setSelectedByKey(keys, true);
+          }
+        }
+      });
+    },
+
     test(str) {
       alert(str);
     },
@@ -1139,6 +1207,8 @@ export default {
     if (this.needRequest) {
       await this.getData();
     }
+
+    this.doInitEvents();
   },
 };
 </script>

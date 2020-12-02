@@ -11,8 +11,14 @@ import 'normalize.css/normalize.css';
 import '@/plugins/yw-global';
 import '@/plugins/element-ui';
 import '@/plugins/yw-table';
+
+//使用弹窗插件
 import YwModal from '@/plugins/yw-modal';
 Vue.use(YwModal, { store });
+
+//使用弹窗输入插件
+import ModalInput from '@/plugins/modal-input';
+Vue.use(ModalInput);
 
 //全局样式
 import '@/styles/index.scss';

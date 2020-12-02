@@ -41,6 +41,8 @@ export const DEFAULT_OPTIONS = {
 
     clickToSelect: false,
 
+    defaultSelectedKeys: [],
+
     highlightCurrentRow: true,
 
     rowKey: '',
@@ -148,7 +150,8 @@ export const DEFAULT_OPTIONS = {
     keywordProps: {
         label: '',
         prop: 'Key',
-        placeholder: '请输入关键词'
+        placeholder: '请输入关键词',
+        clientFilterFields: []
     },
 
     //#region 扩展功能

@@ -31,7 +31,16 @@ const renderMap = {
 
   //高级搜索按钮
   superSearchBtn() {
-    return <el-button onclick={this.$fxTable.toggleSuperSearchbar} class="toolbar-item" icon="el-icon-document-copy">更多</el-button>
+    if (!this.$fxTable.$slots.superQuery) return null;
+    return (
+      <el-button
+        onclick={this.$fxTable.toggleSuperSearchbar}
+        class="toolbar-item"
+        icon="el-icon-document-copy"
+      >
+        更多
+      </el-button>
+    );
   },
 
   // //搜索按钮

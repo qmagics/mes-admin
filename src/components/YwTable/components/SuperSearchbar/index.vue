@@ -8,7 +8,7 @@
       append-to-body
       :size="drawer.size"
     >
-      <slot name="drawer" />
+      <slot />
     </el-drawer>
   </div>
 </template>
