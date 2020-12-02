@@ -1182,9 +1182,16 @@ export default {
     rowClassName({ row, rowIndex }) {
       let classes = [];
 
-      if (this.selectedRows.indexOf(row) >= 0) {
+      const { rowKey } = this.cOptions;
+
+      const arr = this.selectedRows.map((i) => i[rowKey]);
+
+      if (arr.indexOf(row[rowKey])>=0) {
         classes.push("is--selected");
       }
+      // if (this.selectedRows.indexOf(row) >= 0) {
+      //   classes.push("is--selected");
+      // }
 
       return [classes];
     },

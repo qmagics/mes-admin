@@ -168,6 +168,7 @@ export default {
           ParentId: "",
         },
         options: {
+          rowKey: "ActionPermissonId",
           request: (params) => getPermissionList(params),
         },
       },

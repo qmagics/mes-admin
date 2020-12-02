@@ -27,12 +27,14 @@ export default {
 
   props: {
     value: {},
+    label: {},
     options: {},
   },
 
   data() {
     return {
       selected: this.value,
+      vLabel: this.label,
     };
   },
 
@@ -49,6 +51,18 @@ export default {
         this.$emit("input", val);
       },
     },
+    label: {
+      deep: true,
+      handler(val) {
+        this.vLabel = val;
+      },
+    },
+    vLabel: {
+      deep: true,
+      handler(val) {
+        this.$emit("update:label", val);
+      },
+    },
   },
 
   methods: {
@@ -57,10 +71,13 @@ export default {
       this.$modalInput({
         ...this.options,
         selected: multiple ? this.selected : this.selected,
-      }).then(({ value, rows }) => {
-        console.log("新值:", value);
-        console.log("新值对应的表格行:", rows);
+        label: this.vLabel,
+      }).then(({ value, label }) => {
         this.selected = value;
+        this.vLabel = label;
+        // console.log("新值:", value);
+        // console.log("新值对应的表格行:", rows);
+        // this.selected = value;
       });
     },
   },

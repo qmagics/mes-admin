@@ -23,7 +23,7 @@ export default {
          */
         Vue.prototype.$modalInput = (options) => {
             const { title, width, height, source, columns, rowKey, pagination, keywordProps, multiple, api, request, valueField,
-                labelField, selected } = options;
+                labelField, selected, label } = options;
 
             return new Promise((resolve, reject) => {
 
@@ -44,6 +44,7 @@ export default {
                         keywordProps,
                         pagination,
                         selected: selected ? deepClone(selected) : null,
+                        label,
                         tableHeight: height ? '100%' : 500
                     },
                     btns: [
@@ -51,9 +52,9 @@ export default {
                             name: '确认',
                             type: 'primary',
                             method: 'confirm',
-                            callback(newVal, newRows) {
+                            callback({ value, label }) {
                                 m.close();
-                                resolve(newVal, newRows);
+                                resolve({ value, label });
                             }
                         },
                         {
