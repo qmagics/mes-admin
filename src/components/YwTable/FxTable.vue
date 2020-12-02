@@ -881,6 +881,10 @@ export default {
     //多选，选择项变更
     onSelectionChange(selection) {
       this.selectedRows = selection;
+      this.$emit("selection-change", selection);
+
+      //单选多选通用事件
+      this.$emit("selected-change", selection);
     },
 
     //当前项变更
@@ -891,6 +895,11 @@ export default {
 
       this.selectedRows = currentRow;
       this.currentRow = currentRow;
+
+      this.$emit("current-change", currentRow);
+
+      //单选多选通用事件
+      this.$emit("selected-change", currentRow ? [currentRow] : currentRow);
     },
 
     //当某一行被点击时会触发该事件

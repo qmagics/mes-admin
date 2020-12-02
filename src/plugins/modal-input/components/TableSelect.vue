@@ -6,6 +6,7 @@
       :columns="tableColumns"
       :options="tableOptions"
       :query.sync="query"
+      @selected-change="onSelectedChange"
     >
     </yw-table>
   </div>
@@ -34,7 +35,7 @@ export default {
       default: "label",
     },
     keywordProps: {},
-    selected: {},
+    selected: [String, Array],
     tableHeight: {},
   },
 
@@ -74,6 +75,10 @@ export default {
   },
 
   methods: {
+    onSelectedChange(selectedRows) {
+      // if(this.multiple)
+    },
+
     confirm(cb) {
       const newRows = this.$refs.table.getSelected();
 

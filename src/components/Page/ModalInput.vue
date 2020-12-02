@@ -53,9 +53,10 @@ export default {
 
   methods: {
     choose() {
+      const { multiple } = this.options;
       this.$modalInput({
         ...this.options,
-        selected: this.selected,
+        selected: multiple ? this.selected : this.selected,
       }).then(({ value, rows }) => {
         console.log("新值:", value);
         console.log("新值对应的表格行:", rows);
