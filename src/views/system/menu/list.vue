@@ -144,7 +144,6 @@ export default {
           delMenu(rows[0][this.rowKey]).then(() => {
             this.refresh();
           });
-
         });
       }
     },

@@ -95,15 +95,6 @@ export function isActive(route) {
     // }
 }
 
-/**
- * 设置路由页签
- * @param {object} routeTag 
- */
-export function setTag(routeTag) {
-    
-}
-
 Vue.prototype.$hasPermission = hasPermission;
 Vue.prototype.$open = open;
 Vue.prototype.$close = close;
-Vue.prototype.$setTag = setTag;
