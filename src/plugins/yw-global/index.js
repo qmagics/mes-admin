@@ -12,3 +12,6 @@ import './directive';
 
 //注册全局实例方法
 import './prototype';
+
+//全局mixins
+import './mixins';

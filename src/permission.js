@@ -66,7 +66,7 @@ router.beforeEach(async (to, from, next) => {
       NProgress.done()
     }
   }
-})
+});
 
 router.afterEach((to, from) => {
   // finish progress bar

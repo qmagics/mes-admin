@@ -19,7 +19,7 @@
         @click.middle.native="!isAffix(tag) ? closeSelectedTag(tag) : ''"
         @contextmenu.prevent.native="openMenu(tag, $event)"
       >
-        {{ tag.meta.title }}
+        {{ tag.title }}
         <span
           v-if="!isAffix(tag)"
           class="el-icon-close"
@@ -331,6 +331,7 @@ export default {
       margin-left: 30px;
       position: relative;
       // margin-top: 4px;
+      transition: all .2s ease;
       &:first-of-type {
         margin-left: 15px;
       }
@@ -362,6 +363,9 @@ export default {
         //   position: relative;
         //   margin-right: 2px;
         // }
+      }
+      &:hover{
+        color:lighten($colorPrimary,5%);
       }
     }
   }

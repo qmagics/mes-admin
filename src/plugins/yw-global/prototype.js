@@ -33,11 +33,15 @@ export function hasPermission(value) {
 /**
  * 打开一个页面
  * @param {string|object} target 路由名称或路由描述对象
+ * @param {boolean} refresh 是否刷新页面,执行页面refresh方法
  */
-export function open(target) {
+export function open(target, refresh) {
     if (isString(target)) {
         router.push({
-            name: target
+            name: target,
+            params: {
+                refresh
+            }
         });
     }
     else {
@@ -91,13 +95,15 @@ export function isActive(route) {
     // }
 }
 
-// /**
-//  * 弹窗选择
-//  * @param {object} option 配置项
-//  */
-// export function modalSelect(option) {
-// }
+/**
+ * 设置路由页签
+ * @param {object} routeTag 
+ */
+export function setTag(routeTag) {
+    
+}
 
 Vue.prototype.$hasPermission = hasPermission;
 Vue.prototype.$open = open;
 Vue.prototype.$close = close;
+Vue.prototype.$setTag = setTag;

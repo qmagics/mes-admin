@@ -53,6 +53,7 @@ export default {
               this.$message(res.msg);
               setTimeout(() => {
                 this.$close();
+                this.$open("System_Menu_List", true);
               }, 500);
             }
           })

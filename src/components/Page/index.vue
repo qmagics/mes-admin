@@ -30,6 +30,15 @@ export default {
     },
   },
 
+  data() {
+    return {
+      tagView: {
+        tempRoute: null,
+        baseTagName: "",
+      },
+    };
+  },
+
   computed: {
     classes() {
       let classes = [];
@@ -53,6 +62,27 @@ export default {
         minWidth,
       };
     },
+  },
+
+  methods: {
+    /**
+     * 设置路由页签的名称
+     * @param {string} val 新页签
+     * 占位符 {0} 原名称
+     */
+    setTagName(val) {
+      
+      const { tempRoute, baseTagName } = this.tagView;
+
+      tempRoute.title = val.replace(/\{0\}/g, baseTagName);
+      
+      this.$store.dispatch("tagsView/updateVisitedView", tempRoute);
+    },
+  },
+
+  created() {
+    this.tagView.tempRoute = { ...this.$route };
+    this.tagView.baseTagName = this.$route.meta ? this.$route.meta.title : "";
   },
 };
 </script>

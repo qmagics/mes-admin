@@ -177,6 +177,7 @@ const actions = {
   },
 
   updateVisitedView({ commit }, view) {
+    console.log(111)
     commit('UPDATE_VISITED_VIEW', view)
   }
 }

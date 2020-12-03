@@ -1,5 +1,5 @@
 <template>
-  <page width="60%" :fixed="false" v-loading="loading">
+  <page ref="page" width="60%" :fixed="false" v-loading="loading">
     <title-block> 查看菜单 </title-block>
     <detail ref="form" type="view" :data.sync="vm"></detail>
     <fixed-block>
@@ -35,6 +35,7 @@ export default {
       .then((res) => {
         if (res.bl) {
           this.vm = res.data.rows[0];
+          this.$refs.page.setTagName(`{0} - ${this.vm.Name}`);
         }
       })
       .finally(() => {

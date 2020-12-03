@@ -1,5 +1,5 @@
 <template>
-  <page :loading="loading" width="60%" :fixed="false">
+  <page ref="page" :loading="loading" width="60%" :fixed="false">
     <title-block> 查看权限 </title-block>
     <detail ref="form" type="view" :data.sync="vm"></detail>
     <fixed-block>
@@ -37,6 +37,7 @@ export default {
       .then((res) => {
         if (res.bl) {
           this.vm = res.data.rows[0];
+          this.$refs.page.setTagName(`{0} - ${this.vm.Name}`);
         }
       })
       .finally(() => {

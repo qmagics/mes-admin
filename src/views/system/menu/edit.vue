@@ -1,5 +1,5 @@
 <template>
-  <page class="aaa" width="60%" :fixed="false" v-loading="loading">
+  <page ref="page" width="60%" :fixed="false" v-loading="loading">
     <title-block> 编辑菜单 </title-block>
     <detail ref="form" type="edit" :data.sync="vm"></detail>
     <fixed-block>
@@ -14,7 +14,7 @@ import { getMenuDetail, updateMenu } from "@/api/system/menu";
 import detail from "./detail";
 
 export default {
-  name: "System_Menu_View",
+  name: "System_Menu_Edit",
 
   components: {
     detail,
@@ -33,10 +33,13 @@ export default {
 
   mounted() {
     this.loading = true;
+
     getMenuDetail(this.id)
       .then((res) => {
         if (res.bl) {
           this.vm = res.data.rows[0];
+
+          this.$refs.page.setTagName(`{0} - ${this.vm.Name}`);
         }
       })
       .finally(() => {
@@ -54,6 +57,7 @@ export default {
               this.$message(res.msg);
               setTimeout(() => {
                 this.$close();
+                this.$open("System_Menu_List", true);
               }, 500);
             }
           })

@@ -136,7 +136,6 @@ const actions = {
            * 增加404页面路由(404页面路由必须放在路由数组的最后)
            */
           const parsedRoutes = parseRoutes(res.data);
-          console.log(parsedRoutes);
           parsedRoutes.push({ path: '*', redirect: '/404', hidden: true });
           commit('SET_ROUTES', parsedRoutes);
 

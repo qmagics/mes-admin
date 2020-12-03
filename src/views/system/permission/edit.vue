@@ -1,5 +1,5 @@
 <template>
-  <page :loading="loading" width="60%" :fixed="false">
+  <page ref="page" :loading="loading" width="60%" :fixed="false">
     <title-block> 编辑权限 </title-block>
     <detail ref="form" type="edit" :data.sync="vm"></detail>
     <fixed-block>
@@ -37,6 +37,7 @@ export default {
     getPermissionDetail(this.id)
       .then((res) => {
         this.vm = res.data.rows[0];
+        this.$refs.page.setTagName(`{0} - ${this.vm.Name}`);
       })
       .finally(() => {
         this.loading = false;

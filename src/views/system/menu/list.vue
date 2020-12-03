@@ -35,6 +35,7 @@ import { PERMISSION_TYPE } from "@/views/system/vars";
 
 export default {
   name: "System_Menu_List",
+
   data() {
     const _this = this;
 
@@ -114,6 +115,10 @@ export default {
   },
 
   methods: {
+    refresh() {
+      this.$refs.table.refresh();
+    },
+
     //新建
     create() {
       this.$open({ name: "System_Menu_Add" });
@@ -137,8 +142,9 @@ export default {
       if (rows.length > 0) {
         this.$confirm(`是否确认删除？`).then(() => {
           delMenu(rows[0][this.rowKey]).then(() => {
-            this.$refs.table.refresh();
+            this.refresh();
           });
+
         });
       }
     },

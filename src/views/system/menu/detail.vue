@@ -14,6 +14,16 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
+        <el-form-item label="菜单图标" prop="Icon">
+          <el-input v-model="vm.Icon" clearable></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="24">
+        <el-form-item label="菜单地址" prop="Url">
+          <el-input v-model="vm.Url" clearable></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
         <el-form-item label="上级菜单" prop="ParentId">
           <el-cascader
             v-model="vm.ParentId"
@@ -32,11 +42,6 @@
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="菜单图标" prop="Icon">
-          <el-input v-model="vm.Icon" clearable></el-input>
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
         <el-form-item label="导航目标" prop="Target">
           <el-select
             v-model="vm.Target"
@@ -52,6 +57,7 @@
           </el-select>
         </el-form-item>
       </el-col>
+
       <el-col :span="12">
         <el-form-item label="排序码" prop="SortCode">
           <el-input-number
@@ -61,11 +67,7 @@
           ></el-input-number>
         </el-form-item>
       </el-col>
-      <el-col :span="12">
-        <el-form-item label="菜单地址" prop="Url">
-          <el-input v-model="vm.Url" clearable></el-input>
-        </el-form-item>
-      </el-col>
+
       <el-col :span="12">
         <el-form-item label="所属子系统" prop="SystemAttribution">
           <el-select v-model.number="vm.SystemAttribution" clearable>
