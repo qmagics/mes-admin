@@ -88,6 +88,12 @@ const demoRouter = [
                 component: () => import('@/views/demos/zip'),
                 meta: { title: 'Zip 操作', icon: 'zip' }
             },
+            {
+                path: 'modal-input',
+                name: 'Demo_ModalInput',
+                component: () => import('@/views/demos/modal-input'),
+                meta: { title: 'ModalInput', icon: 'el-icon-notebook-2' }
+            },
             // {
             //     path: '/overall-example',
             //     name: 'Demo_OverallExample',

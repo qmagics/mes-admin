@@ -889,7 +889,6 @@ export default {
 
     //当前项变更
     onCurrentChange(currentRow, oldCurrentRow) {
-      // if()
       const { selectable, singleSelect } = this.cOptions;
       if (!selectable || !singleSelect) return;
 
@@ -991,8 +990,22 @@ export default {
       this.refreshTable(resetPageNumber);
     },
 
-    //设置选中项(需要提供rowKey)
+    /**
+     * 设置选中项(需要提供rowKey)
+     * @param {string|array} key row 唯一标志
+     */
     setSelectedByKey(key, bl) {
+      const multiple = this.cOptions.singleSelect ? false : true;
+
+      //无效的key值，清空
+      if (!key || !key.length) {
+        if (!multiple) {
+          this.onCurrentChange(null);
+        } else {
+          this.onSelectionChange([]);
+        }
+      }
+
       if (!isArray(key)) {
         let row = this.getRowByKey(key);
         if (row) {
@@ -1186,7 +1199,7 @@ export default {
 
       const arr = this.selectedRows.map((i) => i[rowKey]);
 
-      if (arr.indexOf(row[rowKey])>=0) {
+      if (arr.indexOf(row[rowKey]) >= 0) {
         classes.push("is--selected");
       }
       // if (this.selectedRows.indexOf(row) >= 0) {

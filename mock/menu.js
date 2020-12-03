@@ -22,18 +22,65 @@ module.exports = [
                             {
                                 "name": "System_Menu",
                                 "path": "/system/menu",
-                                "component": "system/menu",
+                                "redirect": "/system/menu/list",
                                 "level": 2,
                                 "meta": {
                                     "icon": "el-icon-menu",
                                     "title": "菜单管理",
-                                }
+                                },
+                                "children": [
+                                    {
+                                        "name": "System_Menu_List",
+                                        "path": "/system/menu/list",
+                                        "component": "system/menu/list",
+                                        "level": 3,
+                                        "meta": {
+                                            "icon": "el-icon-menu",
+                                            "title": "菜单管理",
+                                        }
+                                    },
+                                    {
+                                        "name": "System_Menu_Add",
+                                        "path": "/system/menu/add",
+                                        "component": "system/menu/add",
+                                        "level": 3,
+                                        "hidden": true,
+                                        "meta": {
+                                            "icon": "el-icon-plus",
+                                            "title": "新增菜单",
+                                        }
+                                    },
+                                    {
+                                        "name": "System_Menu_Edit",
+                                        "path": "/system/menu/edit/:id",
+                                        "component": "system/menu/edit",
+                                        "level": 3,
+                                        "props": true,
+                                        "hidden": true,
+                                        "meta": {
+                                            "icon": "el-icon-edit",
+                                            "title": "编辑菜单",
+                                        }
+                                    },
+                                    {
+                                        "name": "System_Menu_View",
+                                        "path": "/system/menu/view/:id",
+                                        "component": "system/menu/view",
+                                        "level": 3,
+                                        "props": true,
+                                        "hidden": true,
+                                        "meta": {
+                                            "icon": "el-icon-edit",
+                                            "title": "查看菜单",
+                                        }
+                                    },
+                                ]
                             },
                             {
                                 "name": "System_Permission",
                                 "path": "/system/permission",
-                                "level": 2,
                                 "redirect": "/system/permission/list",
+                                "level": 2,
                                 "meta": {
                                     "icon": "el-icon-unlock",
                                     "title": "权限管理",
