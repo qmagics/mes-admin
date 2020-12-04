@@ -45,6 +45,16 @@
 <script>
 import ScrollPane from "./ScrollPane";
 import path from "path";
+import {
+  topBarHeight,
+  navbarHeight,
+  tagsViewHeight,
+} from "@/styles/variables.scss";
+
+const topHeight =
+  parseFloat(topBarHeight) +
+  parseFloat(navbarHeight) +
+  parseFloat(tagsViewHeight);
 
 export default {
   components: { ScrollPane },
@@ -57,6 +67,7 @@ export default {
       affixTags: [],
     };
   },
+
   computed: {
     visitedViews() {
       return this.$store.state.tagsView.visitedViews;
@@ -111,6 +122,7 @@ export default {
       return this.$store.state.permission.routes;
     },
   },
+
   watch: {
     $route() {
       this.addTags();
@@ -292,7 +304,7 @@ export default {
         this.left = left;
       }
 
-      this.top = e.clientY;
+      this.top = e.clientY - topHeight + 50;
       this.visible = true;
       this.selectedTag = tag;
     },
@@ -313,6 +325,7 @@ export default {
   height: $tagsViewHeight;
   width: 100%;
   background: #fff;
+  position: relative;
   // border-bottom: 1px solid #d8dce5;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 0 3px 0 rgba(0, 0, 0, 0.04);
   .tags-view-wrapper {
@@ -331,7 +344,7 @@ export default {
       margin-left: 30px;
       position: relative;
       // margin-top: 4px;
-      transition: all .2s ease;
+      transition: all 0.2s ease;
       &:first-of-type {
         margin-left: 15px;
       }
@@ -342,7 +355,7 @@ export default {
         padding-right: 0;
       }
       &.active {
-        color:$textColor !important;
+        color: $textColor !important;
         font-weight: bold;
         &:after {
           content: "";
@@ -364,8 +377,8 @@ export default {
         //   margin-right: 2px;
         // }
       }
-      &:hover{
-        color:lighten($colorPrimary,5%);
+      &:hover {
+        color: lighten($colorPrimary, 5%);
       }
     }
   }
@@ -413,7 +426,7 @@ export default {
       transform: translateY(-50%);
       transition: background-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
       &:hover {
-        background-color: rgba($colorPrimary,.15);
+        background-color: rgba($colorPrimary, 0.15);
         color: $colorPrimary;
         opacity: 1;
       }

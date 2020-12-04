@@ -95,6 +95,15 @@ export function isActive(route) {
     // }
 }
 
+/**
+ * 延迟调用
+ * @param {number} time 时长(ms) 
+ */
+export function sleep(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
+
 Vue.prototype.$hasPermission = hasPermission;
 Vue.prototype.$open = open;
 Vue.prototype.$close = close;
+Vue.prototype.$sleep = sleep;

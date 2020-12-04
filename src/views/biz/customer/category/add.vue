@@ -1,7 +1,12 @@
 <template>
   <page width="60%" :fixed="false">
-    <title-block> 新增菜单 </title-block>
+    <!-- 页面头部标题 -->
+    <title-block> 新增客户档案分类 </title-block>
+
+    <!-- 表单详情区域 -->
     <detail ref="form" type="add" :data.sync="vm"></detail>
+
+    <!-- 动态悬浮区块 -->
     <fixed-block>
       <el-button @click="save" type="primary" :loading="saving">确认</el-button>
       <el-button @click="cancel">取消</el-button>
@@ -10,63 +15,74 @@
 </template>
 
 <script>
-import { createMenu, getMenuPermissonTree } from "@/api/system/menu";
+import { createCustomer } from "@/api/biz/customer";
 import detail from "./detail";
 
 export default {
-  name: "System_Menu_Add",
+  //视图组件名称
+  name: "Biz_CustomerCategory_Add",
 
+  //局部组件
   components: {
     detail,
   },
+
+  //组件参数
   props: {
+    //路由中的动态参数 :id
     id: {},
   },
 
+  //vueData
   data() {
     return {
+      //业务表的viewModel
       vm: {
-        APTree: [],
-        SortCode: 1,
-        EnabledMark: 1,
-        SystemAttribution: 0,
+        Nature: "1",
       },
+
+      //保存状态
       saving: false,
     };
   },
 
-  mounted() {
-    getMenuPermissonTree().then((res) => {
-      if (res.bl) {
-        this.vm.APTree = res.data.rows;
-      }
-    });
-  },
-
+  //vueMethods
   methods: {
+    //新增保存
     async save() {
+      //表单校验
       await this.$refs.form.validate();
 
       this.saving = true;
 
+      //提交数据
       try {
-        const { bl, msg } = await createMenu(this.vm);
+        const { bl, msg } = await createCustomer(this.vm);
 
+        //业务成功
         if (bl) {
           this.$message(msg);
 
           await this.$sleep(500);
 
+          //关闭当前页面
           this.$close();
-          this.$open("System_Menu_List", true);
+
+          //转到列表页并刷新
+          this.$open("Biz_CustomerCategory_List", true);
         }
       } finally {
         this.saving = false;
       }
     },
+
+    //取消
     cancel() {
       this.$close();
     },
   },
 };
 </script>
+
+<style lang="scss" scoped>
+</style>

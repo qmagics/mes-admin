@@ -1,6 +1,10 @@
 @import "~@/styles/variables.scss";
 @import "~@/styles/mixin.scss";
 
+$rowSelectedBorderWidth:2px;
+$rowSelectedBorderColor:$colorPrimary;
+$rowSelectedBgColor:rgba($colorPrimary,.1);
+
 .fx-table {
   box-sizing: border-box;
 
@@ -132,27 +136,27 @@
             td {
               padding: 10px 0;
               transition: border-color ease 0.2s;
-              border-bottom: 2px solid transparent;
-              border-top: 2px solid transparent;
+              border-bottom: $rowSelectedBorderWidth solid transparent;
+              border-top: $rowSelectedBorderWidth solid transparent;
               &:first-child {
-                border-left: 2px solid transparent;
+                border-left: $rowSelectedBorderWidth solid transparent;
               }
               &:last-child {
-                border-right: 2px solid transparent;
+                border-right: $rowSelectedBorderWidth solid transparent;
               }
             }
           }
 
           tr.is--selected {
             td {
-              background-color: rgb(231, 245, 255) !important;
-              border-bottom-color: $colorPrimary;
-              border-top-color: $colorPrimary;
+              background-color: $rowSelectedBgColor !important;
+              border-bottom-color: $rowSelectedBorderColor;
+              border-top-color: $rowSelectedBorderColor;
               &:first-child {
-                border-left-color: $colorPrimary;
+                border-left-color: $rowSelectedBorderColor;
               }
               &:last-child {
-                border-right-color: $colorPrimary;
+                border-right-color: $rowSelectedBorderColor;
               }
             }
           }

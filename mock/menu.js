@@ -190,6 +190,135 @@ module.exports = [
                                 ]
                             }
                         ]
+                    },
+                    {
+                        "name": "Base",
+                        "path": "/base",
+                        "component": "Layout",
+                        "level": 1,
+                        "redirect": "noRedirect",
+                        "meta": {
+                            "icon": "el-icon-notebook-2",
+                            "title": "基础信息",
+                        },
+                        "children": [
+                            {
+                                "name": "Biz_Customer",
+                                "path": "/biz/customer",
+                                "redirect": "/biz/customer/list",
+                                "level": 2,
+                                "meta": {
+                                    "icon": "el-icon-notebook-1",
+                                    "title": "客户档案",
+                                },
+                                "children": [
+                                    {
+                                        "name": "Biz_Customer_List",
+                                        "path": "/biz/customer/list",
+                                        "component": "biz/customer/list",
+                                        "level": 3,
+                                        "meta": {
+                                            "icon": "el-icon-notebook-1",
+                                            "title": "客户档案",
+                                        }
+                                    },
+                                    {
+                                        "name": "Biz_Customer_Add",
+                                        "path": "/biz/customer/add",
+                                        "component": "biz/customer/add",
+                                        "level": 3,
+                                        "hidden": true,
+                                        "meta": {
+                                            "icon": "el-icon-plus",
+                                            "title": "新增客户档案",
+                                        }
+                                    },
+                                    {
+                                        "name": "Biz_Customer_Edit",
+                                        "path": "/biz/customer/edit/:id",
+                                        "component": "biz/customer/edit",
+                                        "level": 3,
+                                        "props": true,
+                                        "hidden": true,
+                                        "meta": {
+                                            "icon": "el-icon-edit",
+                                            "title": "编辑客户档案",
+                                        }
+                                    },
+                                    {
+                                        "name": "Biz_Customer_View",
+                                        "path": "/biz/customer/view/:id",
+                                        "component": "biz/customer/view",
+                                        "level": 3,
+                                        "props": true,
+                                        "hidden": true,
+                                        "meta": {
+                                            "icon": "el-icon-edit",
+                                            "title": "查看客户档案",
+                                        }
+                                    },
+                                ]
+                            },
+
+
+                            {
+                                "name": "Biz_CustomerCategory",
+                                "path": "/biz/customer-category",
+                                "redirect": "/biz/customer-category/list",
+                                "level": 2,
+                                "meta": {
+                                    "icon": "el-icon-notebook-1",
+                                    "title": "客户档案分类",
+                                },
+                                "children": [
+                                    {
+                                        "name": "Biz_CustomerCategory_List",
+                                        "path": "/biz/customer-category/list",
+                                        "component": "biz/customer/category/list",
+                                        "level": 3,
+                                        "meta": {
+                                            "icon": "el-icon-notebook-1",
+                                            "title": "客户档案分类",
+                                        }
+                                    },
+                                    {
+                                        "name": "Biz_CustomerCategory_Add",
+                                        "path": "/biz/customer-category/add",
+                                        "component": "biz/customer/category/add",
+                                        "level": 3,
+                                        "hidden": true,
+                                        "meta": {
+                                            "icon": "el-icon-plus",
+                                            "title": "新增客户档案分类",
+                                        }
+                                    },
+                                    {
+                                        "name": "Biz_CustomerCategory_Edit",
+                                        "path": "/biz/customer-category/edit/:id",
+                                        "component": "biz/customer/category/edit",
+                                        "level": 3,
+                                        "props": true,
+                                        "hidden": true,
+                                        "meta": {
+                                            "icon": "el-icon-edit",
+                                            "title": "编辑客户档案分类",
+                                        }
+                                    },
+                                    {
+                                        "name": "Biz_CustomerCategory_View",
+                                        "path": "/biz/customer-category/view/:id",
+                                        "component": "biz/customer/category/view",
+                                        "level": 3,
+                                        "props": true,
+                                        "hidden": true,
+                                        "meta": {
+                                            "icon": "el-icon-edit",
+                                            "title": "查看客户档案分类",
+                                        }
+                                    },
+                                ]
+                            },
+                        ]
                     }
                 ]
             }

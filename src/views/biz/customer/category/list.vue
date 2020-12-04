@@ -3,32 +3,25 @@
     <yw-table v-bind="table" ref="table" :query.sync="table.query">
       <template #actions>
         <el-button
-          v-permission="'system:menu:add'"
+          v-permission="'biz:customer:add'"
           type="primary"
           @click="create"
           icon="el-icon-plus"
           >新增</el-button
         >
         <el-button
-          v-permission="'system:menu:edit'"
+          v-permission="'biz:customer:edit'"
           type="primary"
           @click="edit"
           icon="el-icon-edit"
           >编辑</el-button
         >
         <el-button
-          v-permission="'system:menu:delete'"
+          v-permission="'biz:customer:delete'"
           type="primary"
           @click="del"
           icon="el-icon-delete"
           >删除</el-button
-        >
-        <el-button
-          v-permission="'system:menu:edit'"
-          type="primary"
-          @click="clearAP"
-          icon="el-icon-scissors"
-          >清除权限</el-button
         >
       </template>
     </yw-table>
@@ -36,22 +29,17 @@
 </template>
 
 <script>
-import {
-  getMenuTree,
-  delMenu,
-  getMenuDetail,
-  updateMenu,
-} from "@/api/system/menu";
+import { getCustomerCategoryTree, deleteCustomer } from "@/api/biz/customer";
 import { getTreeByArr } from "@/utils/structure";
-import { PERMISSION_TYPE } from "@/views/system/vars";
+import getColumns from "./columns";
 
 export default {
-  name: "System_Menu_List",
+  name: "Biz_CustomerCategory_List",
 
   data() {
     const _this = this;
 
-    this.rowKey = "MenuId";
+    this.rowKey = "CustomerId";
 
     return {
       //表格元数据
@@ -63,39 +51,7 @@ export default {
       //表格配置项
       table: {
         data: [],
-        columns: [
-          {
-            label: "菜单名称",
-            prop: "Name",
-            width: 300,
-            render: [
-              "link",
-              {
-                routeName: "System_Menu_View",
-                idField: _this.rowKey,
-              },
-            ],
-          },
-          {
-            label: "菜单链接",
-            prop: "Url",
-            width: 200,
-          },
-          {
-            label: "排序码",
-            prop: "SortCode",
-            width: 100,
-          },
-          {
-            label: "是否有效",
-            prop: "EnabledMark",
-            width: 100,
-          },
-          {
-            label: "描述",
-            prop: "Description",
-          },
-        ],
+        columns: getColumns(_this),
         query: {},
         options: {
           pagination: false,
@@ -104,7 +60,7 @@ export default {
           rowKey: _this.rowKey,
           expandRowKeys: [],
           pageSize: 99999,
-          request: (params) => getMenuTree(params),
+          request: (params) => getCustomerCategoryTree(params),
           resHandler(data) {
             //元数据
             _this.meta_data = data;
@@ -133,7 +89,7 @@ export default {
 
     //新建
     create() {
-      this.$open({ name: "System_Menu_Add" });
+      this.$open({ name: "Biz_CustomerCategory_Add" });
     },
 
     //编辑
@@ -142,7 +98,7 @@ export default {
 
       if (rows.length > 0) {
         this.$open({
-          name: "System_Menu_Edit",
+          name: "Biz_CustomerCategory_Edit",
           params: { id: rows[0][this.rowKey] },
         });
       }
@@ -153,36 +109,9 @@ export default {
       const rows = this.$refs.table.getSelected();
 
       if (rows.length > 0) {
-        this.$confirm(`是否确认删除？`, "提醒", { type: "warning" }).then(
-          async () => {
-            const Id = rows[0][this.rowKey];
-            await delMenu(Id);
-
-            this.refresh();
-          }
-        );
-      }
-    },
-
-    //清除权限
-    clearAP() {
-      const rows = this.$refs.table.getSelected();
-
-      if (rows.length > 0) {
-        this.$confirm(
-          `是否确认清除该菜单 <b class="color-warning">被分配的所有权限？</b>`,
-          "警告",
-          { type: "warning", dangerouslyUseHTMLString: true }
-        ).then(async () => {
+        this.$confirm(`是否确认删除？`).then(async () => {
           const Id = rows[0][this.rowKey];
-
-          const data = (await getMenuDetail(Id)).data.rows[0];
-
-          data.APTree = [];
-
-          await updateMenu(data);
-
-          this.$message.success('清除成功！');
+          await deleteCustomer(Id);
 
           this.refresh();
         });
