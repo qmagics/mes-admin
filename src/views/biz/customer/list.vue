@@ -5,20 +5,41 @@
         <fixed-panel scrollable>
           <div slot="header">
             <el-row>
-              <el-col :span="12">客户档案分类</el-col>
+              <el-col :span="12" tag="b">客户档案分类</el-col>
               <el-col :span="12" style="text-align: right">
-                <el-button
-                  class="fixed-panel__header-btn"
-                  @click="clearCurrentMenu"
-                >
-                  清空
-                </el-button>
-                <el-button
-                  class="fixed-panel__header-btn"
-                  icon="el-icon-s-tools"
-                  v-permission="'biz:customerCategory:list'"
-                  @click="$open('Biz_CustomerCategory_List')"
-                ></el-button>
+                <el-dropdown trigger="click">
+                  <el-button
+                    class="fixed-panel__header-btn"
+                    icon="el-icon-s-fold"
+                  >
+                  </el-button>
+
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item
+                      v-permission="'biz:customerCategory:list'"
+                      icon="el-icon-notebook-1"
+                      @click.native="$open('Biz_CustomerCategory_List')"
+                    >
+                      分类管理
+                    </el-dropdown-item>
+                    <el-dropdown-item>
+                      <el-checkbox
+                        @click.native.stop
+                        :true-label="1"
+                        :false-label="0"
+                        v-model="table.query.IsIncludeSub"
+                        @change="refresh"
+                        >包含子项</el-checkbox
+                      >
+                    </el-dropdown-item>
+                    <el-dropdown-item
+                      icon="el-icon-delete"
+                      @click.native="clearCurrentMenu"
+                    >
+                      清空选中
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
               </el-col>
             </el-row>
           </div>
@@ -29,6 +50,7 @@
               :nodeKey="rowKey"
               v-loading="menu.loading"
               :treeProps="menu.options"
+              :defaultExpendLevels="[0, 1]"
               @node-click="currentMenuChange"
             ></TreeMenu>
           </div>
@@ -126,6 +148,9 @@ export default {
         query: {
           //父级Id
           ParentId: "",
+
+          //是否包含子类下的项
+          IsIncludeSub: 0,
         },
 
         //表格其它选项

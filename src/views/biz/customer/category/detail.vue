@@ -88,8 +88,15 @@ export default {
       },
     },
     async "vm.CustomerId"(val) {
+      this.refreshSelection(val);
+    },
+  },
+
+  methods: {
+    //刷新上级分类选项
+    async refreshSelection(CustomerId) {
       const { data, bl } = await getCustomerCategorySelect({
-        CustomerId: val,
+        CustomerId,
       });
       if (bl) {
         this.parentSelections = getTreeByArr(
@@ -102,18 +109,10 @@ export default {
     },
   },
 
-  async mounted() {
-    // const { data, bl } = await getCustomerCategorySelect({
-    //   CustomerId: this.vm.CustomerId,
-    // });
-    // if (bl) {
-    //   this.parentSelections = getTreeByArr(
-    //     data.rows,
-    //     null,
-    //     "CustomerId",
-    //     "ParentId"
-    //   );
-    // }
+  mounted() {
+    if (this.type === "add") {
+      this.refreshSelection();
+    }
   },
 };
 </script>

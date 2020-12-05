@@ -6,9 +6,11 @@
       :lazy="lazy"
       :load="load"
       :nodeKey="nodeKey"
+      :expand-on-click-node="expandOnClickNode"
       :showCheckbox="showCheckbox"
       :highlight-current="highlightCurrent"
       :props="cTreeProps"
+      :default-expanded-keys="defaultExpandedKeys"
       @node-click="handleNodeClick"
       @check-change="handleCheckChange"
     ></el-tree>
@@ -20,6 +22,8 @@ const defaultProps = {
   children: "children",
   label: "label",
 };
+
+// function
 
 export default {
   name: "TreeMenu",
@@ -38,11 +42,34 @@ export default {
     nodeKey: {},
     lazy: Boolean,
     load: Function,
+    expandOnClickNode: Boolean,
     showCheckbox: Boolean,
     arrowRight: Boolean,
     highlightCurrent: {
       type: Boolean,
       default: true,
+    },
+    //默认展开的节点级别，需要数据源提供Level属性
+    defaultExpendLevels: {
+      type: Array,
+      default() {
+        return [0];
+      },
+    },
+  },
+
+  data() {
+    return {
+      defaultExpandedKeys: [],
+    };
+  },
+
+  watch: {
+    data: {
+      deep: true,
+      handler(val) {
+        this.defaultExpandedKeys = this.getExpendedKeys(val);
+      },
     },
   },
 
@@ -58,6 +85,25 @@ export default {
   },
 
   methods: {
+    getExpendedKeys(treeData) {
+      let keys = [];
+      const childrenField = this.treeProps.children;
+
+      treeData.forEach((i) => {
+        if (this.defaultExpendLevels.indexOf(i.Level) >= 0) {
+          keys.push(i[this.nodeKey]);
+        }
+
+        const children = i[childrenField];
+
+        if (children && children.length) {
+          keys = [...keys, ...this.getExpendedKeys(children)];
+        }
+      });
+
+      return keys;
+    },
+
     handleNodeClick(data) {
       this.$emit("node-click", data);
     },

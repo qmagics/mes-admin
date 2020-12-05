@@ -75,31 +75,3 @@ export default {
 
     }
 }
-
-
-//   this.$modal({
-    //     title: "测试弹窗",
-    //     // width:'600px',
-    //     // height:'100%',
-    //     component: () => import("@/views/system/permission/view"),
-    //     btns: [
-    //       {
-    //         name: "按钮1",
-    //         type: "primary",
-    //         icon: "el-icon-check",
-    //         // method: "btn1Handler",
-    //       },
-    //       {
-    //         name: "按钮2",
-    //         method: "btn2Handler",
-    //       },
-    //     ],
-    //     actions: {
-    //       confirm() {
-    //         alert("confirm is emited");
-    //       },
-    //       cancel() {
-    //         alert("cancel is emited");
-    //       },
-    //     },
-    //   });

@@ -17,8 +17,8 @@ import YwModal from '@/plugins/yw-modal';
 Vue.use(YwModal, { store });
 
 //使用弹窗输入插件
-import ModalInput from '@/plugins/modal-input';
-Vue.use(ModalInput);
+// import ModalInput from '@/plugins/modal-input';
+// Vue.use(ModalInput);
 
 //全局样式
 import '@/styles/index.scss';

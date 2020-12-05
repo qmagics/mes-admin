@@ -92,7 +92,7 @@ export function getCustomerDetail(Id) {
         url: `/api/BizCustomer`,
         method: 'get',
         params: {
-            OptionType: 'detail',
+            // OptionType: 'detail',
             CustomerId: Id
         }
     })

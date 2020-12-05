@@ -37,7 +37,9 @@ export default {
   data() {
     return {
       //业务表的viewModel
-      vm: {},
+      vm: {
+        Nature: "2",
+      },
 
       //保存状态
       saving: false,

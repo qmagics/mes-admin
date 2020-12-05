@@ -294,7 +294,7 @@ export default {
         pageSize: pageSize,
       },
 
-      searchModel: this.query,
+      searchModel: this.query || {},
 
       sortModel: {
         order: order,
@@ -418,6 +418,7 @@ export default {
       //客户端搜索
       else {
         const { Key } = this.searchModel;
+
         const clientFilterFields = this.cOptions.keywordProps
           .clientFilterFields;
 
@@ -429,7 +430,6 @@ export default {
                 row[f] &&
                 String(row[f]).toLowerCase().includes(Key.toLowerCase())
             )
-          // row.name.toLowerCase().includes(Key.toLowerCase())
         );
       }
     },
@@ -635,6 +635,7 @@ export default {
         asideBottomProps,
         asideTop,
         asideTopProps,
+        padding,
       } = this.cOptions;
       return {
         left: aside && this.showAside ? getCssNumber(asideProps.width) : 0,
@@ -650,6 +651,7 @@ export default {
           asideTop && this.showAsideTop
             ? getCssNumber(asideTopProps.height)
             : 0,
+        padding: padding,
       };
     },
 
@@ -792,10 +794,10 @@ export default {
     //表格索引生成函数
     indexFormatter(row, column, value, index) {
       const { pageIndex, pageSize } = this.pagerModel;
-
+      let v = 0;
       if (this.cOptions.pagination) {
         if (!this.cOptions.indexFormatter) {
-          return (pageIndex - 1) * pageSize + index + 1;
+          v = (pageIndex - 1) * pageSize + index + 1;
         } else {
           return this.cOptions.indexFormatter({
             pageIndex,
@@ -807,8 +809,10 @@ export default {
           });
         }
       } else {
-        return index + 1;
+        v = index + 1;
       }
+
+      return v < 10 ? "0" + v : v;
     },
 
     //切换搜索栏大小
