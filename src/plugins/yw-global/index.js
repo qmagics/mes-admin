@@ -21,7 +21,3 @@ import './global-mixins';
 //modal-input插件
 import ModalInput from './modal-input';
 Vue.use(ModalInput);
-
-//view-file插件
-import ViewFile from './view-file';
-Vue.use(ViewFile);

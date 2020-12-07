@@ -35,6 +35,11 @@
           ></el-cascader>
         </el-form-item>
       </el-col>
+      <el-col :span="12">
+        <el-form-item label="BaseExtend1" prop="BaseExtend1">
+          <el-input v-model="vm.BaseExtend1" clearable></el-input>
+        </el-form-item>
+      </el-col>
     </el-row>
   </el-form>
 </template>

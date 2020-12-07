@@ -1,24 +1,24 @@
 import Vue from 'vue';
 import App from './App';
-// import App2 from './App2';
+// import App2 from './views/demos/upload';
 import store from './store';
 import router from './router';
 
 //重置浏览器默认css样式
 import 'normalize.css/normalize.css';
 
-//插件模块
+//通用插件模块
 import '@/plugins/yw-global';
 import '@/plugins/element-ui';
 import '@/plugins/yw-table';
 
-//使用弹窗插件
+//弹窗管理插件
 import YwModal from '@/plugins/yw-modal';
 Vue.use(YwModal, { store });
 
-//使用弹窗输入插件
-// import ModalInput from '@/plugins/modal-input';
-// Vue.use(ModalInput);
+//文件管理插件
+import YwFile from '@/plugins/yw-file';
+Vue.use(YwFile, { store });
 
 //全局样式
 import '@/styles/index.scss';
@@ -41,20 +41,20 @@ Object.keys(filters).forEach(key => {
 //关闭 Vue 的 productionTip
 Vue.config.productionTip = false;
 
-// // 生产环境下也使用mock (测试时使用)
-// if (process.env.NODE_ENV === 'production') {
+//i18n
+import i18n from './lang';
+
+// // mock
+// if (process.env.NODE_ENV !== 'production') {
 //   const { mockXHR } = require('../mock')
 //   mockXHR()
 // }
-
-// mock
-const { mockXHR } = require('../mock');
-mockXHR();
 
 new Vue({
   el: '#app',
   router,
   store,
+  i18n,
   render: h => h(App)
 })
 

@@ -1,6 +1,6 @@
-import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
-import router, { resetRouter } from '@/router'
+import { login, logout, getInfo } from '@/api/user';
+import { getToken, setToken, removeToken } from '@/utils/auth';
+import router, { resetRouter } from '@/router';
 import default_avatar from '@/assets/platform/avatar.png';
 
 const state = {
@@ -35,18 +35,28 @@ const mutations = {
 
 const actions = {
   // 用户登录
-  login({ commit }, userInfo) {
-    const { username, password } = userInfo
+  login({ commit }, loginForm) {
+    const { Account, Password } = loginForm;
+
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
-        console.log('登录成功！', response);
-        const { data } = response
-        commit('SET_TOKEN', data.token)
-        setToken(data.token)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      login({ Account: Account.trim(), Password })
+      .then(res=>{
+        if(res.bl){
+          resolve();
+          commit('SET_TOKEN', 111);
+          setToken(111)
+        }
+      });
+      // login({ Account: username.trim(), Password: password }).then(res => {
+      //   console.log(res);
+      //   // const { data } = response
+      //   // commit('SET_TOKEN', data.token)
+      //   // setToken(data.token)
+      //   resolve()
+      // })
+      // .catch(error => {
+      //   reject(error)
+      // })
     })
   },
 

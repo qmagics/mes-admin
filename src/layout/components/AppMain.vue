@@ -48,7 +48,7 @@ export default {
 }
 
 .fixed-header + .app-main {
-  padding-top: calc(#{$navbarHeight} + #{$topBarHeight} + #{gutter});
+  padding-top: calc(#{$navbarHeight} + #{$topBarHeight} + #{$gutter});
 }
 
 .hasTagsView {

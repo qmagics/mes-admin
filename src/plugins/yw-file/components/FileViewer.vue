@@ -1,14 +1,18 @@
 <template>
-  <yw-table
-    class="file-table"
-    :data.sync="tableData"
-    :columns="tableColumns"
-    :options="tableOptions"
-  ></yw-table>
+  <div class="file-viewer">
+    <yw-table
+      class="file-viewer__table"
+      :data.sync="tableData"
+      :columns="tableColumns"
+      :options="tableOptions"
+    ></yw-table>
+  </div>
 </template>
 
 <script>
 export default {
+  name: "FileViewer",
+
   props: {
     fileList: {},
     height: {
@@ -28,9 +32,9 @@ export default {
         {
           label: "文件名称",
           prop: "FileName",
-          render(h, { row }) {
-            return <el-input v-model={row.FileName}></el-input>;
-          },
+          // render(h, { row }) {
+          //   return <el-input v-model={row.FileName}></el-input>;
+          // },
         },
         {
           label: "文件路径",
@@ -78,7 +82,10 @@ export default {
 </script>
 
 <style lang="scss">
-.file-table {
+.file-viewer {
+  height: 100%;
+  .file-viewer__table {
+  }
   .el-icon-delete {
     font-size: 18px;
   }
