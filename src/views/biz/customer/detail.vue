@@ -50,14 +50,59 @@
           <el-input v-model="vm.ContactPhone" clearable></el-input>
         </el-form-item>
       </el-col>
-      <!-- <el-col :span="24">
-        <el-form-item label="附件查看" prop="AttachmentList">
-          <FileViewer :fileList.sync="fileList"></FileViewer>
+      <el-col :span="12">
+        <el-form-item label="开户银行" prop="DepositBank">
+          <el-input v-model="vm.DepositBank" clearable></el-input>
         </el-form-item>
-      </el-col> -->
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="客户级别" prop="CustomerLevel">
+          <el-input v-model="vm.CustomerLevel" clearable></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="邮编" prop="Postcode">
+          <el-input v-model="vm.Postcode" clearable></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="是否停用" prop="DisabledMark">
+          <el-switch v-model="vm.DisabledMark"></el-switch>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="业务对照码" prop="BizCode">
+          <el-input v-model="vm.BizCode" clearable></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="业务对照名称" prop="BizName">
+          <el-input v-model="vm.BizName" clearable></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="24">
+        <el-form-item label="地址" prop="Address">
+          <el-input
+            rows="5"
+            type="textarea"
+            v-model="vm.Address"
+            clearable
+          ></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="24">
+        <el-form-item label="备注" prop="Remarks">
+          <el-input
+            rows="5"
+            type="textarea"
+            v-model="vm.Remarks"
+            clearable
+          ></el-input>
+        </el-form-item>
+      </el-col>
       <el-col :span="24">
         <el-form-item label="附件" prop="AttachmentList">
-          <FileUploader v-model="fileList"></FileUploader>
+          <FileUploader v-model="vm.AttachmentList"></FileUploader>
         </el-form-item>
       </el-col>
     </el-row>
@@ -79,30 +124,6 @@ export default {
 
   data() {
     return {
-      fileList: [
-        {
-          AttachmentId: "1111",
-          FileName: "图片1",
-          FilePath: "/file/1111.png",
-          FileThumb: "/file/1111-thumb.png",
-          SourceFileName: "图片1原原始名称",
-        },
-        {
-          AttachmentId: "2222",
-          FileName: "图片2",
-          FilePath: "/file/2222.png",
-          FileThumb: "/file/2222-thumb.png",
-          SourceFileName: "图片2原原始名称",
-        },
-        {
-          AttachmentId: "3333",
-          FileName: "文本1",
-          FilePath: "/file/3333.txt",
-          FileThumb: "/file/3333-thumb.txt",
-          SourceFileName: "文本1原始名称",
-        },
-      ],
-
       parentSelections: [],
 
       vm: this.data,

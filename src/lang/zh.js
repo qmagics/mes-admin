@@ -1,5 +1,5 @@
 export default {
-  ywFile: {
+  file: {
     uppyDashboard: {
       // When `inline: false`, used as the screen reader label for the button that closes the modal.
       closeModal: '关闭',
@@ -94,5 +94,9 @@ export default {
       complete: '上传结束'
     },
     confirmDeleteFile: "是否确认删除该文件？"
+  },
+
+  table: {
+    noneSelectedMsg: "请选择一条数据再进行操作"
   }
 }

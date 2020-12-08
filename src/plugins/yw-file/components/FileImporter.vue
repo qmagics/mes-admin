@@ -85,7 +85,7 @@ export default {
             hideCancelButton: true,
             doneButtonHandler: null,
             locale: {
-              strings: this.$t("ywFile.uppyDashboard"),
+              strings: this.$t("file.uppyDashboard"),
             },
           })
           .use(ImageEditor, { target: Dashboard })

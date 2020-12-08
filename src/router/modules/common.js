@@ -22,13 +22,14 @@ const commonRouter = [
     {
         path: '/profile',
         component: Layout,
+        name: 'Profile',
         redirect: '/profile/index',
         hidden: true,
         children: [
             {
                 path: 'index',
                 component: () => import('@/views/common/profile'),
-                name: 'Profile',
+                name: 'Profile_Index',
                 meta: { title: '用户信息', icon: 'user', noCache: false }
             }
         ]

@@ -5,8 +5,6 @@
 
     <!-- 表单详情区域 -->
     <detail ref="form" type="add" :data.sync="vm"></detail>
-    <detail ref="form" type="add" :data.sync="vm"></detail>
-    <detail ref="form" type="add" :data.sync="vm"></detail>
 
     <!-- 动态悬浮区块 -->
     <fixed-block>

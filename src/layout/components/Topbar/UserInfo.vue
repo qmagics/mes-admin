@@ -7,7 +7,7 @@
         </div>
       </el-image>
     </div>
-    <el-dropdown>
+    <el-dropdown @command="handleCommand">
       <div class="user-info__profile">
         <div class="profile-section">
           <span>用户昵称</span>
@@ -18,14 +18,27 @@
         </div>
       </div>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>这里放点什么..</el-dropdown-item>
+        <el-dropdown-item command="profile">用户信息</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
   </div>
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    handleCommand(command) {
+      switch (command) {
+        case "profile":
+          this.$open("Profile");
+          break;
+
+        default:
+          break;
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss">
@@ -56,12 +69,12 @@ $imgBorderWidth: 2px;
     margin-left: 15px;
     display: flex;
     align-items: center;
-    width:120px;
+    width: 120px;
     overflow: hidden;
     cursor: pointer;
 
     .profile-section {
-      width:80px;
+      width: 80px;
       span {
         display: block;
         text-shadow: 3px 3px 3px rgba(0, 0, 0, 0.4);
@@ -79,7 +92,7 @@ $imgBorderWidth: 2px;
           line-height: 20px;
         }
 
-        &:last-child{
+        &:last-child {
           height: 16px;
           line-height: 16px;
         }

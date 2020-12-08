@@ -81,11 +81,7 @@
       </el-col>
       <el-col :span="12">
         <el-form-item label="是否有效" prop="EnabledMark">
-          <el-switch
-            v-model="vm.EnabledMark"
-            :active-value="1"
-            :inactive-value="0"
-          ></el-switch>
+          <el-switch v-model="vm.EnabledMark"></el-switch>
         </el-form-item>
       </el-col>
       <el-col :span="24">

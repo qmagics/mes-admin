@@ -231,6 +231,11 @@ export default {
     DefaultSearchbar,
   },
 
+  activated() {
+    /**fix layout bug */
+    this.doLayout();
+  },
+
   data() {
     const {
       pageNumber,
@@ -346,16 +351,6 @@ export default {
   provide() {
     return {
       $fxTable: this,
-
-      // toggleSearchbarVisible: this.toggleSearchbarVisible,
-
-      // refreshTable: this.refreshTable,
-
-      // cOptions: this.cOptions,
-
-      // searchModel: this.searchModel,
-
-      // vColumns: this.vColumns,
     };
   },
 
@@ -379,6 +374,13 @@ export default {
         this.vColumns = genColumns(val);
       },
       deep: true,
+    },
+
+    visibleColumns: {
+      deep: true,
+      handler(val) {
+        this.$nextTick(this.doLayout);
+      },
     },
 
     query: {
@@ -1026,7 +1028,6 @@ export default {
       } else if (!this.cOptions.singleSelect) {
         key.forEach((i) => {
           let row = this.getRowByKey(i);
-          console.log(row);
           if (row) {
             this.table.toggleRowSelection(row, bl);
           }
@@ -1036,7 +1037,11 @@ export default {
 
     //获取选中项
     getSelected() {
-      return this.selectedRows;
+      let result = this.selectedRows;
+      if (!result || !result.length) {
+        this.$message(this.$t("table.noneSelectedMsg"));
+      }
+      return result;
     },
 
     //用于多选表格，清空用户的选择

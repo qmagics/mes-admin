@@ -8,13 +8,18 @@
   >
     <el-row :gutter="120">
       <el-col :span="12">
-        <el-form-item label="客户编码" prop="Code">
-          <el-input v-model="vm.Code" clearable></el-input>
+        <el-form-item label="分类名称" prop="FullName">
+          <el-input v-model="vm.FullName" clearable></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
-        <el-form-item label="客户名称" prop="FullName">
-          <el-input v-model="vm.FullName" clearable></el-input>
+        <el-form-item label="分类简称" prop="ShortName">
+          <el-input v-model="vm.ShortName" clearable></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="12">
+        <el-form-item label="分类编码" prop="Code">
+          <el-input v-model="vm.Code" clearable></el-input>
         </el-form-item>
       </el-col>
       <el-col :span="12">
@@ -33,11 +38,6 @@
             }"
             filterable
           ></el-cascader>
-        </el-form-item>
-      </el-col>
-      <el-col :span="12">
-        <el-form-item label="BaseExtend1" prop="BaseExtend1">
-          <el-input v-model="vm.BaseExtend1" clearable></el-input>
         </el-form-item>
       </el-col>
     </el-row>
@@ -64,11 +64,11 @@ export default {
       vm: this.data,
 
       rules: {
-        // Name: { required: true, message: "请输入权限名称" },
-        ParentId: [{ required: true, message: "请选择父级分类" }],
-        // Controller: [{ required: true, message: "请输入权限控制器" }],
-        // Url: [{ required: true, message: "请输入权限地址" }],
-        // SortCode: [{ required: true, message: "请输入排序码" }],
+        ParentId: { required: true, message: "请选择父级分类" },
+        Code: { required: true, message: "请输入客户编码" },
+        FullName: { required: true, message: "请输入客户名称" },
+        ShortName: { required: true, message: "请输入客户简称" },
+        ParentId: { required: true, message: "请选择所属分类" },
       },
     };
   },

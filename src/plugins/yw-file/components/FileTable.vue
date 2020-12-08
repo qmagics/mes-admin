@@ -102,7 +102,7 @@ export default {
 
   methods: {
     deleteFile(file) {
-      this.$confirm(this.$t("ywFile.confirmDeleteFile")).then(() => {
+      this.$confirm(this.$t("file.confirmDeleteFile")).then(() => {
         const index = this.tableData.indexOf(file);
         this.tableData.splice(index, 1);
       });
