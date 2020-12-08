@@ -60,7 +60,7 @@ export default function getColumns(_this) {
 
                 return <el-button type="text"
                     icon="el-icon-paperclip"
-                    vOn: click_stop={() => { _this.$viewFile({ fileList: value }) }}>
+                    vOn: click_stop={() => { _this.$uploadFile({ value }) }}>
                     附件({value && value.length})
                 </el-button>
             }

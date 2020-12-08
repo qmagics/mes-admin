@@ -5,12 +5,15 @@
 
     <!-- 表单详情区域 -->
     <detail ref="form" type="add" :data.sync="vm"></detail>
+    <detail ref="form" type="add" :data.sync="vm"></detail>
+    <detail ref="form" type="add" :data.sync="vm"></detail>
 
     <!-- 动态悬浮区块 -->
     <fixed-block>
       <el-button @click="save" type="primary" :loading="saving">确认</el-button>
       <el-button @click="cancel">取消</el-button>
     </fixed-block>
+
   </page>
 </template>
 

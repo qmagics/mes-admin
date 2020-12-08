@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import App from './App';
-// import App2 from './views/demos/upload';
 import store from './store';
 import router from './router';
 
@@ -8,8 +7,8 @@ import router from './router';
 import 'normalize.css/normalize.css';
 
 //通用插件模块
-import '@/plugins/yw-global';
 import '@/plugins/element-ui';
+import '@/plugins/yw-global';
 import '@/plugins/yw-table';
 
 //弹窗管理插件
@@ -57,10 +56,3 @@ new Vue({
   i18n,
   render: h => h(App)
 })
-
-// new Vue({
-//   el: '#app2',
-//   router,
-//   store,
-//   render: h => h(App2)
-// })

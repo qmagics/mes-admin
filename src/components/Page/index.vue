@@ -4,13 +4,20 @@
     <div class="page__body">
       <slot></slot>
     </div>
+    <BackToTop></BackToTop>
+
     <!-- <div class="page__footer"></div> -->
   </div>
 </template>
 
 <script>
+import BackToTop from "@/components/BackToTop";
 export default {
   name: "Page",
+
+  components: {
+    BackToTop,
+  },
 
   props: {
     fixed: {
@@ -71,11 +78,10 @@ export default {
      * 占位符 {0} 原名称
      */
     setTagName(val) {
-      
       const { tempRoute, baseTagName } = this.tagView;
 
       tempRoute.title = val.replace(/\{0\}/g, baseTagName);
-      
+
       this.$store.dispatch("tagsView/updateVisitedView", tempRoute);
     },
   },

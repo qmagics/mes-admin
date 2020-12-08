@@ -1,3 +1,4 @@
+@import "~@/styles/variables.scss";
 $header_height: 50px;
 $footer_height: 50px;
 
@@ -25,7 +26,8 @@ $footer_height: 50px;
         height: calc(100% - #{$header_height} - #{$footer_height});
         box-sizing: border-box;
         overflow-y: auto;
-        padding: 0;
+        padding: $gutter;
+        background-color: #d9dfe2;
 
         .fx-modal__body {
             height: 100%;
@@ -42,5 +44,9 @@ $footer_height: 50px;
         display: flex;
         justify-content: flex-end;
         align-items: center;
+    }
+
+    .file-uploader {
+        padding: $gutter;
     }
 }

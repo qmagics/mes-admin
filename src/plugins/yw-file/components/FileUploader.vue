@@ -1,5 +1,5 @@
 <template>
-  <div class="file-uploader">
+  <fixed-panel class="file-uploader">
     <div class="file-uploader__toolbar" v-if="!uploadDisabled">
       <div class="file-uploader__handler">
         <el-button
@@ -8,37 +8,42 @@
           plain
           :disabled="uploadDisabled"
           icon="el-icon-upload"
-          @click="openDashboard"
+          @click="importFile"
           >上传附件</el-button
         >
       </div>
       <div class="file-uploader__tips">
-        <i class="el-icon-info color-warning"></i>
-        支持jpg，png，word，excel，pdf格式
+        <i class="el-icon-info color-warning"></i>&nbsp;
+        <span>{{ cOptions.tips }}</span>
       </div>
     </div>
-    <div class="file-uploader__dashboard">
-      <div ref="uppyDashboard"></div>
-      <!-- <Dashboard :uppy="uppy"></Dashboard> -->
-    </div>
     <div class="file-uploader__list">
-      <FileViewer :fileList.sync="value"></FileViewer>
+      <FileTable
+        :fileList.sync="fileList"
+        :disabled="uploadDisabled"
+      ></FileTable>
     </div>
-  </div>
+  </fixed-panel>
 </template>
 
 <script>
-import Uppy from "@uppy/core";
-import XHRUpload from "@uppy/xhr-upload";
-import Dashboard from "@uppy/dashboard";
-import ImageEditor from "@uppy/image-editor";
-import "@uppy/core/dist/style.css";
-import "@uppy/dashboard/dist/style.css";
-import "@uppy/image-editor/dist/style.css";
-
-//默认配置项
 const DEFAULT_OPTIONS = {
-  height: "700px",
+  tips: "支持上传 jpg，png，doc，docx，xls，xlsx，pdf，zip，rar 格式的文件",
+  allowed: [
+    "image/*",
+    "video/*",
+    ".pdf",
+    ".xlsx",
+    ".xls",
+    ".doc",
+    ".docx",
+    ".zip",
+    ".rar",
+    ".7z",
+  ],
+  min: 1,
+  max: 20,
+  size: 5 * 1000 * 1000 /* 5M */,
 };
 
 export default {
@@ -61,39 +66,44 @@ export default {
 
   data() {
     return {
+      fileList: this.value,
       uppy: null,
     };
+  },
+
+  watch: {
+    value: {
+      deep: true,
+      handler(val) {
+        this.fileList = val;
+      },
+    },
+    fileList: {
+      deep: true,
+      handler(val) {
+        this.$emit("input", val);
+      },
+    },
   },
 
   computed: {
     uploadDisabled() {
       return this.disabled || (this.elForm || {}).disabled;
     },
-  },
-
-  methods: {
-    openDashboard() {
-      this.uppy.getPlugin("Dashboard").openModal();
+    cOptions() {
+      return { ...DEFAULT_OPTIONS, ...this.options };
     },
   },
 
-  mounted() {
-    this.$nextTick(() => {
-      this.uppy = new Uppy()
-        .use(Dashboard, {
-          // inline: true,
-          // trigger: "#uppy_dashboard_trigger",
-          target: this.$refs.uppyDashboard,
-          locale: {
-            strings: this.$t("uppy.dashboard"),
-          },
-        })
-        .use(ImageEditor, { target: Dashboard })
-        .use(XHRUpload, {
-          endpoint: "/api/BizCustomer",
-        });
-    });
+  methods: {
+    importFile() {
+      this.$importFile(this.cOptions).then((addingFileList) => {
+        this.fileList = [...this.fileList, ...addingFileList];
+      });
+    },
   },
+
+  mounted() {},
 };
 </script>
 

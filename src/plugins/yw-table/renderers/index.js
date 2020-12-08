@@ -61,7 +61,8 @@ export function time(h, context, formatStr) {
  * 单元格缩略图渲染器
  * @param { function } h createElement 方法
  * @param { object } context 上下文对象 {value, row}
+ * @param { array } size 图片的[宽,高]
  */
-export function thumbnail(h, context) {
-    return <el-image class="renderer-thumbnail" src={context.value} />;
+export function thumbnail(h, context, [width, height] = []) {
+    return <el-image class="renderer-thumbnail" style={{ width, height }} src={context.value} />;
 }

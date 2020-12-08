@@ -1,6 +1,6 @@
 export default {
-  uppy: {
-    dashboard: {
+  ywFile: {
+    uppyDashboard: {
       // When `inline: false`, used as the screen reader label for the button that closes the modal.
       closeModal: '关闭',
       // Used as the screen reader label for the plus (+) button that shows the “Add more files” screen
@@ -92,6 +92,7 @@ export default {
       // @uppy/status-bar strings:
       uploading: '上传中',
       complete: '上传结束'
-    }
+    },
+    confirmDeleteFile: "是否确认删除该文件？"
   }
 }

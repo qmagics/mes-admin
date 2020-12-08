@@ -202,7 +202,7 @@ export default {
 
 .table-select {
   height: 100%;
-  padding: $gutter;
+  // padding: $gutter;
   background: $bgColorLight;
 
   .table-select__tag {
