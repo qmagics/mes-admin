@@ -5,27 +5,15 @@
       <router-view :key="key" />
     </keep-alive>
     <!-- </transition> -->
-    <!-- <router-keep-alive :include="cachedViews">
-      <router-view :key="key" />
-    </router-keep-alive> -->
   </section>
 </template>
 
 <script>
-// import RouterKeepAlive from "@/components/RouterKeepAlive";
 
 export default {
   name: "AppMain",
-  components: {
-    // RouterKeepAlive,
-  },
   computed: {
     cachedViews() {
-      // if (process.env.NODE_ENV === "production") {
-      //   return this.$store.state.tagsView.cachedViews;
-      // } else {
-      //   return [];
-      // }
       return this.$store.state.tagsView.cachedViews;
     },
     key() {
