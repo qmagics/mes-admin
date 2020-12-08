@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@uppy/core": "^1.14.1",
+    "@uppy/dashboard": "^1.13.0",
     "@uppy/image-editor": "^0.1.8",
     "@uppy/xhr-upload": "^1.6.7",
     "axios": "0.18.1",
