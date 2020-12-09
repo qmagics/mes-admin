@@ -7,9 +7,6 @@ export default {
 
         const __proto = Vue.prototype;
 
-        Vue.component(FileUploader.name, FileUploader);
-        Vue.component(FileTable.name, FileTable);
-
         /**
          * 导入文件方法（纯上传功能，不附带v-model文件列表显示）
          * @param {*} options 
@@ -62,10 +59,10 @@ export default {
          */
         __proto.$uploadFile = (options) => {
 
-            const { value, height = "700px", request } = options || {};
+            const { value, height = "700px", title, onConfirm } = options || {};
 
             const m = __proto.$modal({
-                title: "文件上传",
+                title: title || "文件上传",
                 component: FileUploader,
                 height,
                 data: {
@@ -79,8 +76,8 @@ export default {
                         name: '确认',
                         type: 'primary',
                         method: 'confirm',
-                        callback() {
-                            request && request.call();
+                        callback(value) {
+                            onConfirm && onConfirm.call(null, value);
                             m.close();
                         }
                     },

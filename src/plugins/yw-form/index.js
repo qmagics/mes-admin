@@ -1,7 +1,9 @@
-import { deepClone } from "@/utils";
+import { deepClone } from '@/utils';
 
 export default {
     install: (Vue, opt) => {
+
+        const __proto = Vue.prototype;
 
         /**
          * 开启弹窗输入框
@@ -19,15 +21,16 @@ export default {
          * 提供 request 方法时, 忽略api
          * valueField   选中项作为值的字段 {string}     -默认值：'value'
          * labelField   选中项作为名称的字段 {string}    -默认值：'label'
-         * selected     已选中项 {array|string}                -
+         * selected     已选中项的值 {string|array}                -
+         * label        已选中项名称 {string|object}                -
          */
-        Vue.prototype.$modalInput = (options) => {
+        __proto.$modalInput = (options) => {
             const { title, width, height, source, columns, rowKey, pagination, keywordProps, multiple, api, request, valueField,
                 labelField, selected, label } = options;
 
             return new Promise((resolve, reject) => {
 
-                const m = Vue.prototype.$modal({
+                const m = __proto.$modal({
                     width,
                     height,
                     title: title || '请选择',

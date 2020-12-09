@@ -17,7 +17,3 @@ import './prototype';
 
 //全局mixins
 import './global-mixins';
-
-//modal-input插件
-import ModalInput from './modal-input';
-Vue.use(ModalInput);

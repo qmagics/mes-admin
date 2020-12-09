@@ -82,7 +82,7 @@ export default {
             height: "100%",
             // trigger: "#uppy_dashboard_trigger",
             target: this.$refs.uppyDashboard,
-            hideCancelButton: true,
+            // hideCancelButton: true,
             doneButtonHandler: null,
             locale: {
               strings: this.$t("file.uppyDashboard"),

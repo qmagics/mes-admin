@@ -7,6 +7,8 @@ import FixedCol from '@/components/Page/FixedCol';
 import FixedPanel from '@/components/Page/FixedPanel';
 import YwLink from '@/components/Page/YwLink';
 import SplitPanel from '@/components/SplitPanel';
+import FileUploader from '@/components/FileUploader';
+import FileTable from '@/components/FileTable';
 
 //注册全局组件
 Vue.component(Page.name, Page);
@@ -17,3 +19,5 @@ Vue.component(FixedCol.name, FixedCol);
 Vue.component(FixedPanel.name, FixedPanel);
 Vue.component(YwLink.name, YwLink);
 Vue.component(SplitPanel.name, SplitPanel);
+Vue.component(FileUploader.name, FileUploader);
+Vue.component(FileTable.name, FileTable);

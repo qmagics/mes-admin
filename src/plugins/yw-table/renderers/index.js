@@ -66,3 +66,24 @@ export function time(h, context, formatStr) {
 export function thumbnail(h, context, [width, height] = []) {
     return <el-image class="renderer-thumbnail" style={{ width, height }} src={context.value} />;
 }
+
+/**
+ * 附件渲染器
+ * @param { function } h createElement 方法
+ * @param { object } context 上下文对象 {value, row}
+ * @param { object } options 配置项 { request }
+ */
+export function attachment(h, context, { onConfirm } = {}) {
+    const { value } = context;
+    return <el-button type="text"
+        icon="el-icon-paperclip"
+        vOn: click_stop={() => {
+            this.$uploadFile({
+                value,
+                title: '附件管理',
+                onConfirm
+            })
+        }}>
+        附件({(value && value.length) || 0})
+</el-button>
+}

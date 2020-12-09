@@ -9,7 +9,7 @@
           :disabled="uploadDisabled"
           icon="el-icon-upload"
           @click="importFile"
-          >上传附件</el-button
+          >上传文件</el-button
         >
       </div>
       <div class="file-uploader__tips">
@@ -100,6 +100,14 @@ export default {
       this.$importFile(this.cOptions).then((addingFileList) => {
         this.fileList = [...this.fileList, ...addingFileList];
       });
+    },
+
+    confirm(cb) {
+      cb && cb.call(null, this.fileList);
+    },
+
+    cancel(cb) {
+      cb && cb.call(null);
     },
   },
 

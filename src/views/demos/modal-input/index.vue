@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import ModalInput from "@/components/Page/ModalInput";
+import ModalInput from "@/components/ModalInput";
 
 export default {
   name: "Demo_ModalInput",

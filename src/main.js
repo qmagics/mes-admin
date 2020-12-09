@@ -17,7 +17,11 @@ Vue.use(YwModal, { store });
 
 //文件管理插件
 import YwFile from '@/plugins/yw-file';
-Vue.use(YwFile, { store });
+Vue.use(YwFile);
+
+//表单管理插件
+import YwForm from '@/plugins/yw-form';
+Vue.use(YwForm);
 
 //全局样式
 import '@/styles/index.scss';

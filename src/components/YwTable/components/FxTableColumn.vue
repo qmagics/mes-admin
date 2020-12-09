@@ -39,7 +39,13 @@
           :p-render="render"
           :render="column.render"
           :renderArgs="column.renderArgs"
-          :context="{ value: row[column.prop], row, column }"
+          :context="{
+            value: column.formatter
+              ? column.formatter(row[column.prop], row)
+              : row[column.prop],
+            row,
+            column,
+          }"
         ></renderComp>
         <!-- formatter -->
         <span
