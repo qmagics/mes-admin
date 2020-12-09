@@ -34,6 +34,7 @@
           v-for="(btn,index) in modal.btns"
           :key="index"
           :size="btn.size"
+          :loading="btn.loading"
           :type="btn.type"
           :icon="btn.icon"
           @click="onModalBtnClick(btn,modal)"

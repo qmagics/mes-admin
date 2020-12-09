@@ -58,7 +58,12 @@
       </template>
       <template #paneR>
         <fixed-panel>
-          <yw-table v-bind="table" ref="table" :query.sync="table.query">
+          <yw-table
+            v-bind="table"
+            ref="table"
+            :query.sync="table.query"
+            :data.sync="table.data"
+          >
             <template #actions>
               <el-button
                 v-permission="'biz:customer:add'"
@@ -80,6 +85,19 @@
                 @click="del"
                 icon="el-icon-delete"
                 >删除</el-button
+              >
+              <el-button
+                v-permission="'biz:customer:print'"
+                type="primary"
+                icon="el-icon-printer"
+                >打印</el-button
+              >
+              <el-button
+                v-permission="'biz:customer:export'"
+                type="primary"
+                icon="el-icon-upload2"
+                @click="exportExcel"
+                >导出</el-button
               >
             </template>
           </yw-table>
@@ -219,6 +237,15 @@ export default {
           this.refresh();
         });
       }
+    },
+
+    //导出
+    exportExcel() {
+      this.$exportExcel({
+        fileName: "测试",
+        data: this.table.data,
+        columns: this.table.columns,
+      });
     },
 
     //菜单选中值变更事件

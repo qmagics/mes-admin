@@ -30,6 +30,7 @@ export default function getColumns(_this) {
         },
         {
             label: '附件',
+            export: false,
             prop: "AttachmentList",
             render: ['attachment', {
                 onConfirm(value) {

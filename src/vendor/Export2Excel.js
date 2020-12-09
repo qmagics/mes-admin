@@ -218,3 +218,39 @@ export function export_json_to_excel({
     type: "application/octet-stream"
   }), `${filename}.${bookType}`);
 }
+
+/**
+ * 导出excel简化调用版
+ * @param {object} options 配置项
+ ** @param {array} rows 数据行 []
+ ** @param {array} columns 数据列配置项 [{label,prop}]
+ ** @param {string} fileName 导出excel文件名,不用待后缀
+ ** @param {array} merges 合并单元格
+ */
+export default function ({ rows, columns, fileName = 'Excel文件', merges = [] }) {
+  // rows = rows.sort((a, b) => a.sort - b.sort);
+
+  let header = getHeader(columns);
+  let data = getData(rows, columns);
+
+  export_json_to_excel({
+    header,
+    data,
+    filename: fileName,
+    autoWidth: true,
+    merges
+    //   bookType: this.bookType
+  });
+}
+
+function getHeader(columns) {
+  return columns.filter((i) => i.export !== false).map((i) => i.label);
+}
+
+function getData(rows, columns) {
+  let header = columns.filter((i) => i.export !== false).map((i) => i.prop);
+
+  return rows.map((i) => {
+    return header.map((j) => i[j]);
+  });
+}
