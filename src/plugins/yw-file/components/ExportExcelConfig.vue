@@ -7,7 +7,11 @@
           placeholder="请输入导出后的文件名"
         ></el-input>
       </el-form-item>
-      <el-form-item label="是否带条件导出" prop="exportInquired">
+      <el-form-item
+        label="附带查询条件"
+        prop="exportInquired"
+        v-if="showExportInquired"
+      >
         <el-switch
           v-model="vm.exportInquired"
           :active-value="true"
@@ -51,6 +55,7 @@ export default {
 
   props: {
     exportOptions: {},
+    showExportInquired: Boolean,
   },
 
   data() {

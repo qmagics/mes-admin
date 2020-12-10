@@ -214,6 +214,7 @@ import ActionRenderer from "./components/ActionRenderer.vue";
 import ColumnToggle from "./components/ColumnToggle.vue";
 import DefaultToolbar from "./components/DefaultToolbar";
 import DefaultSearchbar from "./components/DefaultSearchbar";
+import fileExport from "./mixins/file-export";
 
 export default {
   name: "FxTable",
@@ -230,6 +231,8 @@ export default {
     DefaultToolbar,
     DefaultSearchbar,
   },
+
+  mixins: [fileExport],
 
   activated() {
     /**fix layout bug */

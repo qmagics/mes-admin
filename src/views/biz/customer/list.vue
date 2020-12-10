@@ -241,13 +241,7 @@ export default {
 
     //导出
     exportExcel() {
-      this.$exportExcel({
-        fileName: "测试",
-        // data: this.table.data,
-        columns: this.table.columns,
-        query: this.table.query,
-        request: getCustomerList,
-      });
+      this.$refs.table.exportExcel("是个人购房");
     },
 
     //菜单选中值变更事件

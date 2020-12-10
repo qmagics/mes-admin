@@ -187,37 +187,18 @@ export default {
             //指定数据集导出
             else if (data && data.length) {
                 if (configurable) {
-                    const m = __proto.$modal({
-                        title: '导出设置',
-                        width: '460px',
-                        height: '600px',
-                        component: () => import('./components/ExportExcelConfig'),
-                        data: {
-                            exportOptions: {
+                    configExportExcelOptions({
+                        fileName,
+                        columns: export_columns,
+                    }, false)
+                        .then(newOptions => {
+                            const { fileName, columns } = newOptions;
+                            startExportExcel({
                                 fileName,
-                                columns: export_columns,
-                            }
-                        },
-                        btns: [
-                            {
-                                name: '确认导出',
-                                type: 'primary',
-                                method: 'confirm',
-                                callback(vm) {
-                                    const { fileName, columns } = vm;
-                                    startExportExcel({
-                                        fileName,
-                                        columns,
-                                        rows: export_rows,
-                                    });
-                                    m.close();
-                                }
-                            },
-                            {
-                                name: '取消'
-                            }
-                        ]
-                    });
+                                columns,
+                                rows: export_rows,
+                            });
+                        })
                 }
                 else {
                     startExportExcel({
@@ -241,8 +222,9 @@ export default {
         /**
          * 自定义导出选项
          * @param {Object} exportOptions 导出配置项 {fileName,columns,exportInquired} 
+         * @param {Boolean} showExportInquired 是否显示 附带查询条件 修改控件
          */
-        function configExportExcelOptions(exportOptions) {
+        function configExportExcelOptions(exportOptions, showExportInquired = true) {
             return new Promise((resolve) => {
                 const m = __proto.$modal({
                     title: '导出设置',
@@ -250,7 +232,8 @@ export default {
                     height: '600px',
                     component: () => import('./components/ExportExcelConfig'),
                     data: {
-                        exportOptions: exportOptions
+                        exportOptions: exportOptions,
+                        showExportInquired
                     },
                     btns: [
                         {
