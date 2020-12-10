@@ -22,23 +22,28 @@
     >
       <div class="fx-modal__body">
         <component
-          :ref="'modalComponent_'+modal.id"
+          :ref="'modalComponent_' + modal.id"
           :is="modal.component"
           v-bind="modal.data"
           v-on="modal.actions"
         ></component>
       </div>
 
-      <div class="fx-modal__footer" slot="footer" v-if="modal.btns && modal.btns.length">
+      <div
+        class="fx-modal__footer"
+        slot="footer"
+        v-if="modal.btns && modal.btns.length"
+      >
         <el-button
-          v-for="(btn,index) in modal.btns"
+          v-for="(btn, index) in modal.btns"
           :key="index"
           :size="btn.size"
           :loading="btn.loading"
           :type="btn.type"
           :icon="btn.icon"
-          @click="onModalBtnClick(btn,modal)"
-        >{{btn.name}}</el-button>
+          @click="onModalBtnClick(btn, modal)"
+          >{{ btn.name }}</el-button
+        >
       </div>
     </el-dialog>
   </div>
@@ -71,7 +76,7 @@ export default {
 
   methods: {
     getCustomClass(modal) {
-      let str = "fx-modal ";
+      let str = `fx-modal `;
       const { placement = "center", classes } = modal;
 
       if (classes) {

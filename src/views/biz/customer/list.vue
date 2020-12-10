@@ -243,8 +243,10 @@ export default {
     exportExcel() {
       this.$exportExcel({
         fileName: "测试",
-        data: this.table.data,
+        // data: this.table.data,
         columns: this.table.columns,
+        query: this.table.query,
+        request: getCustomerList,
       });
     },
 

@@ -2,6 +2,7 @@ import FileTable from './components/FileTable';
 import FileImporter from './components/FileImporter';
 import FileUploader from './components/FileUploader';
 import { deepClone } from '@/utils';
+import axiosRequest from '@/utils/request';
 
 export default {
     install: (Vue, opt) => {
@@ -127,8 +128,11 @@ export default {
          * fileName        导出的文件名 {String}             - 默认值: 'Excel文件'
          * columns         导出的Excel文件包含的列 {Array}
          * data            数据集 {Array}             
-         * request         导出数据的请求方法，存在则忽略api {Function}       
-         * api             导出数据的请求接口地址 {String}       
+         * request         导出数据的请求方法，存在则忽略api和method {Function}       
+         * exportInquired  导出带查询条件之后的数据 {Boolean}    - 默认值: true 用户可在配置面板中修改
+         * query           导出数据的请求参数，在 exportInquired=true 时，request请求中会将该对象作为查询参数，否则，忽略这个参数 {Object}   
+         * api             导出数据的请求接口地址 {String}       - 默认值: 'get'
+         * method          导出数据的请求接口类型 {String}       
          * resHandler      请求结果处理函数 {Function}       
          * columnFilter    导出列过滤函数 {Function}       
          */
@@ -139,20 +143,45 @@ export default {
                 data,
                 request,
                 api,
+                method = "get",
+                query,
+                exportInquired = true,
                 resHandler,
                 columnFilter,
                 configurable = true
             } = options;
 
-            let export_rows = deepClone(data),
+            let export_rows = data ? deepClone(data) : [],
                 export_columns = deepClone(columns);
 
             //导出列过滤
             export_columns = export_columns.filter(columnFilter || defaultColumnFilter);
+            export_columns.forEach(i => i.export = true);
 
             //指定请求方法或者api接口导出
             if (request || api) {
+                configExportExcelOptions({
+                    fileName,
+                    columns: export_columns,
+                    exportInquired
+                })
+                    .then(newOptions => {
+                        const { fileName, columns, exportInquired } = newOptions;
 
+                        const _query = exportInquired ? query : {};
+
+                        const promise = request ? request(_query) : axiosRequest[method](api, _query);
+
+                        promise.then(res => {
+                            export_rows = res.data.rows;
+
+                            startExportExcel({
+                                fileName,
+                                columns,
+                                rows: export_rows,
+                            });
+                        });
+                    })
             }
 
             //指定数据集导出
@@ -209,14 +238,46 @@ export default {
 
         }
 
+        /**
+         * 自定义导出选项
+         * @param {Object} exportOptions 导出配置项 {fileName,columns,exportInquired} 
+         */
+        function configExportExcelOptions(exportOptions) {
+            return new Promise((resolve) => {
+                const m = __proto.$modal({
+                    title: '导出设置',
+                    width: '460px',
+                    height: '600px',
+                    component: () => import('./components/ExportExcelConfig'),
+                    data: {
+                        exportOptions: exportOptions
+                    },
+                    btns: [
+                        {
+                            name: '确认导出',
+                            type: 'primary',
+                            method: 'confirm',
+                            callback(vm) {
+                                resolve(vm);
+                                m.close();
+                            }
+                        },
+                        {
+                            name: '取消'
+                        }
+                    ]
+                });
+            });
+
+
+        }
+
     }
 }
 
 //导出列默认过滤函数
 function defaultColumnFilter(i) {
-    const bl = i.export !== false;
-    i.export = true;
-    return bl;
+    return i.export !== false;
 }
 
 /**
@@ -228,3 +289,4 @@ function startExportExcel(exportOptions) {
         excel.default(exportOptions);
     })
 }
+

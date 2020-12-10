@@ -1,8 +1,11 @@
 export default {
     bind(el, binding, vnode, oldVnode) {
+        console.log('bind')
         const bodyH = document.body.clientHeight;
         const bodyW = document.body.clientWidth;
-        let { placement, height, width } = binding.value;
+        let { placement, height, width, id } = binding.value;
+
+        console.log(height, width, id);
 
         if (typeof height === "string") {
             if (height.includes("%")) {
@@ -33,7 +36,8 @@ export default {
         let top = "5vh";
         let left = (bodyW - width) / 2 + "px";
 
-        const modalEl = el.querySelector(".el-dialog");
+        const modalEl = el.querySelector(`.fx-modal`);
+
         modalEl.style.width = width + "px";
         modalEl.style.height = height + "px";
 
@@ -45,5 +49,5 @@ export default {
 
         modalEl.style.left = left;
         modalEl.style.top = top;
-    },
+    }
 }

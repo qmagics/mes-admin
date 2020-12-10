@@ -98,11 +98,11 @@ FxModal.install = (Vue, opt = {}) => {
                     //id相同的modal的索引
                     const sameIndex = state.modal_list.findIndex(i => i.id === modal.id);
 
-                    //如果存在相同，则更新
+                    //不存在相同modal，添加
                     if (sameIndex < 0) {
                         commit('ADD_MODAL', modal);
                     }
-                    //否则，添加modal
+                    //否则，更新modal
                     else {
                         if (modal.openImmediately === true) {
                             modal.visible = true;
@@ -184,8 +184,7 @@ FxModal.install = (Vue, opt = {}) => {
      * @returns {object} 可操作对象
      */
     Vue.prototype.$modal = (options, thisArg) => {
-
-        let { component, data, title, id, width, height, closeOnClickMask, placement, lockScroll, fullscreen, classes, actions, appendToBody, closeOnClickModal, maskAppendToBody, btns, beforeClose, open, mask } = merge(Vue.FxModal_defaultOptions, options);
+        let { component, data, title, id, width, height, closeOnClickMask, placement, lockScroll, fullscreen, classes, actions, appendToBody, maskAppendToBody, btns, beforeClose, open, mask } = merge({}, Vue.FxModal_defaultOptions, options);
 
         //将回调函数的this指向绑定至调用方指定的对象上
         if (thisArg) {

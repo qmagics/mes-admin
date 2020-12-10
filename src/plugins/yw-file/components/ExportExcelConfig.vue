@@ -7,6 +7,13 @@
           placeholder="请输入导出后的文件名"
         ></el-input>
       </el-form-item>
+      <el-form-item label="是否带条件导出" prop="exportInquired">
+        <el-switch
+          v-model="vm.exportInquired"
+          :active-value="true"
+          :inactive-value="false"
+        ></el-switch>
+      </el-form-item>
       <el-form-item label="导出的列" prop="columns">
         <el-table :data="vm.columns" border @row-click="onRowClick">
           <el-table-column label="导出字段" prop="label"></el-table-column>
@@ -47,7 +54,7 @@ export default {
   },
 
   data() {
-    const { fileName, columns } = this.exportOptions;
+    const { fileName, columns, exportInquired } = this.exportOptions;
     return {
       isExportAll: true,
 
@@ -57,6 +64,8 @@ export default {
         columns: deepClone(columns),
 
         fileName: fileName,
+
+        exportInquired: exportInquired,
       },
 
       rules: {
@@ -65,24 +74,15 @@ export default {
     };
   },
 
-  computed: {
-    // isIndeterminate() {
-    //   const arr = this.vm.columns;
-    //   return (
-    //     arr.some((i) => i.export === true) &&
-    //     arr.some((i) => i.export === false)
-    //   );
-    // },
-  },
-
   watch: {
     exportOptions: {
       deep: true,
       handler(val) {
-        const { fileName, columns } = val;
+        const { fileName, columns, exportInquired } = val;
 
         this.vm.fileName = fileName;
         this.vm.columns = deepClone(columns);
+        this.vm.exportInquired = deepClone(exportInquired);
       },
     },
   },
