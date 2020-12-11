@@ -44,7 +44,10 @@ export default function getColumns(_this) {
             //             FileName: "图片1",
             //             FilePath: "/file/1111.png",
             //             FileThumb: "/file/1111-thumb.png",
-            //             SourceFileName: "图片1原原始名称"
+            //             SourceFileName: "图片1原原始名称",
+            //             FileType: "image", // image|doc|zip|others
+            //             FileMIMEType: "image/png",
+            //             FileExtension:'png'
             //         },
             //         {
             //             AttachmentId: "2222",
