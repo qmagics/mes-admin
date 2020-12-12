@@ -10,8 +10,8 @@ export function getDic(Code) {
         method: 'get',
         params: {
             Nature: 2,
-            EnabledMark: 1,
-            DeleteMark: 0,
+            EnabledMark: true,
+            DeleteMark: false,
             Code
         }
     })

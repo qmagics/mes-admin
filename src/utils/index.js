@@ -361,3 +361,26 @@ export function removeClass(ele, cls) {
     ele.className = ele.className.replace(reg, ' ')
   }
 }
+
+/**
+ * 通过属性路径获取对象值
+ * @param {object} object 数据对象
+ * @param {string} prop 属性访问路径 
+ */
+export function getValueByPath(object, prop) {
+  prop = prop || '';
+  const paths = prop.split('.');
+  let current = object;
+  let result = null;
+  for (let i = 0, j = paths.length; i < j; i++) {
+    const path = paths[i];
+    if (!current) break;
+
+    if (i === j - 1) {
+      result = current[path];
+      break;
+    }
+    current = current[path];
+  }
+  return result;
+};

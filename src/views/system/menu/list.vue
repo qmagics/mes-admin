@@ -90,6 +90,7 @@ export default {
             label: "是否有效",
             prop: "EnabledMark",
             width: 100,
+            render: "boolean",
           },
           {
             label: "描述",
@@ -182,7 +183,7 @@ export default {
 
           await updateMenu(data);
 
-          this.$message.success('清除成功！');
+          this.$message.success("清除成功！");
 
           this.refresh();
         });

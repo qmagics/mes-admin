@@ -15,13 +15,17 @@ import '@/plugins/yw-table';
 import YwModal from '@/plugins/yw-modal';
 Vue.use(YwModal, { store });
 
+//表单管理插件
+import YwForm from '@/plugins/yw-form';
+Vue.use(YwForm);
+
 //文件管理插件
 import YwFile from '@/plugins/yw-file';
 Vue.use(YwFile);
 
-//表单管理插件
-import YwForm from '@/plugins/yw-form';
-Vue.use(YwForm);
+//打印管理插件
+import YwPrint from '@/plugins/yw-print';
+Vue.use(YwPrint);
 
 //全局样式
 import '@/styles/index.scss';

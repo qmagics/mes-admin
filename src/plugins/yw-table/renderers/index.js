@@ -87,3 +87,12 @@ export function attachment(h, context, { onConfirm } = {}) {
         附件({(value && value.length) || 0})
 </el-button>
 }
+
+/**
+ * 布尔值渲染器
+ * @param { function } h createElement 方法
+ * @param { object } context 上下文对象 {value, row}
+ */
+export function boolean(h, { value }) {
+    return <el-tag type={value ? 'success' : 'info'}>{value ? '是' : '否'}</el-tag>
+}

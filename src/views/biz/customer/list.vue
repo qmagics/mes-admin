@@ -90,6 +90,7 @@
                 v-permission="'biz:customer:print'"
                 type="primary"
                 icon="el-icon-printer"
+                @click="print"
                 >打印</el-button
               >
               <el-button
@@ -242,6 +243,11 @@ export default {
     //导出
     exportExcel() {
       this.$refs.table.exportExcel("是个人购房");
+    },
+
+    //打印
+    print() {
+      this.$print();
     },
 
     //菜单选中值变更事件

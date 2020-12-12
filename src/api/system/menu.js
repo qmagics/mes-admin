@@ -74,8 +74,8 @@ export function getMenuSelect(params) {
         url: '/api/menuselect',
         method: 'get',
         params: {
-            DeleteMark: 0,
-            EnabledMark: 1,
+            DeleteMark: false,
+            EnabledMark: true,
             ...params,
         }
     })

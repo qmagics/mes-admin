@@ -1,7 +1,8 @@
+import { getValueByPath } from "@/utils";
+
 let installed = false,
     msg = '',
     LODOP = null;
-
 
 export default class PrintManager {
     /**
@@ -14,10 +15,6 @@ export default class PrintManager {
         this.template = template;
         this.data = data;
         this.pageSetting = pageSetting;
-
-        if (!LODOP) {
-            PrintManager.initLodop();
-        }
     }
 
     /**
@@ -122,14 +119,18 @@ export default class PrintManager {
      * @param {object} control 模板中配置的控件 
      */
     g_text(control) {
-        var tdata = control.data;
-        var content = tdata.value;
-        var databind = control.data.databind.id.split('.');
-        var data;
-        for (var i = 0; i < databind.length; i++) {
-            if (this.data[databind[i]])
-                data = this.data[databind[i]];
-        }
+        const tdata = control.data;
+        let content = tdata.value;
+
+        // var databind = control.data.databind.id.split('.');
+        // var data;
+        // for (var i = 0; i < databind.length; i++) {
+        //     if (this.data[databind[i]])
+        //         data = this.data[databind[i]];
+        // }
+
+        const data = getValueByPath(this.data, control.data.databind.id);
+
         if (data && data != '') {
             content = data;
         }
@@ -183,18 +184,59 @@ export default class PrintManager {
         }
     }
 
+    /**
+     * 
+     */
+    build() {
+        if (!installed) {
+            alert(msg);
+            return;
+        }
+        LODOP.PRINT_INIT("打印测试1");
+        if (this.pageSetting) {
+            const { intOrient, width, height, pagetype } = this.pageSetting;
+            LODOP.SET_PRINT_PAGESIZE(intOrient, width + 'px', height + 'px', pagetype);
+        }
+        for (let i = 0, len = this.template.length; i < len; i++) {
+            var control = this.template[i];
+
+            const g = PrintManager.getG(control.type);
+            g && this[g] && this[g].call(this, control);
+        }
+    }
 
     /**
-     * 初始化LODOP
+     * 打印预览
      */
+    preview() {
+        this.build();
+        LODOP.PREVIEW();
+    }
+
+    /**
+     * 直接打印
+     */
+    print() {
+        this.build();
+        LODOP.PRINT();
+    }
+
+    /**
+     * 获取打印生成器
+     */
+    static getG(controlType) {
+        return controlType.replace(/^a/, 'g_');
+    }
+
     static initLodop() {
-        import('@/vendor/lodopFuncs')
-            .then((getLodop) => {
-                LODOP = getLodop();
-            })
-            .catch(err => {
-                installed = false;
-                msg = '请安装打印控件,若已安装请运行！';
-            });
+        console.log('initLodop');
+        try {
+            LODOP = getLodop();
+            installed = true;
+        } catch (error) {
+            installed = false;
+            msg = '请安装打印控件,若已安装请运行！';
+        }
     }
 }
+
